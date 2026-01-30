@@ -1,0 +1,20 @@
+#include "main.h"
+#include <map>
+#pragma once
+
+void soloAWPCedar();
+void startAuton();
+void topGoal();
+void skills();
+void bottomGoalSide();
+void bottomGoalSideWPI();
+void fastBottomGoals();
+void fastTopGoals();
+void pidTest();
+void bottomControl();
+void middleTimeOptical();
+void soloAWP();
+void skillsfixed();
+void leftSide3Plus4();
+void lowGoal();
+void skills2();

@@ -1,0 +1,132 @@
+/**
+ * \file main.h
+ *
+ * Contains common definitions and header files used throughout your PROS
+ * project.
+ *
+ * \copyright Copyright (c) 2017-2024, Purdue University ACM SIGBots.
+ * All rights reserved.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+#ifndef _PROS_MAIN_H_
+#define _PROS_MAIN_H_
+
+/**
+ * If defined, some commonly used enums will have preprocessor macros which give
+ * a shorter, more convenient naming pattern. If this isn't desired, simply
+ * comment the following line out.
+ *
+ * For instance, E_CONTROLLER_MASTER has a shorter name: CONTROLLER_MASTER.
+ * E_CONTROLLER_MASTER is pedantically correct within the PROS styleguide, but
+ * not convenient for most student programmers.
+ */
+// #include "intake.h"
+#include "pros/optical.hpp"
+#define PROS_USE_SIMPLE_NAMES
+
+/**
+ * If defined, C++ literals will be available for use. All literals are in the
+ * pros::literals namespace.
+ *
+ * For instance, you can do `4_mtr = 50` to set motor 4's target velocity to 50
+ */
+#define PROS_USE_LITERALS
+
+#include "api.h"
+
+/**
+ * You should add more #includes here
+ */
+//#include "okapi/api.hpp"
+
+/**
+ * If you find doing pros::Motor() to be tedious and you'd prefer just to do
+ * Motor, you can use the namespace with the following commented out line.
+ *
+ * IMPORTANT: Only the okapi or pros namespace may be used, not both
+ * concurrently! The okapi namespace will export all symbols inside the pros
+ * namespace.
+ */
+// using namespace pros;
+// using namespace pros::literals;
+// using namespace okapi;
+
+/**
+ * Prototypes for the competition control tasks are redefined here to ensure
+ * that they can be called from user code (i.e. calling autonomous from a
+ * button press in opcontrol() for testing purposes).
+ */
+#ifdef __cplusplus
+extern "C" {
+#endif
+void autonomous(void);
+void initialize(void);
+void disabled(void);
+void competition_initialize(void);
+void opcontrol(void);
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+/**
+ * You can add C++-only headers here
+ */
+//#include <iostream>
+#endif
+
+#endif  // _PROS_MAIN_H_
+
+#include "pros/adi.hpp"
+#include "pros/misc.h"
+#include "pros/motors.hpp"
+#include "lemlib/api.hpp"
+
+extern pros::Controller controller;
+
+// motor groups
+extern pros::MotorGroup leftMotors; // left motor group - ports 3 (reversed), 4, 5 (reversed)
+extern pros::MotorGroup rightMotors; // right motor group - ports 6, 7, 9 (reversed)
+
+extern lemlib::Drivetrain drivetrain;
+
+extern pros::Imu imu;
+
+
+extern pros::Rotation horizontal_encoder; //odom sensor
+extern lemlib::TrackingWheel horizontal_tracking_wheel;
+
+extern pros::Rotation vertical_encoder; //odom sensor
+extern lemlib::TrackingWheel vertical_tracking_wheel;
+
+extern lemlib::OdomSensors sensors;
+
+// Dummy PID settings — required by Chassis constructor, but not used for arcade
+extern lemlib::ControllerSettings lateral;
+
+extern lemlib::ControllerSettings angular;
+
+extern lemlib::ExpoDriveCurve throttle;
+extern lemlib::ExpoDriveCurve steer;
+
+// Chassis with dummy settings
+extern lemlib::Chassis chassis;
+
+extern pros::adi::DigitalOut descore;
+
+//Scraper
+extern pros::adi::DigitalOut scraper;
+extern pros::adi::DigitalOut wing;
+extern pros::adi::DigitalOut odomLift;
+
+extern bool hoodActivated;
+
+//distance sensors
+extern pros::Distance back_sensor;
+extern pros::Distance front_sensor; 
+extern pros::Distance left_sensor;
+extern pros::Distance right_sensor;
