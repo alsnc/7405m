@@ -121,7 +121,10 @@ extern pros::adi::DigitalOut descore;
 //Scraper
 extern pros::adi::DigitalOut scraper;
 extern pros::adi::DigitalOut wing;
-extern pros::adi::DigitalOut odomLift;
+extern pros::adi::DigitalOut horLift;
+extern pros::adi::DigitalOut verLift;
+
+
 
 extern bool hoodActivated;
 

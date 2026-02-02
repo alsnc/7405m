@@ -36,7 +36,7 @@ double getResetPositionY(){
     return y_pos;
 }
 
-void resetPositionWithSensor(pros::Distance sensor, double sensor_offset, double sensor_angle_offset, double field_half_size) {
+void resetPositionWithSensor(pros::Distance& sensor, double sensor_offset, double sensor_angle_offset, double field_half_size) {
     double sensorReading = ((sensor.get())/25.4);
   
     // Check for invalid reading (distance sensors return -1 or very large values when no object detected)
@@ -119,6 +119,10 @@ void resetPositionWithSensor(pros::Distance sensor, double sensor_offset, double
  * - sensor_offset: Distance offset of the sensor from robot center (in inches)
  * - field_half_size: Half the field dimension (distance from center to wall, in inches)
  */
+
+
+
+
 void resetPositionFront() {
     resetPositionWithSensor(front_sensor, front_sensor_offset, 0.0, field_half_size);
 }
@@ -157,6 +161,12 @@ void resetPositionLeft() {
  */
 void resetPositionRight() {
     resetPositionWithSensor(right_sensor, right_sensor_offset, 90.0, field_half_size);
+}
+void resetAllPositions() {
+    resetPositionFront();
+    resetPositionBack();
+    resetPositionLeft();
+    resetPositionRight();
 }
 
 // ============================================================================

@@ -1,7 +1,5 @@
-#include "autonSelector.h"
 #include "autons.h"
 #include "intake.h"
-//#include "intake.cpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "autonselector.h"
@@ -513,7 +511,8 @@ void workskills() {
 }
 
 void skills(){
-
+    horLift.set_value(false);
+    verLift.set_value(false);
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0,0,-19.67);
@@ -533,14 +532,14 @@ void skills(){
 
     //go to match loader
     chassis.turnToHeading(-135, 700);
-    chassis.moveToPoint(-36.5, 3.7, 1500, {});
+    chassis.moveToPoint(-36, 3.7, 1500, {});
     chassis.turnToHeading(-177, 700, {}, false);
     scraper.set_value(true);
     pros::delay(600);
     storageIn();
     chassis.moveToPoint(-37.2, -4.5, 1000);
 
-    // //empty match loader 1
+    //empty match loader 1
     chassis.cancelAllMotions();
     move(60, 0, false, 1250);
     pros::delay(710);
@@ -551,8 +550,6 @@ void skills(){
 
     chassis.turnToPoint(-51.5,15.1, 750, {.forwards = false}, false);
     stopIntake();
-
-
     chassis.moveToPoint(-51.5,15.1, 1000, {.forwards = false});
     
     // go to other side 
@@ -564,14 +561,12 @@ void skills(){
     // //score in long goal 1st time
     
     // // OLD CODE 
-    chassis.turnToPoint(-39.57, 91, 1000, {.forwards = false});
-    chassis.moveToPoint(-39.57, 91, 1000, {.forwards = false});
+    chassis.turnToPoint(-39.26, 91, 1000, {.forwards = false});
+    chassis.moveToPoint(-39.26, 91, 1000, {.forwards = false});
 
-    chassis.turnToPoint(-39.26, 82.26, 750, {.forwards = false});
-    chassis.moveToPoint(-39.26, 82.26, 1000, {.forwards = false},false);
+    chassis.turnToPoint(-39.26, 81, 750, {.forwards = false});
+    chassis.moveToPoint(-39.26, 81, 1000, {.forwards = false},false);
     
-
-
 
 
 
@@ -582,7 +577,7 @@ void skills(){
 
     chassis.turnToHeading(0,300);
 
-    //unload match loader 2
+    // //unload match loader 2
     scraper.set_value(true);
     storageIn();
     chassis.moveToPoint(-39.26, 107, 1000, {}, false);
@@ -591,7 +586,7 @@ void skills(){
     move(40,0,false, 1500);
     pros::delay(250);
 
-    // // //score in long goal again
+    //score in long goal again
     chassis.turnToPoint(-39.26, 83.20, 750, {.forwards = false});
     chassis.moveToPoint(-39.26, 83.20, 1000, {.forwards = false}, false);
     stopIntake();     
@@ -600,18 +595,25 @@ void skills(){
     scoreTop();
     pros::delay(2500);
     stopIntake();
-    chassis.moveToPoint(-39.26, 93, 700,{},false);
+    chassis.moveToPoint(-39.26, 89, 700,{},false);
+    scraper.set_value(false);
     pros::delay(300);
     move(-70,0,false,200);
     
     chassis.moveToPoint(-39.26,98,800, {},false);
-    scraper.set_value(false);
 
     // chassis.turnToPoint(-13.9,121.1, 750);
     // chassis.moveToPoint(-13.9,121.1, 1000);
-    chassis.moveToPose(-13.9, 121.1, 90, 1500, {.lead = .3},false);
-    odomLift.set_value(true);
-    move(120,0,false,2000);
+    storageIn();
+    chassis.moveToPose(-13.9, 120.7, 82, 1500, {.lead = .3},false);
+    //chassis.turnToHeading(82,500);
+    horLift.set_value(true);
+    verLift.set_value(true);
+   
+    
+    move(120,0,false,1500);
+    resetAllPositions();
+
 }
 
 

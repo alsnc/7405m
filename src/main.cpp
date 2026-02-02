@@ -90,7 +90,8 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
 pros::adi::DigitalOut scraper('F', false);
 // pros::adi::DigitalOut descore('F', false);
 pros::adi::DigitalOut wing('E', false);
-pros::adi::DigitalOut odomLift('D', false);
+pros::adi::DigitalOut horLift('D', false);
+pros::adi::DigitalOut verLift('G',false);
 // pros::adi::DigitalOut flappier('B', false);
 
 // wing
@@ -180,7 +181,6 @@ void opcontrol() {
   // turnToHeading(180, 1000, 127);
   // chassis.moveToPoint(0, 20, 750);
   // skills();
-
   while (true) {
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
