@@ -537,7 +537,7 @@ void skills(){
     scraper.set_value(true);
     pros::delay(600);
     storageIn();
-    chassis.moveToPoint(-37.2, -4.5, 1000);
+    chassis.moveToPoint(-36.2, -4.5, 1000);
 
     //empty match loader 1
     chassis.cancelAllMotions();
@@ -580,7 +580,8 @@ void skills(){
     // //unload match loader 2
     scraper.set_value(true);
     storageIn();
-    chassis.moveToPoint(-39.26, 107, 1000, {}, false);
+    //fixed point?
+    chassis.moveToPoint(-40, 107, 1000, {}, false);
     pros::delay(250);
     chassis.cancelAllMotions();
     move(40,0,false, 1500);
@@ -595,25 +596,38 @@ void skills(){
     scoreTop();
     pros::delay(2500);
     stopIntake();
-    chassis.moveToPoint(-39.26, 89, 700,{},false);
+    //chassis.moveToPoint(-39.26, 89, 700,{},false);
     scraper.set_value(false);
-    pros::delay(300);
-    move(-70,0,false,200);
+    // pros::delay(300);
+    // move(-70,0,false,200);
     
     chassis.moveToPoint(-39.26,98,800, {},false);
 
     // chassis.turnToPoint(-13.9,121.1, 750);
     // chassis.moveToPoint(-13.9,121.1, 1000);
     storageIn();
-    chassis.moveToPose(-13.9, 120.7, 82, 1500, {.lead = .3},false);
+
+    //spline
+    chassis.moveToPose(-13.9, 121.7, 82, 1500, {.lead = .3},false);
     //chassis.turnToHeading(82,500);
+
+    //park zone
     horLift.set_value(true);
     verLift.set_value(true);
-   
-    
-    move(120,0,false,1500);
-    resetAllPositions();
 
+    move(120,0,false,100);
+    scraper.set_value(true);
+    move(120,0,false,1000);
+    scraper.set_value(false);
+    move(120,0,false,500);
+    chassis.turnToHeading(90, 1000);
+    resetPositionFront();
+    resetPositionLeft();
+    
+    chassis.turnToHeading(90,1000, {}, false);
+
+    // horLift.set_value(false);
+    // verLift.set_value(false);
 }
 
 

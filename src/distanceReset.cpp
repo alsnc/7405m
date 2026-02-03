@@ -14,14 +14,17 @@ double correct_angle = 0;
 // Field config for distance resets, DO NOT CHANGE
 double field_half_size = 70.25;  // Half field size in inches
 
-pros::Distance front_sensor(15); 
-pros::Distance left_sensor(2);
+pros::Distance front_sensor(17); 
+pros::Distance left_sensor(15);
 pros::Distance right_sensor(21);
-pros::Distance back_sensor(17);
+pros::Distance back_sensor(2);
+
+
 double front_sensor_offset = 6.5;
 double left_sensor_offset = 5.8;
 double right_sensor_offset = 5.8;
 double back_sensor_offset = 3.2;
+
 
 double getInertialHeading() {
   // Get inertial sensor rotation in degrees
@@ -40,7 +43,7 @@ void resetPositionWithSensor(pros::Distance& sensor, double sensor_offset, doubl
     double sensorReading = ((sensor.get())/25.4);
   
     // Check for invalid reading (distance sensors return -1 or very large values when no object detected)
-    if (sensorReading < 0 || sensorReading > 200) {
+    if (sensorReading < 0 || sensorReading > 150) {
         printf("Invalid distance sensor reading: %.2f", sensorReading);
         return;
     }
@@ -92,6 +95,8 @@ void resetPositionWithSensor(pros::Distance& sensor, double sensor_offset, doubl
         y_pos = actualPos;
 
     }
+
+    chassis.setPose(x_pos, y_pos, imu.get_heading(), false);
 }
 // ============================================================================
 // DISTANCE SENSOR POSITION RESET FUNCTIONS
@@ -168,6 +173,7 @@ void resetAllPositions() {
     resetPositionLeft();
     resetPositionRight();
 }
+
 
 // ============================================================================
 // TEMPLATE NOTE
