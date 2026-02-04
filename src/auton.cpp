@@ -568,8 +568,6 @@ void skills(){
     chassis.moveToPoint(-39.26, 81, 1000, {.forwards = false},false);
     
 
-
-
     move(-50,0,false,300);
     // aligned to goal
     scoreTop();
@@ -581,7 +579,7 @@ void skills(){
     scraper.set_value(true);
     storageIn();
     //fixed point?
-    chassis.moveToPoint(-40, 107, 1000, {}, false);
+    chassis.moveToPoint(-39.5, 107, 1000, {}, false);
     pros::delay(250);
     chassis.cancelAllMotions();
     move(40,0,false, 1500);
@@ -596,10 +594,11 @@ void skills(){
     scoreTop();
     pros::delay(2500);
     stopIntake();
-    //chassis.moveToPoint(-39.26, 89, 700,{},false);
+    //push into long goal
+    chassis.moveToPoint(-39.26, 89, 700,{},false);
     scraper.set_value(false);
-    // pros::delay(300);
-    // move(-70,0,false,200);
+    pros::delay(300);
+    move(-50,0,false,200);
     
     chassis.moveToPoint(-39.26,98,800, {},false);
 
@@ -617,17 +616,24 @@ void skills(){
 
     move(120,0,false,100);
     scraper.set_value(true);
-    move(120,0,false,1000);
+    move(120,6,false,225);
     scraper.set_value(false);
-    move(120,0,false,500);
-    chassis.turnToHeading(90, 1000);
+    move(120,7,false,975);
+    scraper.set_value(true);
+    move(120,8,false,250);
+    scraper.set_value(false);
+    move(70, 0, false, 200);
+    chassis.turnToHeading(92, 1000);
+    pros::delay(1000);
     resetPositionFront();
     resetPositionLeft();
-    
-    chassis.turnToHeading(90,1000, {}, false);
 
-    // horLift.set_value(false);
-    // verLift.set_value(false);
+    horLift.set_value(false);
+    verLift.set_value(false);
+    pros::delay(500);
+    //test if distance resets work
+    chassis.turnToPoint(52.11, 49.26, 1000);
+    chassis.moveToPoint(52.11, 49.26, 1000);
 }
 
 

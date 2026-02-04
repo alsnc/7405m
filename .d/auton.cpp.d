@@ -1,10 +1,12 @@
-bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
- include/pros/apix.h include/api.h include/pros/adi.h \
- include/pros/ai_vision.h include/pros/colors.h include/pros/device.h \
- include/pros/distance.h include/pros/error.h include/pros/ext_adi.h \
- include/pros/adi.h include/pros/adi.h include/pros/gps.h \
- include/pros/imu.h include/pros/link.h include/pros/llemu.h \
- include/liblvgl/llemu.h include/liblvgl/lvgl.h \
+bin/auton.cpp.o: src/auton.cpp include/autons.h include/main.h \
+ include/pros/optical.hpp include/pros/device.hpp include/pros/misc.hpp \
+ include/pros/misc.h include/pros/rtos.hpp include/pros/rtos.h \
+ include/pros/optical.h include/pros/error.h include/api.h \
+ include/pros/adi.h include/pros/ai_vision.h include/pros/colors.h \
+ include/pros/device.h include/pros/distance.h include/pros/error.h \
+ include/pros/ext_adi.h include/pros/adi.h include/pros/adi.h \
+ include/pros/gps.h include/pros/imu.h include/pros/link.h \
+ include/pros/llemu.h include/liblvgl/llemu.h include/liblvgl/lvgl.h \
  include/liblvgl/lv_version.h include/liblvgl/lvgl_private.h \
  include/liblvgl/core/lv_global.h \
  include/liblvgl/core/../lv_conf_internal.h \
@@ -23,16 +25,16 @@ bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/lv_draw_buf.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_types.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_area.h \
- include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_types.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_math.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_assert.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_log.h \
- include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/lv_mem.h \
- include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/../lv_conf_internal.h \
- include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/lv_string.h \
- include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/../misc/lv_types.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/stdlib/lv_mem.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/stdlib/lv_string.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_palette.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color.h \
  include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color_op.h \
@@ -42,15 +44,15 @@ bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/lv_area.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_entry.h \
- include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/lv_os.h \
- include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/../lv_conf_internal.h \
- include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/../misc/lv_types.h \
- include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/lv_os_none.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/osal/lv_os.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/osal/lv_os_none.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/../lv_types.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_private.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_lru_rb.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_image_cache.h \
- include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
  include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_image_header_cache.h \
  include/liblvgl/core/../draw/../misc/lv_color.h \
  include/liblvgl/core/../draw/../misc/lv_area.h \
@@ -143,41 +145,39 @@ bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
  include/liblvgl/core/../others/sysmon/lv_sysmon.h \
  include/liblvgl/core/../others/sysmon/../../misc/lv_timer.h \
  include/liblvgl/core/../others/sysmon/../../others/observer/lv_observer.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../lv_conf_internal.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_types.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_style.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_area.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_color.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_assert.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_tree.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_anim.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../display/lv_display.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_pos.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_scroll.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_style.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_bidi.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_style_gen.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../core/lv_obj_style.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_draw.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_rect.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_label.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_image.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_line.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_arc.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_class.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_property.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_event.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_event.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/lv_indev.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/lv_group.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../lv_conf_internal.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../misc/lv_types.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../misc/lv_ll.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_area.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_timer.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_event.h \
- include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_group.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_style.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_area.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_color.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_assert.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_tree.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_anim.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/display/lv_display.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_pos.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_scroll.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_bidi.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style_gen.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_draw.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_rect.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_label.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_image.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_line.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_arc.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_class.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_property.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_event.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_event.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/indev/lv_indev.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_group.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_ll.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_area.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_timer.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_event.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_group.h \
  include/liblvgl/core/../stdlib/builtin/lv_tlsf.h \
  include/liblvgl/core/../stdlib/builtin/../../lv_conf_internal.h \
  include/liblvgl/core/../stdlib/builtin/../../osal/lv_os.h \
@@ -248,12 +248,12 @@ bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
  include/liblvgl/libs/qrcode/lv_qrcode_private.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/lv_canvas_private.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image_private.h \
- include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../core/lv_obj_private.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_private.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image.h \
- include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../lv_conf_internal.h \
- include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../core/lv_obj.h \
- include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../misc/lv_fs.h \
- include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../draw/lv_draw.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_fs.h \
+ C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/lv_canvas.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/../../lv_conf_internal.h \
  include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image.h \
@@ -651,37 +651,44 @@ bin/auton.cpp.o: src/auton.cpp include/autonSelector.h \
  include/liblvgl/drivers/wayland/../../indev/lv_indev.h \
  include/liblvgl/lv_api_map_v9_0.h include/liblvgl/lv_api_map_v9_1.h \
  include/pros/misc.h include/pros/motors.h include/pros/optical.h \
- include/pros/error.h include/pros/rotation.h include/pros/rtos.h \
- include/pros/screen.h include/pros/colors.h include/pros/vision.h \
- include/pros/adi.hpp include/pros/ai_vision.hpp include/pros/ai_vision.h \
- include/pros/device.hpp include/pros/misc.hpp include/pros/misc.h \
- include/pros/rtos.hpp include/pros/rtos.h include/pros/colors.hpp \
- include/pros/device.hpp include/pros/distance.hpp \
- include/pros/distance.h include/pros/gps.hpp include/pros/gps.h \
- include/pros/imu.hpp include/pros/imu.h include/pros/link.hpp \
- include/pros/link.h include/pros/llemu.hpp include/liblvgl/llemu.hpp \
- include/pros/misc.hpp include/pros/motor_group.hpp \
- include/pros/abstract_motor.hpp include/pros/motors.h \
- include/pros/rtos.hpp include/pros/colors.hpp include/pros/motors.hpp \
- include/pros/motors.hpp include/pros/optical.hpp include/pros/optical.h \
+ include/pros/rotation.h include/pros/rtos.h include/pros/screen.h \
+ include/pros/colors.h include/pros/vision.h include/pros/adi.hpp \
+ include/pros/ai_vision.hpp include/pros/ai_vision.h \
+ include/pros/colors.hpp include/pros/device.hpp \
+ include/pros/distance.hpp include/pros/distance.h include/pros/gps.hpp \
+ include/pros/gps.h include/pros/imu.hpp include/pros/imu.h \
+ include/pros/link.hpp include/pros/link.h include/pros/llemu.hpp \
+ include/liblvgl/llemu.hpp include/pros/misc.hpp \
+ include/pros/motor_group.hpp include/pros/abstract_motor.hpp \
+ include/pros/motors.h include/pros/rtos.hpp include/pros/colors.hpp \
+ include/pros/motors.hpp include/pros/motors.hpp \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/screen.hpp include/pros/screen.h include/pros/vision.hpp \
- include/pros/vision.h include/pros/device.h include/pros/serial.h \
- include/pros/serial.hpp include/autons.h include/main.h include/api.h \
- include/lemlib/api.hpp include/lemlib/pid.hpp include/lemlib/pose.hpp \
- include/lemlib/util.hpp include/lemlib/chassis/chassis.hpp \
- include/pros/imu.hpp include/lemlib/asset.hpp \
- include/lemlib/chassis/trackingWheel.hpp include/pros/motor_group.hpp \
- include/pros/adi.hpp include/pros/rotation.hpp \
- include/lemlib/exitcondition.hpp include/lemlib/driveCurve.hpp \
- include/lemlib/logger/logger.hpp include/fmt/core.h include/fmt/format.h \
- include/fmt/core.h include/fmt/format-inl.h \
- include/lemlib/logger/baseSink.hpp include/fmt/args.h \
- include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
+ include/pros/vision.h include/lemlib/api.hpp include/lemlib/pid.hpp \
+ include/lemlib/pose.hpp include/lemlib/util.hpp \
+ include/lemlib/chassis/chassis.hpp include/pros/imu.hpp \
+ include/lemlib/asset.hpp include/lemlib/chassis/trackingWheel.hpp \
+ include/pros/motor_group.hpp include/pros/adi.hpp \
+ include/pros/rotation.hpp include/lemlib/exitcondition.hpp \
+ include/lemlib/driveCurve.hpp include/lemlib/logger/logger.hpp \
+ include/fmt/core.h include/fmt/format.h include/fmt/core.h \
+ include/fmt/format-inl.h include/lemlib/logger/baseSink.hpp \
+ include/fmt/args.h include/lemlib/logger/message.hpp \
+ include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp include/intake.h \
+ include/autonselector.h include/pros/apix.h include/api.h \
+ include/pros/device.h include/pros/serial.h include/pros/serial.hpp \
  include/distanceReset.h include/main.h
-include/autonSelector.h:
-include/pros/apix.h:
+include/autons.h:
+include/main.h:
+include/pros/optical.hpp:
+include/pros/device.hpp:
+include/pros/misc.hpp:
+include/pros/misc.h:
+include/pros/rtos.hpp:
+include/pros/rtos.h:
+include/pros/optical.h:
+include/pros/error.h:
 include/api.h:
 include/pros/adi.h:
 include/pros/ai_vision.h:
@@ -717,16 +724,16 @@ include/liblvgl/core/../draw/../misc/../font/lv_symbol_def.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/lv_draw_buf.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_types.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_area.h:
-include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_types.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_math.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_assert.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_log.h:
-include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/lv_mem.h:
-include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/../lv_conf_internal.h:
-include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/lv_string.h:
-include/liblvgl/core/../draw/../misc/../font/../draw/../misc/../stdlib/../misc/lv_types.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/stdlib/lv_mem.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/stdlib/lv_string.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_palette.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color.h:
 include/liblvgl/core/../draw/../misc/../font/../draw/../misc/lv_color_op.h:
@@ -736,15 +743,15 @@ include/liblvgl/core/../draw/../misc/../font/../draw/../lv_conf_internal.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/lv_area.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_entry.h:
-include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/lv_os.h:
-include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/../lv_conf_internal.h:
-include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/../misc/lv_types.h:
-include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../osal/lv_os_none.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/osal/lv_os.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/osal/lv_os_none.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/../lv_types.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_private.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_cache_lru_rb.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_image_cache.h:
-include/liblvgl/core/../draw/../misc/../font/../misc/cache/../../lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
 include/liblvgl/core/../draw/../misc/../font/../misc/cache/lv_image_header_cache.h:
 include/liblvgl/core/../draw/../misc/lv_color.h:
 include/liblvgl/core/../draw/../misc/lv_area.h:
@@ -837,41 +844,39 @@ include/liblvgl/core/../osal/lv_os.h:
 include/liblvgl/core/../others/sysmon/lv_sysmon.h:
 include/liblvgl/core/../others/sysmon/../../misc/lv_timer.h:
 include/liblvgl/core/../others/sysmon/../../others/observer/lv_observer.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../lv_conf_internal.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_types.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_style.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_area.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_color.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_assert.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_tree.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_anim.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../display/lv_display.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_pos.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_scroll.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_style.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_bidi.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_style_gen.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../core/lv_obj_style.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_draw.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_rect.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_label.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_image.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_line.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../draw/lv_draw_arc.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_class.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_property.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_obj_event.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../misc/lv_event.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/lv_indev.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/lv_group.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../lv_conf_internal.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../misc/lv_types.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../core/../misc/lv_ll.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_area.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_timer.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/../indev/../misc/lv_event.h:
-include/liblvgl/core/../others/sysmon/../../others/observer/../../core/lv_group.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_types.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_style.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_area.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_color.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_assert.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_tree.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_anim.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/display/lv_display.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_pos.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_scroll.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_bidi.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style_gen.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_style.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_draw.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_rect.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_label.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_image.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_line.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw_arc.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_class.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_property.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_event.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_event.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/indev/lv_indev.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_group.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_ll.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_area.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_timer.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_event.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_group.h:
 include/liblvgl/core/../stdlib/builtin/lv_tlsf.h:
 include/liblvgl/core/../stdlib/builtin/../../lv_conf_internal.h:
 include/liblvgl/core/../stdlib/builtin/../../osal/lv_os.h:
@@ -945,12 +950,12 @@ include/liblvgl/others/observer/lv_observer.h:
 include/liblvgl/libs/qrcode/lv_qrcode_private.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/lv_canvas_private.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image_private.h:
-include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../core/lv_obj_private.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj_private.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image.h:
-include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../lv_conf_internal.h:
-include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../core/lv_obj.h:
-include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../misc/lv_fs.h:
-include/liblvgl/libs/qrcode/../../widgets/canvas/../image/../../draw/lv_draw.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/lv_conf_internal.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/core/lv_obj.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/misc/lv_fs.h:
+C:/Users/caris/OneDrive/Documents/GitHub/7405m/include/liblvgl/draw/lv_draw.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/lv_canvas.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/../../lv_conf_internal.h:
 include/liblvgl/libs/qrcode/../../widgets/canvas/../image/lv_image.h:
@@ -1376,7 +1381,6 @@ include/liblvgl/lv_api_map_v9_1.h:
 include/pros/misc.h:
 include/pros/motors.h:
 include/pros/optical.h:
-include/pros/error.h:
 include/pros/rotation.h:
 include/pros/rtos.h:
 include/pros/screen.h:
@@ -1385,11 +1389,6 @@ include/pros/vision.h:
 include/pros/adi.hpp:
 include/pros/ai_vision.hpp:
 include/pros/ai_vision.h:
-include/pros/device.hpp:
-include/pros/misc.hpp:
-include/pros/misc.h:
-include/pros/rtos.hpp:
-include/pros/rtos.h:
 include/pros/colors.hpp:
 include/pros/device.hpp:
 include/pros/distance.hpp:
@@ -1410,8 +1409,6 @@ include/pros/rtos.hpp:
 include/pros/colors.hpp:
 include/pros/motors.hpp:
 include/pros/motors.hpp:
-include/pros/optical.hpp:
-include/pros/optical.h:
 include/pros/rotation.hpp:
 include/pros/rotation.h:
 include/pros/rtos.hpp:
@@ -1419,12 +1416,6 @@ include/pros/screen.hpp:
 include/pros/screen.h:
 include/pros/vision.hpp:
 include/pros/vision.h:
-include/pros/device.h:
-include/pros/serial.h:
-include/pros/serial.hpp:
-include/autons.h:
-include/main.h:
-include/api.h:
 include/lemlib/api.hpp:
 include/lemlib/pid.hpp:
 include/lemlib/pose.hpp:
@@ -1449,5 +1440,11 @@ include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
 include/intake.h:
+include/autonselector.h:
+include/pros/apix.h:
+include/api.h:
+include/pros/device.h:
+include/pros/serial.h:
+include/pros/serial.hpp:
 include/distanceReset.h:
 include/main.h:

@@ -160,3 +160,8 @@ void colorSort()
         }
     }
 }
+
+void antiJam()
+{
+    
+}
