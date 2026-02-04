@@ -37,3 +37,4 @@ void scoreTopAuto();
 void middleTime(int time);
 void slowerStorageIn();
 void weirdBottom();
+void antiJam();

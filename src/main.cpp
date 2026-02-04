@@ -139,6 +139,7 @@ void initialize() {
 
   // autonSelectorStart();
   pros::Task screenTask(screen);
+  pros::Task jam(antiJam);
 }
 
 /**

@@ -15,6 +15,8 @@ pros::Optical opticalSensor(11);
 bool flingBlue = false;
 bool intaking = false;
 
+bool moving = false;
+
 void updateIntake() 
 {
     extern pros::Controller controller;
@@ -60,6 +62,7 @@ void storageIn()
     flappier.set_value(true);
     intake.move (127);
     intake2.move (127);
+    moving = true;
 }
 
 void slowerStorageIn()
@@ -72,12 +75,15 @@ void bottomGoal()
     //tune
     intake.move(-127);
     intake2.move(-127);
+    moving = true;
      
 }
 void fastBottomScore()
 {
     intake.move(-110);
     intake2.move(-110);
+    moving = true;
+
 }
 
 void weirdBottom()
@@ -91,6 +97,8 @@ void weirdBottom()
 void stopIntake() {
     intake.brake();
     intake2.brake();
+    moving = false;
+
 }
 
 void scoreTop() {
@@ -98,6 +106,8 @@ void scoreTop() {
     flappy.set_value(false);
     intake2.move(127);
     intake.move(127);
+    moving = true;
+
 }
 
 void scoreTopAuto() {
@@ -110,6 +120,8 @@ void scoreMiddle() {
     flappier.set_value(true);
     intake.move(127); 
     intake2.move(127);
+    moving = true;
+
 }
 
 void middleTime(int time) {
@@ -163,5 +175,17 @@ void colorSort()
 
 void antiJam()
 {
-    
+    while (intake.get_voltage() < 10 || intake2.get_voltage() < 10)
+    {
+        if (moving)
+        {
+            intake.move(-50);
+            intake2.move(-50);
+        }
+    }
+
+    intake.move(127);
+    intake2.move(127);
+
+    pros::delay(20);
 }

@@ -607,7 +607,7 @@ void skills(){
     storageIn();
 
     //spline
-    chassis.moveToPose(-13.9, 121.7, 82, 1500, {.lead = .3},false);
+    chassis.moveToPose(-13.9, 119.7, 82, 1500, {.lead = .3},false);
     //chassis.turnToHeading(82,500);
 
     //park zone
@@ -634,6 +634,9 @@ void skills(){
     //test if distance resets work
     chassis.turnToPoint(52.11, 49.26, 1000);
     chassis.moveToPoint(52.11, 49.26, 1000);
+
+    //go to middle goal
+    
 }
 
 
