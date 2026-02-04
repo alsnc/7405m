@@ -175,7 +175,7 @@ void colorSort()
 
 void antiJam()
 {
-    while (intake.get_voltage() < 10 || intake2.get_voltage() < 10)
+    while (intake.get_power() < 10 || intake2.get_power() < 10)
     {
         if (moving)
         {

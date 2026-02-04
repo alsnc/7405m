@@ -139,7 +139,7 @@ void initialize() {
 
   // autonSelectorStart();
   pros::Task screenTask(screen);
-  pros::Task jam(antiJam);
+  //pros::Task jam(antiJam);
 }
 
 /**
@@ -155,23 +155,19 @@ void competition_initialize() {}
 void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  // Skills 
-  skills();
+  // Skills (not working)
+  //skills();
 
-
-  // Right side Low goal
+  // Right side Low goal (cedar)
   // lowGoal();
 
-
-  // Solo AWP
+  // Solo AWP (cedar)
   // soloAWPCedar();
   //skills2();
 
-
-  // Left side 3 + 4 
+  // Left side 3 + 4 (cedar)
   // leftSide3Plus4();
-
-
+  middleGoal();
 
 }
 
