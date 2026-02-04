@@ -155,6 +155,8 @@ void competition_initialize() {}
 void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+  soloAWP();
   // Skills (not working)
   //skills();
 
@@ -167,7 +169,7 @@ void autonomous() {
 
   // Left side 3 + 4 (cedar)
   // leftSide3Plus4();
-  middleGoal();
+  //middleGoal();
 
 }
 
