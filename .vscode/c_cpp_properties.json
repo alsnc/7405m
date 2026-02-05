@@ -5,14 +5,15 @@
       "includePath": [
         "${workspaceFolder}/**",
         "/Users/alsnchang/Documents/GitHub/7405M-25/include",
-        "c:\\Users\\caris\\OneDrive\\Documents\\GitHub\\7405m\\include"
+        "c:\\Users\\caris\\OneDrive\\Documents\\GitHub\\7405m\\include",
+        "/Users/guneetkapur/Downloads/Untitled/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "c:\\Users\\caris\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "compilerPath": "/Users/guneetkapur/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
@@ -21,7 +22,7 @@
       ],
       "browse": {
         "path": [
-          "c:\\Users\\caris\\OneDrive\\Documents\\GitHub\\7405m"
+          "/Users/guneetkapur/Downloads/Untitled"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

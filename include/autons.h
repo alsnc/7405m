@@ -18,4 +18,5 @@ void skillsfixed();
 void leftSide3Plus4();
 void lowGoal();
 void skills2();
+void leftSideFast();
 void middleGoal();

@@ -655,7 +655,7 @@ void startAuton(){
     }
 }
 
-void soloAWP() {
+void leftSideFast() {
     horLift.set_value(false);
     verLift.set_value(false);
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -675,9 +675,9 @@ void soloAWP() {
 
     //go to long goal
     chassis.moveToPose(-35, 9.1, -180, 1250, {.lead = 0.05}, false);
-    stopIntake();
-    chassis.moveToPoint(-35.58, 21.39, 500, {.forwards = false}, false);
+
     chassis.turnToPoint(-35.58, 21.39, 500, {.forwards = false}, false);
+    chassis.moveToPoint(-35.58, 21.39, 500, {.forwards = false}, false);
     stopIntake();
     
     move(-75,0,false,300);
@@ -685,24 +685,27 @@ void soloAWP() {
     pros::delay(1400);
     stopIntake();
 
-    chassis.moveToPoint(-36, 9.8, 1000, {}, false);
-    chassis.turnToHeading(-137,600, {}, false);
-    chassis.moveToPoint(-328.9, 17.9, 1000, {.forwards = false}, false);
+    chassis.moveToPoint(-35.58, 15, 1000, {}, false);
 
-    chassis.moveToPoint(-26.16, 30, 1250, {.forwards = false});
-    chassis.turnToPoint(-26.16, 30, 1250, {.forwards = false});
+    chassis.turnToPoint(-25.32, 18.81, 750, {.forwards=false}, false);
+    chassis.moveToPoint(-25.32, 18.81, 750, {.forwards = false}, false);
+    chassis.turnToHeading(-168.66, 600, {}, false);
+    chassis.moveToPoint(-24.84, 41.32, 1000, {.forwards = false}, false);
+
+    // chassis.moveToPoint(-26.16, 30, 1250, {.forwards = false});
+    // chassis.turnToPoint(-26.16, 30, 1250, {.forwards = false});
 
 }
 
 void middleGoal()
 {
+    //valentine's
     horLift.set_value(false);
     verLift.set_value(false);
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0,0,-19.67);
     
-
     //get blocks
     storageIn();
     chassis.moveToPoint(-9.04, 24.25, 1000);
