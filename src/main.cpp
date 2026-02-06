@@ -134,7 +134,7 @@ void initialize() {
   opticalSensor.set_led_pwm(100);
 
   // pros::delay(4000);
-  pros::delay(1000);
+  pros::delay(3000);
 
 
   // autonSelectorStart();
@@ -156,6 +156,8 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
+  // chassis.moveToPoint(0, 20, 1000);
+  // chassis.turnToHeading(90, 1000);
   leftSideFast();
   // Skills (not working)
   //skills();
@@ -176,45 +178,41 @@ void autonomous() {
 void opcontrol() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  // chassis.turnToHeading(130, 2000);
-  // turnToHeading(180, 1000, 127);
-  // chassis.moveToPoint(0, 20, 750);
-  // skills();
-  //leftSideFast();
-  // while (true) {
-  //   int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-  //   int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+  
+  while (true) {
+    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-  //   chassis.arcade(leftY, rightX);
+    chassis.arcade(leftY, rightX);
 
-  //   // bool removerPressedNow
-  //   // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
-  //   // wing.set_value(removerPressedNow);
+    // bool removerPressedNow
+    // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
+    // wing.set_value(removerPressedNow);
 
-  //   bool removerPressedNow =
-  //       controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+    bool removerPressedNow =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
 
-  //   if (removerPressedNow && !removerPressedLast) {
-  //     // Toggle remover
-  //     removerActivated = !removerActivated;
-  //     wing.set_value(removerActivated);
-  //   }
+    if (removerPressedNow && !removerPressedLast) {
+      // Toggle remover
+      removerActivated = !removerActivated;
+      wing.set_value(removerActivated);
+    }
 
-  //   removerPressedLast = removerPressedNow;
+    removerPressedLast = removerPressedNow;
 
-  //   bool scraperPressedNow =
-  //       controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+    bool scraperPressedNow =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 
-  //   if (scraperPressedNow && !scraperPressedLast) {
-  //     // Toggle hood
-  //     scraperActivated = !scraperActivated;
-  //     scraper.set_value(scraperActivated);
-  //   }
+    if (scraperPressedNow && !scraperPressedLast) {
+      // Toggle hood
+      scraperActivated = !scraperActivated;
+      scraper.set_value(scraperActivated);
+    }
 
-  //   scraperPressedLast = scraperPressedNow;
+    scraperPressedLast = scraperPressedNow;
 
-  //   updateIntake();
+    updateIntake();
 
-  //   pros::delay(20);
-  // }
+    pros::delay(20);
+  }
 }
