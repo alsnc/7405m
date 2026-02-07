@@ -158,7 +158,7 @@ void autonomous() {
 
   // chassis.moveToPoint(0, 20, 1000);
   // chassis.turnToHeading(90, 1000);
-  leftSideFast();
+  //leftSideFast();
   // Skills (not working)
   //skills();
 
@@ -166,11 +166,11 @@ void autonomous() {
   // lowGoal();
 
   // Solo AWP (cedar)
-  // soloAWPCedar();
+  soloAWPCedar();
   //skills2();
 
   // Left side 3 + 4 (cedar)
-  // leftSide3Plus4();
+  //leftSide3Plus4();
   //middleGoal();
 
 }

@@ -114,6 +114,7 @@ void lowGoal(){
 void soloAWPCedar() {
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.setPose(-0.43, 0, 0);
     storageIn();
     chassis.moveToPoint(0, 36, 1000);
     // chassis.turnToPoint(10, 37.2, 650);
@@ -664,36 +665,36 @@ void leftSideFast() {
 
     //get blocks
     storageIn();
-    chassis.moveToPoint(-9.04, 24.25, 950);
-    pros::delay(600);
+    chassis.moveToPoint(-9.04, 24.25, 750, {.minSpeed = 20});
+    pros::delay(500);
     scraper.set_value(true);
     wing.set_value(false);
-    pros::delay(600);
+    pros::delay(400);
 
-    chassis.turnToHeading(-112.7,700);
+    chassis.turnToHeading(-112.7,150);
 
 
     //go to long goal
-    chassis.moveToPose(-35, 9.1, -180, 1250, {.lead = 0.05}, false);
+    chassis.moveToPose(-35, 9.1, -180, 1250, {.lead = 0.05, .minSpeed = 20}, false);
 
-    chassis.turnToPoint(-35.58, 21.39, 500, {.forwards = false}, false);
+    chassis.turnToPoint(-35.58, 21.39, 400, {.forwards = false}, false);
     chassis.moveToPoint(-35.58, 21.39, 500, {.forwards = false}, false);
     stopIntake();
     
     move(-75,0,false,300);
     scoreTop();
-    pros::delay(1400);
+    wing.set_value(true);
+    pros::delay(1200);
     stopIntake();
 
-    chassis.moveToPoint(-35.58, 15, 1000, {}, false);
+    chassis.moveToPoint(-35.58, 13.5, 450, {.minSpeed=25}, false);
 
-    chassis.turnToPoint(-25.32, 18.81, 750, {.forwards=false}, false);
-    chassis.moveToPoint(-25.32, 18.81, 750, {.forwards = false}, false);
-    chassis.turnToHeading(-168.66, 600, {}, false);
-    chassis.moveToPoint(-24.84, 41.32, 1000, {.forwards = false}, false);
-
-    // chassis.moveToPoint(-26.16, 30, 1250, {.forwards = false});
-    // chassis.turnToPoint(-26.16, 30, 1250, {.forwards = false});
+    chassis.turnToPoint(-25.32, 18.81, 500, {.forwards=false}, false);
+    chassis.moveToPoint(-29.32, 18.81, 650, {.forwards = false, .minSpeed = 40}, false);
+    chassis.turnToHeading(-168.66, 200, {}, false);
+    wing.set_value(false);
+    chassis.moveToPoint(-24.84, 37, 1000, {.forwards = false, .minSpeed = 100}, false);
+    chassis.turnToHeading(-180, 750);
 
 }
 
