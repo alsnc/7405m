@@ -166,7 +166,8 @@ void autonomous() {
   // lowGoal();
 
   // Solo AWP (cedar)
-  soloAWPCedar();
+  fourPushRight();
+  //soloAWPCedar();
   //skills2();
 
   // Left side 3 + 4 (cedar)
@@ -176,6 +177,8 @@ void autonomous() {
 }
 
 void opcontrol() {
+  horLift.set_value(true);
+  verLift.set_value(true);
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   

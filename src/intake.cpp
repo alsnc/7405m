@@ -98,6 +98,8 @@ void stopIntake() {
     intake.brake();
     intake2.brake();
     moving = false;
+    flappy.set_value(false);
+    flappier.set_value(true);
 
 }
 

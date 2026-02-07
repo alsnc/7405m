@@ -20,3 +20,6 @@ void lowGoal();
 void skills2();
 void leftSideFast();
 void middleGoal();
+void fourPushRight();
+void fourPushLeft();
+void swingRight();
