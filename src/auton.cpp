@@ -76,7 +76,7 @@ void fourPushRight() {
     chassis.turnToHeading(87, 700, {}, false);
     chassis.moveToPoint(8.71, 39.5, 700, {}, false);
     move(63, 0, false, 600);
-    pros::delay(100);
+    pros::delay(200);
 
     //score top
     chassis.moveToPoint(-20.65, 38.61, 800, {.forwards = false}, false);
@@ -97,7 +97,8 @@ void fourPushRight() {
     chassis.turnToHeading(90,500);
     scraper.set_value(true);
 
-    swingRight(10,1000);
+    //swingRight(15,1000);
+    move(15, 45, false, 1000);
 
 }
 
@@ -105,7 +106,7 @@ void fourPushRight() {
 void lowGoal(){
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    storageIn();
+    storageIn();        
     chassis.moveToPoint(0, 36, 1000);
     // chassis.turnToPoint(10, 37.2, 650);
     // chassis.turnToHeading(90, 750, {}, false);

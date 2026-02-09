@@ -156,23 +156,19 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  // chassis.moveToPoint(0, 20, 1000);
-  // chassis.turnToHeading(90, 1000);
-  //leftSideFast();
   // Skills (not working)
   //skills();
 
-  // Right side Low goal (cedar)
-  // lowGoal();
-
-  // Solo AWP (cedar)
-  fourPushRight();
   //soloAWPCedar();
-  //skills2();
 
-  // Left side 3 + 4 (cedar)
+  // Right side (VEXTRAVAGANZA)
+  fourPushRight(); 
+  //lowGoal();
+
+
+  // Left side (VEXTRAVAGANZA)
   //leftSide3Plus4();
-  //middleGoal();
+  //middleGoal(); need to fix
 
 }
 
