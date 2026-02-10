@@ -96,12 +96,14 @@ pros::adi::DigitalOut verLift('G',false);
 
 // wing
 bool removerActivated = false;
+bool verLiftActivated = false;
 bool wingActivated = false;
 bool hoodActivated = false;
 bool scraperActivated = false;
 
 // flingBlue = false;
 bool removerPressedLast = false;
+bool verLiftPressedLast = false;
 bool hoodPressedLast = false;
 bool scraperPressedLast = false;
 bool wingPressedLast = false;
@@ -198,6 +200,19 @@ void opcontrol() {
     }
 
     removerPressedLast = removerPressedNow;
+
+    
+
+    bool vertOdom =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+
+    if (vertOdom && !verLiftPressedLast) {
+      // Toggle remover
+      verLiftActivated = !verLiftActivated;
+      verLift.set_value(verLiftActivated);
+    }
+
+    verLiftPressedLast = vertOdom;
 
     bool scraperPressedNow =
         controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
