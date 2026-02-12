@@ -161,10 +161,10 @@ void autonomous() {
   // Skills (not working)
   //skills();
 
-  //soloAWPCedar();
+  soloAWPCedar();
 
   // Right side (VEXTRAVAGANZA)
-  fourPushRight(); 
+  //fourPushRight(); 
   //lowGoal();
 
 

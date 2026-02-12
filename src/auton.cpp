@@ -183,73 +183,40 @@ void soloAWPCedar() {
     scraper.set_value(false);
     
     storageIn();
-    //first three 
-    chassis.moveToPose(-10.7, 23.6, 224, 2000, {.lead = .6});
-    chassis.moveToPoint(-22.08,9.73, 700, {}, false);
+    //first three
+    swingRight(70,1000);
     
-    scraper.set_value(true);
-    pros::delay(100);
-    scraper.set_value(false);
-    //stopIntake();
+    //chassis.moveToPose(-10.7, 23.6, 224, 1500, {.lead = .6});
+    chassis.turnToPoint(-24.56,11.62, 500, {});
+    
+    chassis.moveToPoint(-24.56,11.62, 700, {}, false);
+    // scraper.set_value(true);
+    // pros::delay(200);
+    // scraper.set_value(false);
+    
+    
+    // //stopIntake();
 
     //second three
-    chassis.turnToPoint(-19.89, -39.45, 500);
-    chassis.moveToPoint(-19.89, -39.45, 800, {}, false);
+    chassis.turnToPoint(-20.25, -37.94, 500);
+    chassis.moveToPoint(-20.25, -37.94, 1000, {}, false);
     scraper.set_value(true);
-    // storageIn();
-    // pros::delay(300);
+ 
     
-    
-    chassis.turnToPoint(-41.06, -25.49, 600, {.forwards = false});
-    chassis.moveToPoint(-41.06, -25.49, 1000, {.forwards = false}, false);
+    //middle score
+    chassis.turnToPoint(-34.22, -23.84, 600, {.forwards = false});
+    chassis.moveToPoint(-34.22, -23.84, 1000, {.forwards = false}, false);
     scoreMiddle();
     move(-50,0,false,200);
     pros::delay(700);
     stopIntake();
 
     
-    // scoreTop();
-    // scraper.set_value(false);
-    // move(-50,0,false,250);
-    // pros::delay(1050);
-    // chassis.moveToPoint(2, 39.1, 700);
-
-    // chassis.turnToPoint(-23.6, 9.5,750,{}, false);
-    // storageIn();
-    // chassis.moveToPoint(-23.6, 9.5,1000);
-    // pros::delay(700);
-    // scraper.set_value(true);
-    // pros::delay(200);
-    // scraper.set_value(false);
-    // chassis.turnToPoint(-23.17, -39.25, 450);
-    // chassis.moveToPoint(-23.17, -39.25, 1500);
-    // pros::delay(750);
-    // scraper.set_value(true);
-    // pros::delay(200);
-    // scraper.set_value(false);
-
-    // chassis.turnToPoint(-38.07, -25.38, 550,{.forwards = false});
-    // chassis.moveToPoint(-38.07, -25.38, 1000, {.forwards =false},false);
-    // // bottomGoal();
-    // move(-50,0,false,200);
-    // scoreMiddle();
-    // pros::delay(350);
-   
-
-
-    // chassis.turnToHeading(135, 700);
-    // chassis.turnToPoint(-0.25, -60.1, 700);
+    
+    //loader
     chassis.moveToPoint(-0.25, -60.1, 900, {});
 
-    // storageIn();
-    // bottomGoal();
-    // pros::delay(150);
-    // storageIn();
-    // chassis.turnToHeading(90, 750,{},false);
-    // scraper.set_value(true);
-    // chassis.moveToPoint(11.85, -61.07,1000, {}, false);
 
-    // move(67, 0, false, 600);
 
 
     chassis.turnToPoint(-14.4, -63.6,600, {.forwards = false});
@@ -258,12 +225,6 @@ void soloAWPCedar() {
     scraper.set_value(false);
     scoreTop();
     move(-50,0,false,250);
-    // pros::delay(1300);
-    // move(60,0,false,250);
-    // pros::delay(200);
-    // move(-70,0,false,250);
-
-
 
 
 
