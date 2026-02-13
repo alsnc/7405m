@@ -1,6 +1,7 @@
 #include "intake.h"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
+#include "autons.h"
 #include "pros/motors.hpp"
 
 
@@ -76,6 +77,26 @@ void bottomGoal()
     intake.move(-127);
     intake2.move(-127);
     moving = true;
+     
+}
+
+
+
+void bottomy(double time =10000)
+{
+    uint32_t startTime = pros::millis();
+    while(pros::millis() - startTime < time) {
+        intake.move(-127);
+        intake2.move(-127);
+        leftMotors.move(80);
+        rightMotors.move(80);
+        chassis.turnToHeading(211,200);
+        
+        chassis.turnToHeading(236,200);
+ 
+    }
+        leftMotors.brake();
+        rightMotors.brake();
      
 }
 void fastBottomScore()

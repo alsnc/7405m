@@ -54,6 +54,7 @@ void move(double power, double turn, bool swing=false, double time=10000) {
     // right_back_motor.move(left);
 }
 
+
 void swingRight (double power, double time =10000) {
     leftMotors.move(power);
     pros::delay(time);
@@ -159,10 +160,71 @@ void lowGoal(){
 
 }
 
+void rightFourPlusThree() {
+    
+    //3 + 4
+    leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    wing.set_value(true);             
+    //chassis.setPose(-0.43, 0, 0);
+    storageIn();
+    chassis.moveToPoint(0, 38.35, 1000, {.maxSpeed=60});
+    scraper.set_value(true);
+    //chassis.turnToPoint(0, 38.35, 650);
+    
+    //go to loader
+    chassis.turnToHeading(87, 700, {}, false);
+    chassis.moveToPoint(8.71, 39.5, 700, {}, false);
+    move(63, 0, false, 500);
+    pros::delay(150);
+    
+    //score top
+    chassis.moveToPoint(-20.65, 38.61, 800, {.forwards = false}, false);
+    pros::delay(200);
+    scoreTop();
+    move(-50,0,false, 700);
+    pros::delay(900);
+    scraper.set_value(false);
+    
+    
+    //first three
+    swingRight(70,800);
+    storageIn();
+    
+    //chassis.moveToPose(-10.7, 23.6, 224, 1500, {.lead = .6});
+    chassis.turnToPoint(-24.56,11.62, 400, {});
+    chassis.moveToPoint(-24.56,11.62, 600, {}, false);
+    scraper.set_value(true);
+    pros::delay(150);
+    scraper.set_value(false);
+
+    //weird stuff
+    
+    
+
+    chassis.turnToPoint(-35.74,-4, 500, {});
+    chassis.moveToPoint(-35.74,-4, 700, {}, false);
+    scoreTop();
+    pros::delay(300);
+    //chassis.moveToPoint(-33.62,-2, 1400, {});
+    bottomy(800);
+    chassis.turnToHeading(231,400);
+
+    storageIn();
+    
+    chassis.moveToPoint(-12.36,25,800,{.forwards = false}, false);
+    wing.set_value(false);
+    chassis.turnToPoint(-42.81, 21.41, 700);
+    chassis.moveToPoint(-42.81, 21.41, 1000, {}, false);
+    
+    chassis.turnToHeading(261,300);
+}
+
 void soloAWPCedar() {
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     scraper.set_value(true);
+    wing.set_value(true);
     //chassis.setPose(-0.43, 0, 0);
     storageIn();
     chassis.moveToPoint(0, 38.35, 1000, {.maxSpeed=60});
@@ -172,7 +234,7 @@ void soloAWPCedar() {
     chassis.turnToHeading(87, 700, {}, false);
     chassis.moveToPoint(8.71, 39.5, 700, {}, false);
     move(63, 0, false, 500);
-    pros::delay(200);
+    pros::delay(150);
     
     //score top
     chassis.moveToPoint(-20.65, 38.61, 800, {.forwards = false}, false);
@@ -182,13 +244,13 @@ void soloAWPCedar() {
     pros::delay(800);
     scraper.set_value(false);
     
-    storageIn();
+    
     //first three
-    swingRight(70,1000);
+    swingRight(70,800);
+    storageIn();
     
     //chassis.moveToPose(-10.7, 23.6, 224, 1500, {.lead = .6});
     chassis.turnToPoint(-24.56,11.62, 500, {});
-    
     chassis.moveToPoint(-24.56,11.62, 700, {}, false);
     // scraper.set_value(true);
     // pros::delay(200);
@@ -199,24 +261,23 @@ void soloAWPCedar() {
 
     //second three
     chassis.turnToPoint(-20.25, -37.94, 500);
-    chassis.moveToPoint(-20.25, -37.94, 1000, {}, false);
+    chassis.moveToPoint(-20.25, -37.94, 1050, {}, false);
     scraper.set_value(true);
  
     
     //middle score
-    chassis.turnToPoint(-34.22, -23.84, 600, {.forwards = false});
-    chassis.moveToPoint(-34.22, -23.84, 1000, {.forwards = false}, false);
+    chassis.turnToPoint(-36.27, -25.68, 600, {.forwards = false});
+    chassis.moveToPoint(-36.27, -25.68, 1000, {.forwards = false}, false);
     scoreMiddle();
     move(-50,0,false,200);
-    pros::delay(700);
+    pros::delay(600);
+    storageIn();
+    scoreTop();
     stopIntake();
 
     
-    
     //loader
     chassis.moveToPoint(-0.25, -60.1, 900, {});
-
-
 
 
     chassis.turnToPoint(-14.4, -63.6,600, {.forwards = false});
@@ -224,9 +285,7 @@ void soloAWPCedar() {
     pros::delay(1000);
     scraper.set_value(false);
     scoreTop();
-    move(-50,0,false,250);
-
-
+    move(-50,0,false,400);
 
 }
 

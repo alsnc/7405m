@@ -677,7 +677,7 @@ bin/intake.cpp.o: src/intake.cpp include/intake.h include/main.h \
  include/fmt/format-inl.h include/lemlib/logger/baseSink.hpp \
  include/fmt/args.h include/lemlib/logger/message.hpp \
  include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp
+ include/lemlib/logger/telemetrySink.hpp include/autons.h
 include/intake.h:
 include/main.h:
 include/pros/optical.hpp:
@@ -1440,3 +1440,4 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
+include/autons.h:

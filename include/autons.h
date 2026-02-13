@@ -23,3 +23,4 @@ void middleGoal();
 void fourPushRight();
 void fourPushLeft();
 void swingRight();
+void rightFourPlusThree();
