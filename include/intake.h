@@ -39,3 +39,4 @@ void slowerStorageIn();
 void weirdBottom();
 void antiJam();
 void bottomy(double time);
+void fastMiddle();

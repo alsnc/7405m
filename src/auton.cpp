@@ -252,7 +252,7 @@ void soloAWPCedar() {
     chassis.moveToPoint(-35.25, -26.9, 1000, {.forwards = false}, false);
     scoreMiddle();
     move(-50,0,false,200);
-    pros::delay(400);
+    pros::delay(500);
     storageIn();
     scoreTop();
     stopIntake();
@@ -270,7 +270,6 @@ void soloAWPCedar() {
     move(-50,0,false,400);
 
 }
-
 
 
 void leftSide3Plus4(){
@@ -378,8 +377,6 @@ void bottomControl(){
 
 
     chassis.moveToPoint(-50,15.1, 1000, {.forwards = false, .maxSpeed = 80});
-
-
 
 
 }

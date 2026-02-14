@@ -18,6 +18,7 @@ bool intaking = false;
 
 bool moving = false;
 
+
 void updateIntake() 
 {
     extern pros::Controller controller;
@@ -26,28 +27,33 @@ void updateIntake()
         //Put in storage
         storageIn();
         
+        
     }
     else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
     {
         //Score in middle goal
+        // bottomGoal();
+        // pros::delay(25);
         scoreMiddle();
-      
+        // if (speed == 127) controller.rumble("--");
+        // else controller.rumble(".");
     }
     else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
     {
         //Score in long goal
         scoreTop();
-       
+
     }
     else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
     {
         //Outake into bottom goal
         bottomGoal();       
     }
-    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-    {
-        //Outake into bottom goal
-        bottomGoal();       
+    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
+        // bottomGoal();
+        // pros::delay(25);
+        fastMiddle();
+        //controller.rumble("--");
     }
     else
     {
@@ -66,10 +72,6 @@ void storageIn()
     moving = true;
 }
 
-void slowerStorageIn()
-{
-    // huh
-}
 
 void bottomGoal()
 {
@@ -137,12 +139,21 @@ void scoreTopAuto() {
     //huh
 }
 
-void scoreMiddle() {
+
+void fastMiddle() {
     //intaking = true;
     flappy.set_value(true);
     flappier.set_value(true);
     intake.move(127); 
     intake2.move(127); //85 for skills
+    moving = true;
+}
+void scoreMiddle() {
+    //intaking = true;
+    flappy.set_value(true);
+    flappier.set_value(true);
+    intake.move(85); 
+    intake2.move(85); //85 for skills
     moving = true;
 
 }

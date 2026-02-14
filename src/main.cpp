@@ -175,7 +175,7 @@ void autonomous() {
 
 void opcontrol() {
   horLift.set_value(true);
-  verLift.set_value(false);
+  verLift.set_value(true);
   scraper.set_value(false);
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
