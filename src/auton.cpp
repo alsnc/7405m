@@ -77,7 +77,7 @@ void fourPushRight() {
     chassis.turnToHeading(87, 700, {}, false);
     chassis.moveToPoint(8.71, 39.5, 700, {}, false);
     move(63, 0, false, 600);
-    pros::delay(200);
+    //pros::delay(100);
 
     //score top
     chassis.moveToPoint(-20.65, 38.61, 800, {.forwards = false}, false);
@@ -88,77 +88,57 @@ void fourPushRight() {
     scraper.set_value(false);
 
     chassis.moveToPoint(-8.6, 39.5, 700, {}, false);
-    chassis.turnToPoint(-18.3, 51.66, 500, {.forwards = false}, false);
-    chassis.moveToPoint(-18.3, 51.66, 700, {.forwards = false}, false);
+    chassis.turnToPoint(-18.3, 51, 500, {.forwards = false}, false);
+    chassis.moveToPoint(-18.3, 51, 700, {.forwards = false}, false);
     
     wing.set_value(false);
     scraper.set_value(true);
-    chassis.turnToPoint(-41.84, 50, 500, {.forwards = false}, false);
-    chassis.moveToPoint(-41.84, 50, 750, {.forwards = false}, false);
+    chassis.turnToPoint(-42, 47, 500, {.forwards = false}, false);
+    chassis.moveToPoint(-42, 47, 750, {.forwards = false}, false);
     chassis.turnToHeading(90,500);
     scraper.set_value(true);
 
-    //swingRight(15,1000);
-    move(15, 45, false, 1000);
+    chassis.turnToHeading(111, 800);
+    //move(15, 45, false, 500);
 
 }
 
-
-void lowGoal(){
+void sevenLeft() {
+    //valentine's
+    horLift.set_value(false);
+    verLift.set_value(false);
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    storageIn();        
-    chassis.moveToPoint(0, 36, 1000);
-    // chassis.turnToPoint(10, 37.2, 650);
-    // chassis.turnToHeading(90, 750, {}, false);
-    // chassis.turnToPoint(4.9, 38, 700);
-    chassis.turnToPoint(6.5, 39, 700, {}, false);
-
-
-
+    chassis.setPose(0,0,-19.67);
     
-    scraper.set_value(true);
-    // chassis.moveToPoint(4.9, 39, 700, {},false);
-    chassis.moveToPoint(6.5, 39, 700, {},false);
-    move(63, 0, false, 700);
-    
-
-
-    // chassis.moveToPoint(-20.22, 38.5, 1000, {.forwards=false}, false);
-    // chassis.moveToPoint(-20.22, 40, 1000, {.forwards=false}, false);
-    chassis.moveToPoint(-20.22, 39.7, 1000, {.forwards=false}, false);
-    scraper.set_value(false);
-    move(-50,0,false,250);
-    scoreTop();
-    pros::delay(1050);
-    chassis.moveToPoint(2, 39.1, 1000);
-
-    chassis.turnToPoint(-31.31, 1.62, 750,{}, false);
+    //get blocks
     storageIn();
-    chassis.moveToPoint(-31.31, 1.62, 1000,{});
-    // pros::delay(250);
-    // bottomGoal();
-
-    pros::delay(550);
+    chassis.moveToPoint(-9.04, 24.25, 1000);
+    pros::delay(600);
     scraper.set_value(true);
-    pros::delay(250);
-    scraper.set_value(false);
-    pros::delay(1000);
-    chassis.turnToHeading(225, 500);
-    fastBottomScore();
-    pros::delay(500);
+    pros::delay(600);
 
+    //go to long goal
+    chassis.turnToPoint(-35.33, 9.2, 500, {}, false);
+    chassis.moveToPoint(-35.33, 9.2, 1000,{}, false);
+    stopIntake();
+    chassis.turnToPoint(-35.47, 20.34, 750, {.forwards = false}, false);
+    chassis.moveToPoint(-35.47, 22.34, 1000, {.forwards = false}, false);
+    move(-75,0,false,150);
+    scoreTop();
+    pros::delay(1400);
+    stopIntake();
+
+    //unload match loader
+    chassis.turnToPoint(-35.83, -4.88, 300);
+    chassis.moveToPoint(-35.83, -4.88, 1000, {}, false);
+    storageIn();
+    chassis.cancelAllMotions();
+    move(55, 0, false, 500);
+    pros::delay(100);
     
-    // chassis.moveToPoint(-1.96, 27.61, 1000, {.forwards = false});
-    // chassis.turnToPoint(-41.15, 22.7, 750);
-    // chassis.moveToPoint(-41.15, 22.7, 1000);
-    chassis.moveToPoint(-1.96, 25.6, 1000, {.forwards = false});
-    chassis.turnToPoint(-41.63, 25.6, 750);
-    chassis.moveToPoint(-41.63, 25.6, 1000);
-    chassis.turnToHeading(-90, 750);
-
-
 }
+
 
 void rightFourPlusThree() {
     
@@ -207,17 +187,17 @@ void rightFourPlusThree() {
     scoreTop();
     pros::delay(300);
     //chassis.moveToPoint(-33.62,-2, 1400, {});
-    bottomy(800);
+    bottomy(900);
     chassis.turnToHeading(231,400);
 
     storageIn();
     
-    chassis.moveToPoint(-12.36,25,800,{.forwards = false}, false);
+    chassis.moveToPoint(6,28.69,800,{.forwards = false}, false);
     wing.set_value(false);
-    chassis.turnToPoint(-42.81, 21.41, 700);
-    chassis.moveToPoint(-42.81, 21.41, 1000, {}, false);
+    chassis.turnToPoint(-34, 24, 700);
+    chassis.moveToPoint(-34, 24, 1000, {.maxSpeed = 80}, false);
     
-    chassis.turnToHeading(261,300);
+    // chassis.turnToHeading(261,300);
 }
 
 void soloAWPCedar() {
@@ -231,22 +211,23 @@ void soloAWPCedar() {
     //chassis.turnToPoint(0, 38.35, 650);
     
     //go to loader
-    chassis.turnToHeading(87, 700, {}, false);
-    chassis.moveToPoint(8.71, 39.5, 700, {}, false);
+    chassis.turnToHeading(87, 698, {}, false);
+    chassis.moveToPoint(8.71, 38.5, 900, {}, false);
     move(63, 0, false, 500);
-    pros::delay(150);
+    //pros::delay(100);
     
     //score top
-    chassis.moveToPoint(-20.65, 38.61, 800, {.forwards = false}, false);
+    chassis.moveToPoint(-20.65, 37.61, 800, {.forwards = false}, false);
     pros::delay(200);
     scoreTop();
     move(-50,0,false, 600);
-    pros::delay(800);
+    pros::delay(900);
     scraper.set_value(false);
     
     
     //first three
-    swingRight(70,800);
+    //chassis.turnToHeading(120,700);
+    swingRight(70,600);
     storageIn();
     
     //chassis.moveToPose(-10.7, 23.6, 224, 1500, {.lead = .6});
@@ -265,29 +246,30 @@ void soloAWPCedar() {
     scraper.set_value(true);
  
     
-    //middle score
-    chassis.turnToPoint(-36.27, -25.68, 600, {.forwards = false});
-    chassis.moveToPoint(-36.27, -25.68, 1000, {.forwards = false}, false);
+    // //middle score
+    chassis.turnToPoint(-35.25, -26.9, 600, {.forwards = false});
+    chassis.moveToPoint(-35.25, -26.9, 1000, {.forwards = false}, false);
     scoreMiddle();
     move(-50,0,false,200);
-    pros::delay(600);
+    pros::delay(550);
     storageIn();
     scoreTop();
     stopIntake();
 
     
     //loader
-    chassis.moveToPoint(-0.25, -60.1, 900, {});
+    chassis.moveToPoint(-0.25, -62.1, 900, {});
 
 
-    chassis.turnToPoint(-14.4, -63.6,600, {.forwards = false});
-    chassis.moveToPoint(-14.4, -63.6,1000, {.forwards = false});
+    chassis.turnToPoint(-14.4, -64,600, {.forwards = false});
+    chassis.moveToPoint(-14.4, -64,1000, {.forwards = false});
     pros::delay(1000);
     scraper.set_value(false);
     scoreTop();
     move(-50,0,false,400);
 
 }
+
 
 
 void leftSide3Plus4(){
@@ -343,8 +325,8 @@ void leftSide3Plus4(){
     chassis.moveToPoint(-37, 9.62, 600, {},false);
     chassis.turnToPoint(-24.7, 21.02, 500, {.forwards = false});
     chassis.moveToPoint(-24.7, 21.02, 600, {.forwards = false});
-    chassis.turnToPoint(-26, 43.39, 500, {.forwards = false});
-    chassis.moveToPoint(-26, 43.39, 700, {.forwards = false});
+    chassis.turnToPoint(-26, 42.39, 500, {.forwards = false});
+    chassis.moveToPoint(-26, 42.39, 700, {.forwards = false});
     chassis.turnToHeading(-180, 200);
 
 
@@ -352,7 +334,7 @@ void leftSide3Plus4(){
 
 
 }
-
+//-------------------------
 
 
 void bottomControl(){
@@ -404,6 +386,7 @@ void bottomControl(){
 
 
 }
+
 
 void workskills() {
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -747,6 +730,62 @@ void startAuton(){
     {
         bottomControl();
     }
+}
+
+void lowGoal(){
+    leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    storageIn();        
+    chassis.moveToPoint(0, 36, 1000);
+    // chassis.turnToPoint(10, 37.2, 650);
+    // chassis.turnToHeading(90, 750, {}, false);
+    // chassis.turnToPoint(4.9, 38, 700);
+    chassis.turnToPoint(6.5, 39, 700, {}, false);
+
+
+
+    
+    scraper.set_value(true);
+    // chassis.moveToPoint(4.9, 39, 700, {},false);
+    chassis.moveToPoint(6.5, 39, 700, {},false);
+    move(63, 0, false, 700);
+    
+
+
+    // chassis.moveToPoint(-20.22, 38.5, 1000, {.forwards=false}, false);
+    // chassis.moveToPoint(-20.22, 40, 1000, {.forwards=false}, false);
+    chassis.moveToPoint(-20.22, 39.7, 1000, {.forwards=false}, false);
+    scraper.set_value(false);
+    move(-50,0,false,250);
+    scoreTop();
+    pros::delay(1050);
+    chassis.moveToPoint(2, 39.1, 1000);
+
+    chassis.turnToPoint(-31.31, 1.62, 750,{}, false);
+    storageIn();
+    chassis.moveToPoint(-31.31, 1.62, 1000,{});
+    // pros::delay(250);
+    // bottomGoal();
+
+    pros::delay(550);
+    scraper.set_value(true);
+    pros::delay(250);
+    scraper.set_value(false);
+    pros::delay(1000);
+    chassis.turnToHeading(225, 500);
+    fastBottomScore();
+    pros::delay(500);
+
+    
+    // chassis.moveToPoint(-1.96, 27.61, 1000, {.forwards = false});
+    // chassis.turnToPoint(-41.15, 22.7, 750);
+    // chassis.moveToPoint(-41.15, 22.7, 1000);
+    chassis.moveToPoint(-1.96, 25.6, 1000, {.forwards = false});
+    chassis.turnToPoint(-41.63, 25.6, 750);
+    chassis.moveToPoint(-41.63, 25.6, 1000);
+    chassis.turnToHeading(-90, 750);
+
+
 }
 
 void fourPushLeft() {

@@ -158,20 +158,18 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  rightFourPlusThree();
-  // Skills (not working)
-  //skills();
-  //rightSeven();
+  
+  
   //soloAWPCedar();
 
   // Right side (VEXTRAVAGANZA)
-  //fourPushRight(); 
-  //lowGoal();
+  //rightFourPlusThree(); //tested
+  fourPushRight();  //untested 
 
 
   // Left side (VEXTRAVAGANZA)
   //leftSide3Plus4();
-  //middleGoal(); need to fix
+  //middleGoal(); //need to fix
 
 }
 
