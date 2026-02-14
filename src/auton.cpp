@@ -207,14 +207,16 @@ void soloAWPCedar() {
     wing.set_value(true);
     //chassis.setPose(-0.43, 0, 0);
     storageIn();
-    chassis.moveToPoint(0, 38.35, 1000, {.maxSpeed=60});
+    chassis.moveToPoint(0, 37.35, 1000, {.maxSpeed=60});
     //chassis.turnToPoint(0, 38.35, 650);
     
     //go to loader
     chassis.turnToHeading(87, 698, {}, false);
-    chassis.moveToPoint(8.71, 38.5, 900, {}, false);
-    move(63, 0, false, 500);
-    //pros::delay(100);
+    chassis.moveToPoint(8.71, 38.5, 750, {}, false);
+    // chassis.moveToPoint(11, 38.5, 900, {}, false);
+
+    move(60, 0, false, 750); 
+    // pros::delay(50);
     
     //score top
     chassis.moveToPoint(-20.65, 37.61, 800, {.forwards = false}, false);
@@ -223,7 +225,6 @@ void soloAWPCedar() {
     move(-50,0,false, 600);
     pros::delay(900);
     scraper.set_value(false);
-    
     
     //first three
     //chassis.turnToHeading(120,700);
@@ -251,14 +252,14 @@ void soloAWPCedar() {
     chassis.moveToPoint(-35.25, -26.9, 1000, {.forwards = false}, false);
     scoreMiddle();
     move(-50,0,false,200);
-    pros::delay(550);
+    pros::delay(400);
     storageIn();
     scoreTop();
     stopIntake();
 
     
-    //loader
-    chassis.moveToPoint(-0.25, -62.1, 900, {});
+    //second top
+    chassis.moveToPoint(-0.25, -62.1, 900, {}); //add maxSpeed?
 
 
     chassis.turnToPoint(-14.4, -64,600, {.forwards = false});
@@ -273,6 +274,7 @@ void soloAWPCedar() {
 
 
 void leftSide3Plus4(){
+
     leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.setPose(0,0,-19.67);
@@ -309,7 +311,6 @@ void leftSide3Plus4(){
 
 
 
-
     // // go back to goal 
     chassis.moveToPoint(-37.49, 23.99, 1000, {.forwards = false}, false);
     scraper.set_value(false);
@@ -328,10 +329,6 @@ void leftSide3Plus4(){
     chassis.turnToPoint(-26, 42.39, 500, {.forwards = false});
     chassis.moveToPoint(-26, 42.39, 700, {.forwards = false});
     chassis.turnToHeading(-180, 200);
-
-
-
-
 
 }
 //-------------------------
@@ -847,23 +844,23 @@ void middleGoal()
     pros::delay(600);
 
     //go to long goal
-    chassis.turnToPoint(-35.33, 9.2, 500, {}, false);
-    chassis.moveToPoint(-35.33, 9.2, 1000,{}, false);
+    chassis.turnToPoint(-36.33, 9.2, 500, {}, false);
+    chassis.moveToPoint(-36.33, 9.2, 1000,{}, false);
     stopIntake();
-    chassis.turnToPoint(-35.47, 20.34, 750, {.forwards = false}, false);
-    chassis.moveToPoint(-35.47, 22.34, 1000, {.forwards = false}, false);
+    chassis.turnToPoint(-36.47, 20.34, 750, {.forwards = false}, false);
+    chassis.moveToPoint(-36.47, 22.34, 1000, {.forwards = false}, false);
     move(-75,0,false,150);
     scoreTop();
-    pros::delay(1400);
+    pros::delay(1550);
     stopIntake();
 
     //unload match loader
-    chassis.turnToPoint(-35.83, -4.88, 300);
-    chassis.moveToPoint(-35.83, -4.88, 1000, {}, false);
+    chassis.turnToPoint(-35.5, -4.88, 300);
+    chassis.moveToPoint(-35.5, -4.88, 1000, {}, false);
     storageIn();
     chassis.cancelAllMotions();
     move(55, 0, false, 500);
-    pros::delay(100);
+    pros::delay(300);
 
     //score middle goal
     chassis.moveToPoint(-35.67, 1.89, 750, {.forwards = false}, false);
@@ -881,5 +878,5 @@ void middleGoal()
     chassis.moveToPose(-23.56, 21.4, -180, 1500, {.lead = 0.2}, false);
     wing.set_value(false);
     chassis.turnToHeading(-178, 200);
-    chassis.moveToPoint(-23.64, 36.2, 1000, {.forwards = false, .minSpeed = 60});
+    chassis.moveToPoint(-23.64, 32.2, 1000, {.forwards = false, .minSpeed = 60});
 }

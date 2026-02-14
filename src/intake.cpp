@@ -127,7 +127,7 @@ void stopIntake() {
 void scoreTop() {
     flappier.set_value(false);
     flappy.set_value(false);
-    intake2.move(127);
+    intake2.move(127); 
     intake.move(127);
     moving = true;
 
@@ -142,7 +142,7 @@ void scoreMiddle() {
     flappy.set_value(true);
     flappier.set_value(true);
     intake.move(127); 
-    intake2.move(127);
+    intake2.move(127); //85 for skills
     moving = true;
 
 }

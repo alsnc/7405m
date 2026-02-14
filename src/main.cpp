@@ -160,11 +160,11 @@ void autonomous() {
 
   
   
-  //soloAWPCedar();
+  soloAWPCedar();
 
   // Right side (VEXTRAVAGANZA)
   //rightFourPlusThree(); //tested
-  fourPushRight();  //untested 
+  //fourPushRight();  //untested 
 
 
   // Left side (VEXTRAVAGANZA)
@@ -175,7 +175,8 @@ void autonomous() {
 
 void opcontrol() {
   horLift.set_value(true);
-  verLift.set_value(true);
+  verLift.set_value(false);
+  scraper.set_value(false);
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   
