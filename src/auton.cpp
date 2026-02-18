@@ -105,13 +105,21 @@ void fourPushRight() {
 
 void soloAWPMill2() {
     storageIn();
-    chassis.moveToPoint(0, 8.24, 500, {}, false);
-    chassis.moveToPoint(0, -33.59, 1000, {.forwards = false}, false);
-    chassis.turnToHeading(-90, 750);
+    // chassis.moveToPoint(0, 8.24, 500, {}, false);
+    chassis.moveToPoint(0, -32.5, 850, {.forwards = false}, false);
+    chassis.turnToHeading(-90, 600);
     scraper.set_value(true);
-    chassis.moveToPoint(-8.6, -36.59, 750, {}, false);
-    move(60, 0, false, 750);
-    chassis.moveToPoint(20.59, -35.59, 1000, {.forwards = false}, false);
+    chassis.moveToPoint(-10, -36.59, 750, {.minSpeed = 60}, false);
+    // pros::delay(500);
+    move(40, 0, false, 500);
+    chassis.moveToPoint(20.59, -35.59, 900, {.forwards = false, .minSpeed = 45});
+    pros::delay(300);
+    scoreTop();
+    pros::delay(1200);
+    chassis.turnToHeading(0, 750,{},false);
+    scraper.set_value(false);
+    chassis.moveToPoint(20.6, 41.2, 1500, {}, false);
+
     //swingRight(110, 500);
 
 
