@@ -159,8 +159,8 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   
-  
-  soloAWPCedar();
+  soloAWPMill2();
+  //soloAWPCedar();
 
   // Right side (VEXTRAVAGANZA)
   //rightFourPlusThree(); //tested

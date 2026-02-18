@@ -4,6 +4,7 @@
 
 void soloAWPCedar();
 void startAuton();
+void soloAWPMill2();
 void topGoal();
 void skills();
 void bottomGoalSide();

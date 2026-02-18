@@ -103,6 +103,20 @@ void fourPushRight() {
 
 }
 
+void soloAWPMill2() {
+    storageIn();
+    chassis.moveToPoint(0, 8.24, 500, {}, false);
+    chassis.moveToPoint(0, -33.59, 1000, {.forwards = false}, false);
+    chassis.turnToHeading(-90, 750);
+    scraper.set_value(true);
+    chassis.moveToPoint(-8.6, -36.59, 750, {}, false);
+    move(60, 0, false, 750);
+    chassis.moveToPoint(20.59, -35.59, 1000, {.forwards = false}, false);
+    //swingRight(110, 500);
+
+
+}
+
 void sevenLeft() {
     //valentine's
     horLift.set_value(false);
