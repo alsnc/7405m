@@ -1,96 +1,226 @@
 #include "main.h"
+#include "autons.h"
 #include "lemlib/api.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "pros/adi.hpp"
+#include "pros/distance.hpp"
+#include "pros/misc.h"
+#include "pros/motors.h"
+#include "pros/motors.hpp"
+#include "pros/optical.hpp"
+#include <cstddef>
 
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
+// motor groups
+// pros::MotorGroup leftMotors({-20, -18, -10},
+//                             pros::MotorGearset::blue); // left motor group -
+//                             ports 3 (reversed), 4, 5 (reversed)
+// pros::MotorGroup rightMotors({12, 5, 6}, pros::MotorGearset::blue); // right
+// motor group - ports 6, 7, 9 (reversed)
+
+pros::MotorGroup
+    leftMotors({1},
+               pros::MotorGearset::blue); // left motor group - ports 3
+                                          // (reversed), 4, 5 (reversed)
+pros::MotorGroup rightMotors(
+    {-2},
+    pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
+
+lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
+                              &rightMotors, // right motor group
+                              12,           // 10 inch track width
+                              lemlib::Omniwheel::NEW_325,
+                              450, // drivetrain rpm is 450
+                              2    // horizontal drift is 2 (for now)
+);
+
+pros::Imu imu(7);
+
+pros::Rotation horizontal_encoder(16); // odom sensor
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,
+                                                lemlib::Omniwheel::NEW_2,
+                                                -1.875);
+
+pros::Rotation vertical_encoder(18); // odom sensor
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder,
+                                              lemlib::Omniwheel::NEW_2, .125);
+
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr,
+                            &horizontal_tracking_wheel, nullptr, &imu);
+
+// lemlib::OdomSensors sensors(nullptr, nullptr,
+//                             &horizontal_tracking_wheel, nullptr, &imu);
+
+lemlib::ControllerSettings
+    lateral(0, // proportional gain (kP) 
+            0,    // integral gain (kI)
+            0,    // derivative gain (kD)
+            0,    // anti windup
+            .5,   // small error range, in inches
+            100,  // small error range timeout, in milliseconds
+            .7,   // large error range, in inches
+            2000, // large error range timeout, in milliseconds
+            20    // maximum acceleration (slew)
+    );
+
+lemlib::ControllerSettings
+    angular(3.075, // proportional gain (kP)
+            0,     // integral gain (kI)
+            14,    // derivative gain (kD)
+            3,     // anti windup
+            .5,    // small error range, in degrees
+            500,   // small error range timeout, in milliseconds
+            1,     // large error range, in degrees
+            800,   // large error range timeout, in milliseconds
+            0      // maximum acceleration (slew)
+    );
+lemlib::ExpoDriveCurve throttle(3, 10, 1.019);
+lemlib::ExpoDriveCurve steer(3, 10, 1.019);
+
+// Chassis with dummy settings
+lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
+                        &steer);
+
+// Scraper
+pros::adi::DigitalOut scraper('F', false);
+// pros::adi::DigitalOut descore('F', false);
+pros::adi::DigitalOut wing('E', false);
+pros::adi::DigitalOut horLift('D', false);
+pros::adi::DigitalOut verLift('G',false);
+// pros::adi::DigitalOut flappier('B', false);
+
+// wing
+bool removerActivated = false;
+bool verLiftActivated = false;
+bool wingActivated = false;
+bool hoodActivated = false;
+bool scraperActivated = false;
+
+// flingBlue = false;
+bool removerPressedLast = false;
+bool verLiftPressedLast = false;
+bool hoodPressedLast = false;
+bool scraperPressedLast = false;
+bool wingPressedLast = false;
+
+void screen() {
+  // loop forever
+  while (true) {
+    lemlib::Pose pose =
+        chassis.getPose(); // get the current position of the robot
+    pros::lcd::print(0, "x: %f | y: %f", pose.x, pose.y,
+                     pose.theta);             // print the x position
+    pros::lcd::print(1, "H: %f", pose.theta); // print the x position
+    // printf("x: %f | y: %f | H: %f | rot: %d \n", pose.x, pose.y, pose.theta,
+    // vertical_rot.get_position());
+    // pros::lcd::print(2, "right distance sensor: %f", right_sensor.get());
+    // pros::lcd::print(3, "front distance sensor: %f", front_sensor.get());
+    pros::delay(50);
+  }
 }
 
-/**
- * Runs initialization code. This occurs as soon as the program is started.
- *
- * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
- */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+  pros::lcd::initialize();
+  chassis.calibrate();
+  chassis.setPose(0, 0, 0);
+  horizontal_encoder.reset_position();
+  vertical_encoder.reset_position();
+  pros::lcd::initialize(); // initialize brain screen
+  leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  // pros::delay(4000);
+  pros::delay(1000);
 
-	pros::lcd::register_btn1_cb(on_center_button);
+
+  // autonSelectorStart();
+  pros::Task screenTask(screen);
+  //pros::Task jam(antiJam);
 }
 
 /**
- * Runs while the robot is in the disabled state of Field Management System or
- * the VEX Competition Switch, following either autonomous or opcontrol. When
- * the robot is enabled, this task will exit.
+ * Runs while the robot is disabled
  */
 void disabled() {}
 
 /**
- * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
- * competition-specific initialization routines, such as an autonomous selector
- * on the LCD.
- *
- * This task will exit when the robot is enabled and autonomous or opcontrol
- * starts.
+ * runs after initialize if the robot is connected to field control
  */
 void competition_initialize() {}
 
-/**
- * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the autonomous
- * mode. Alternatively, this function may be called in initialize or opcontrol
- * for non-competition testing purposes.
- *
- * If the robot is disabled or communications is lost, the autonomous task
- * will be stopped. Re-enabling the robot will restart the task, not re-start it
- * from where it left off.
- */
-void autonomous() {}
+void autonomous() {
+  leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-/**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
- */
+  horLift.set_value(false);
+  verLift.set_value(false);
+  
+  leftMotors.move_velocity(90);
+  rightMotors.move_velocity(90);
+  pros::delay(900); 
+  leftMotors.move_velocity(0);
+  rightMotors.move_velocity(0);
+  // chassis.setPose(0,0,0); 
+  // chassis.moveToPoint(0,10,1000);
+
+
+}
+
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({1, -2, 3});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({-4, 5, -6});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+  horLift.set_value(true);
+  verLift.set_value(false);
+  scraper.set_value(false);
+  leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  scraper.set_value(false);
+
+  
+  while (true) {
+    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+    chassis.arcade(leftY, rightX);
+
+    // bool removerPressedNow
+    // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
+    // wing.set_value(removerPressedNow);
+
+    bool removerPressedNow =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+
+    if (removerPressedNow && !removerPressedLast) {
+      // Toggle remover
+      removerActivated = !removerActivated;
+      wing.set_value(removerActivated);
+    }
+
+    removerPressedLast = removerPressedNow;
+
+    
+
+    bool vertOdom =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+
+    if (vertOdom && !verLiftPressedLast) {
+      // Toggle remover
+      verLiftActivated = !verLiftActivated;
+      verLift.set_value(verLiftActivated);
+    }
+
+    verLiftPressedLast = vertOdom;
+
+    bool scraperPressedNow =
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+
+    if (scraperPressedNow && !scraperPressedLast) {
+      // Toggle hood
+      scraperActivated = !scraperActivated;
+      scraper.set_value(scraperActivated);
+    }
+
+    scraperPressedLast = scraperPressedNow;
 
 
-	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-		// Arcade control scheme
-		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		left_mg.move(dir - turn);                      // Sets left motor voltage
-		right_mg.move(dir + turn);                     // Sets right motor voltage
-		pros::delay(20);                               // Run for 20 ms then update
-	}
+    pros::delay(20);
+  }
 }
