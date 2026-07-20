@@ -1,7 +1,9 @@
 #include "main.h"
 #include "autons.h"
+#include "lift.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
 #include "pros/misc.h"
@@ -81,6 +83,12 @@ lemlib::ExpoDriveCurve steer(3, 10, 1.019);
 // Chassis with dummy settings
 lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
                         &steer);
+
+// Lift
+pros::MotorGroup lift_motors ({1,-2},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
+
+// Intake
+pros::Motor intake (5,pros::v5::MotorGears::blue,pros::v5::MotorEncoderUnits::degrees); // I suppose the intake spins at highest speed? Putting it at port 1 for now
 
 // Scraper
 pros::adi::DigitalOut scraper('F', false);
@@ -192,6 +200,16 @@ void opcontrol() {
       // Toggle remover
       removerActivated = !removerActivated;
       wing.set_value(removerActivated);
+    }
+    
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+      lift(12000);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+      lift(-12000);
+    }
+    else{
+      lift(0);
     }
 
     removerPressedLast = removerPressedNow;

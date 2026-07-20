@@ -24,6 +24,7 @@
  * E_CONTROLLER_MASTER is pedantically correct within the PROS styleguide, but
  * not convenient for most student programmers.
  */
+#include "pros/motor_group.hpp"
 #define PROS_USE_SIMPLE_NAMES
 
 /**
@@ -68,6 +69,8 @@ void competition_initialize(void);
 void opcontrol(void);
 #ifdef __cplusplus
 }
+extern pros::MotorGroup lift_motors;
+extern pros::Motor intake;
 #endif
 
 #ifdef __cplusplus
