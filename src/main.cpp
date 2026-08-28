@@ -90,27 +90,7 @@ pros::MotorGroup lift_motors ({1,-2},pros::v5::MotorGears::green /*to be specifi
 // Intake
 pros::Motor intake (5,pros::v5::MotorGears::blue,pros::v5::MotorEncoderUnits::degrees); // I suppose the intake spins at highest speed? Putting it at port 1 for now
 
-// Scraper
-pros::adi::DigitalOut scraper('F', false);
-// pros::adi::DigitalOut descore('F', false);
-pros::adi::DigitalOut wing('E', false);
-pros::adi::DigitalOut horLift('D', false);
-pros::adi::DigitalOut verLift('G',false);
-// pros::adi::DigitalOut flappier('B', false);
 
-// wing
-bool removerActivated = false;
-bool verLiftActivated = false;
-bool wingActivated = false;
-bool hoodActivated = false;
-bool scraperActivated = false;
-
-// flingBlue = false;
-bool removerPressedLast = false;
-bool verLiftPressedLast = false;
-bool hoodPressedLast = false;
-bool scraperPressedLast = false;
-bool wingPressedLast = false;
 
 void screen() {
   // loop forever
@@ -193,15 +173,6 @@ void opcontrol() {
     // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
     // wing.set_value(removerPressedNow);
 
-    bool removerPressedNow =
-        controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
-
-    if (removerPressedNow && !removerPressedLast) {
-      // Toggle remover
-      removerActivated = !removerActivated;
-      wing.set_value(removerActivated);
-    }
-    
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
       lift(12000);
     }
@@ -211,33 +182,6 @@ void opcontrol() {
     else{
       lift(0);
     }
-
-    removerPressedLast = removerPressedNow;
-
-    
-
-    bool vertOdom =
-        controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
-
-    if (vertOdom && !verLiftPressedLast) {
-      // Toggle remover
-      verLiftActivated = !verLiftActivated;
-      verLift.set_value(verLiftActivated);
-    }
-
-    verLiftPressedLast = vertOdom;
-
-    bool scraperPressedNow =
-        controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
-
-    if (scraperPressedNow && !scraperPressedLast) {
-      // Toggle hood
-      scraperActivated = !scraperActivated;
-      scraper.set_value(scraperActivated);
-    }
-
-    scraperPressedLast = scraperPressedNow;
-
 
     pros::delay(20);
   }
