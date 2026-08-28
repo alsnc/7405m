@@ -15,6 +15,7 @@
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::ADIDigitalOut piston (pros::E_ADI_DIGITAL_OUT_1); // replace with actual port number
 bool push = false;
+bool pressed = false;
 // motor groups
 // pros::MotorGroup leftMotors({-20, -18, -10},
 //                             pros::MotorGearset::blue); // left motor group -
@@ -184,15 +185,20 @@ void opcontrol() {
       lift(0);
     }
 
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false){
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
       push = true;
       piston.set_value(push);
+      pressed = true;
     }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == true){
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == true and pressed == false){
       push = false;
       piston.set_value(push);
+      pressed = true;
     }
 
+    if(!controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+      pressed = false;
+    }
     pros::delay(20);
   }
 }
