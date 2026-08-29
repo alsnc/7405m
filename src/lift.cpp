@@ -11,7 +11,7 @@ void liftMacro(double macroAngle, double lift_voltage,double kP,double kD,int to
     error=lift_motors.get_position()-macroAngle;
     double last_time=error;
     double this_time;
-    while(fabs(error)>toleranceInDegrees){
+    while(true){
         error=lift_motors.get_position()-macroAngle;
         double this_time=error;
         double de=this_time-last_time;
