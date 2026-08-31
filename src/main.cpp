@@ -13,7 +13,7 @@
 #include <cstddef>
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::ADIDigitalOut piston ('A'); // replace with actual port number
+//pros::ADIDigitalOut piston ('A'); // replace with actual port number
 bool push = false;
 bool pressed = false;
 // motor groups
@@ -116,7 +116,7 @@ void initialize() {
   chassis.setPose(0, 0, 0);
   horizontal_encoder.reset_position();
   vertical_encoder.reset_position();
-  liftDeg.reset_position();
+  //liftDeg.reset_position();
   pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -186,10 +186,10 @@ void opcontrol() {
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 
             if (position >= liftTop - 100) {
-                lift_motors.move_voltage(3000); // slow near top
+                lift_motors.move(3000); // slow near top
             }
             else {
-                lift_motors.move_voltage(12000); // normal speed
+                lift_motors.move(12000); // normal speed
             }
         }
 
@@ -197,35 +197,36 @@ void opcontrol() {
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 
             if (position <= liftBottom + 100) {
-                lift_motors.move_voltage(-3000); // slow near bottom
+                lift_motors.move(-3000); // slow near bottom
             }
             else {
-                lift_motors.move_voltage(-12000); // normal speed
+                lift_motors.move(-12000); // normal speed
             }
         }
 
         // NOTHING PRESSED
         else {
-            lift_motors.move_voltage(0);
+            lift_motors.move(0);
         }
 
         pros::delay(20);
 
-    //CLAW CONTROL
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
-      push = true;
-      piston.set_value(push);
-      pressed = true;
-    }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == true and pressed == false){
-      push = false;
-      piston.set_value(push);
-      pressed = true;
-    }
+  //   //CLAW CONTROL
+  //   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
+  //     push = true;
+  //     piston.set_value(push);
+  //     pressed = true;
+  //   }
+  //   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == true and pressed == false){
+  //     push = false;
+  //     piston.set_value(push);
+  //     pressed = true;
+  //   }
 
-    if(!controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-      pressed = false;
-    }
-    pros::delay(20);
-  }
+  //   if(!controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+  //     pressed = false;
+  //   }
+  //   pros::delay(20);
+  // }
+}
 }
