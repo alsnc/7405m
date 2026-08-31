@@ -116,6 +116,7 @@ void initialize() {
   chassis.setPose(0, 0, 0);
   horizontal_encoder.reset_position();
   vertical_encoder.reset_position();
+  liftDeg.reset_position();
   pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);

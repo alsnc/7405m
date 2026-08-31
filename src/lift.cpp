@@ -1,10 +1,16 @@
 #include "main.h"
 #include <cmath>
 #include <cstdlib>
-double error;
+
+//lift macro pid
+double kp = 0.0;
+double kd = 0.0;
+int tolerance = 0;
+
+pros::Rotation liftDeg(19); // replace with actual port number
 
 void lift(int lift_voltage){
-    lift_motors.move_voltage(lift_voltage);
+    lift_motors.move(lift_voltage);
 }
 
 void liftMacro(double macroAngle, double lift_voltage,double kP,double kD,int toleranceInDegrees){
@@ -20,4 +26,8 @@ void liftMacro(double macroAngle, double lift_voltage,double kP,double kD,int to
         The voltage range is from 12000 to -12000. */
         double last_time=this_time;
     }
+
+    //maybe change to prevent motor burnout?? Idk we'll see
+    lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    lift_motors.brake();
 }
