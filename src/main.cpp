@@ -13,7 +13,7 @@
 #include <cstddef>
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::ADIDigitalOut piston (pros::E_ADI_DIGITAL_OUT_1); // replace with actual port number
+pros::ADIDigitalOut piston ('A'); // replace with actual port number
 bool push = false;
 bool pressed = false;
 // motor groups
@@ -142,8 +142,8 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  horLift.set_value(false);
-  verLift.set_value(false);
+  // horLift.set_value(false);
+  // verLift.set_value(false);
   
   leftMotors.move_velocity(90);
   rightMotors.move_velocity(90);
@@ -155,14 +155,18 @@ void autonomous() {
 
 
 }
+//lift parameters
+  double liftTop = 1000;
+  double liftBottom = 0;
+
 
 void opcontrol() {
-  horLift.set_value(true);
-  verLift.set_value(false);
-  scraper.set_value(false);
+  // horLift.set_value(true);
+  // verLift.set_value(false);
+  // scraper.set_value(false);
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  scraper.set_value(false);
+  //scraper.set_value(false);
 
   
   while (true) {
@@ -175,16 +179,38 @@ void opcontrol() {
     // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
     // wing.set_value(removerPressedNow);
 
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-      lift(12000);
-    }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-      lift(-12000);
-    }
-    else{
-      lift(0);
-    }
+        double position = lift_motors.get_position();
 
+  
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+
+            if (position >= liftTop - 100) {
+                lift_motors.move_voltage(3000); // slow near top
+            }
+            else {
+                lift_motors.move_voltage(12000); // normal speed
+            }
+        }
+
+        // LIFT DOWN
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+
+            if (position <= liftBottom + 100) {
+                lift_motors.move_voltage(-3000); // slow near bottom
+            }
+            else {
+                lift_motors.move_voltage(-12000); // normal speed
+            }
+        }
+
+        // NOTHING PRESSED
+        else {
+            lift_motors.move_voltage(0);
+        }
+
+        pros::delay(20);
+
+    //CLAW CONTROL
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
       push = true;
       piston.set_value(push);
