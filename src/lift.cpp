@@ -7,7 +7,7 @@ double kp = 0.0;
 double kd = 0.0;
 int tolerance = 0;
 
-pros::Rotation liftDeg(19); // replace with actual port number
+pros::Rotation liftDeg(8); // replace with actual port number
 
 
 #include "main.h"

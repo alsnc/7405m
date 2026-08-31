@@ -6,6 +6,7 @@
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "pros/llemu.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
@@ -87,7 +88,7 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
                         &steer);
 
 // Lift
-pros::MotorGroup lift_motors ({1,-2},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
+pros::MotorGroup lift_motors ({1,-10},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
 
 // Intake
 pros::Motor intake (5,pros::v5::MotorGears::blue,pros::v5::MotorEncoderUnits::degrees); // I suppose the intake spins at highest speed? Putting it at port 1 for now
@@ -102,6 +103,7 @@ void screen() {
     pros::lcd::print(0, "x: %f | y: %f", pose.x, pose.y,
                      pose.theta);             // print the x position
     pros::lcd::print(1, "H: %f", pose.theta); // print the x position
+    pros::lcd::print(2, "Lift: %d", liftDeg.get_position());
     // printf("x: %f | y: %f | H: %f | rot: %d \n", pose.x, pose.y, pose.theta,
     // vertical_rot.get_position());
     // pros::lcd::print(2, "right distance sensor: %f", right_sensor.get());
@@ -120,13 +122,17 @@ void initialize() {
   pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  liftDeg.reset_position();
+  liftDeg.set_reversed(true);
+
   // pros::delay(4000);
-  pros::delay(1000);
+  pros::delay(3000);
 
 
   // autonSelectorStart();
   pros::Task screenTask(screen);
   //pros::Task jam(antiJam);
+
 }
 
 /**
@@ -157,7 +163,7 @@ void autonomous() {
 
 }
 //lift parameters
-  double liftTop = 1000;
+  double liftTop = 85.5;
   double liftBottom = 0;
 
 
@@ -167,9 +173,17 @@ void opcontrol() {
   // scraper.set_value(false);
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   //scraper.set_value(false);
 
   
+  double lastError = 0;
+  double integral = 0;
+
+  // PID constants
+  double kP = 0.70;
+  double kI = 0.02;
+  double kD = 0.15;
   while (true) {
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
@@ -180,32 +194,92 @@ void opcontrol() {
     // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
     // wing.set_value(removerPressedNow);
 
-        double position = lift_motors.get_position();
+        double position = liftDeg.get_position()/100.0;
 
   
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 
-            if (position >= liftTop - 100) {
-                lift_motors.move(3000); // slow near top
+            if (position >= liftTop - 10) {
+                lift_motors.move(120); // slow near top
             }
             else {
-                lift_motors.move(12000); // normal speed
+                lift_motors.move(127); // normal speed
             }
         }
 
         // LIFT DOWN
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      
 
-            if (position <= liftBottom + 100) {
-                lift_motors.move(-3000); // slow near bottom
-            }
-            else {
-                lift_motors.move(-12000); // normal speed
-            }
+        // Target is the bottom position
+        double error = liftBottom - position;
+
+
+        // -------------------------
+        // INTEGRAL
+        // -------------------------
+
+        integral += error;
+
+        // Anti-windup
+        if (integral > 100) {
+            integral = 100;
         }
 
+        if (integral < -100) {
+            integral = -100;
+        }
+
+
+        // -------------------------
+        // DERIVATIVE
+        // -------------------------
+
+        double derivative = error - lastError;
+
+
+        // -------------------------
+        // PID OUTPUT
+        // -------------------------
+
+        double output =
+            (kP * error) +
+            (kI * integral) +
+            (kD * derivative);
+
+
+        // -------------------------
+        // MOTOR OUTPUT LIMIT
+        // -------------------------
+
+        if (output > 127) {
+            output = 127;
+        }
+
+        if (output < -127) {
+            output = -127;
+        }
+
+        if (fabs(error) < 3) {
+
+            lift_motors.move(0);
+
+            // Reset PID memory
+            integral = 0;
+            lastError = 0;
+        }
+
+        else {
+
+            lift_motors.move(output);
+
+            lastError = error;
+        }
+    
+      }
         // NOTHING PRESSED
         else {
+            
             lift_motors.move(0);
         }
 
@@ -230,3 +304,4 @@ void opcontrol() {
   // }
 }
 }
+  
