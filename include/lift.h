@@ -1,4 +1,4 @@
 #pragma once
-void liftPID();
+extern pros::Rotation liftDeg; // replace with actual port number
 void lift(int lift_voltage);
-void liftMacro(double macroAngle, double lift_voltage,double kP,int toleranceInDegrees);
+void liftMacro(double angle);
