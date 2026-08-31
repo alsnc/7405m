@@ -9,9 +9,63 @@ int tolerance = 0;
 
 pros::Rotation liftDeg(19); // replace with actual port number
 
-void lift(int lift_voltage){
-    lift_motors.move(lift_voltage);
+
+#include "main.h"
+#include <cmath>
+
+
+double kP = 2.0;
+double kI = 0.0;
+double kD = 0.1;
+
+double integral = 0;
+double lastError = 0;
+
+void lift(double target) {
+
+    integral = 0;
+    lastError = 0;
+
+    while (true) {
+
+        double currentPosition = lift_motors.get_position();
+        double error = target - currentPosition;
+
+        // Integral
+        integral += error;
+
+        // Derivative
+        double derivative = error - lastError;
+
+        // PID
+        double output =
+            (kP * error) +
+            (kI * integral) +
+            (kD * derivative);
+
+        //voltage limit
+        if (output > 12000)
+            output = 12000;
+
+        if (output < -12000)
+            output = -12000;
+
+        lift_motors.move_voltage(output);
+
+        lastError = error;
+
+        //close enough
+        if (fabs(error) < 5) {
+            lift_motors.move_voltage(0);
+            break;
+        }
+
+        pros::delay(20);
+    }
 }
+
+
+
 
 // void liftMacro(double macroAngle, double lift_voltage,double kP,double kD,int toleranceInDegrees){
 //     error=lift_motors.get_position()-macroAngle;
@@ -28,37 +82,5 @@ void lift(int lift_voltage){
 //     }
 // }
 
-void liftMacro(double angle)
-{
-    double curr = ((double) liftDeg.get_angle())/100.0;
-    double error;
-    //to prevent weird huge derivative first time
-    double prevError = angle - curr;
-    double refreshRate = 20; // in milliseconds
-    
-    //movement
-    while (curr < (angle - tolerance) || curr > (angle + tolerance))
-    {
-        //calculations
-        //uhhh apparently pros gives it in centidegrees (SO WEIRD, but ok)
-        curr = ((double) liftDeg.get_angle())/100.0;
-        error = angle - curr;
-        double derivative = (error - prevError) / (refreshRate / 1000.0);
-        double speed = kp * error + kd * derivative;
 
-        //move (limit too)
-        if (speed > 127 || speed < -127) 
-        {
-            speed = (speed > 0) ? 127 : -127;
-        }
-
-        lift_motors.move(speed);
-
-        prevError = error;
-        pros::delay(refreshRate);
-    }
-
-    //maybe change to prevent motor burnout?? Idk we'll see
-    lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    lift_motors.brake();
-}
+// }
