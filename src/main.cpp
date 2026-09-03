@@ -1,6 +1,7 @@
 #include "main.h"
 #include "autons.h"
 #include "lift.h"
+#include "intake.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
@@ -209,7 +210,16 @@ void opcontrol() {
             lift_motors.move_voltage(0);
         }
 
-        pros::delay(20);
+    //INTAKE
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B/*to be specified*/)){
+      spinIntake(127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X/*to be specified*/)){
+      spinIntake(-127);
+    }
+    else{
+      spinIntake(0);
+    }
 
     //CLAW CONTROL
     if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
