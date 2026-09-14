@@ -14,9 +14,9 @@ pros::Rotation liftDeg(8); // replace with actual port number
 #include <cmath>
 
 
-double kP = 2.0;
-double kI = 0.0;
-double kD = 0.1;
+double kP = 0.92 ; //0.92
+double kI = 0.0; 
+double kD = 0.0;
 
 double integral = 0;
 double lastError = 0;

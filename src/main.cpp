@@ -25,11 +25,11 @@ bool pressed = false;
 // motor group - ports 6, 7, 9 (reversed)
 
 pros::MotorGroup
-    leftMotors({1},
+    leftMotors({12,14,13},
                pros::MotorGearset::blue); // left motor group - ports 3
                                           // (reversed), 4, 5 (reversed)
 pros::MotorGroup rightMotors(
-    {-2},
+    {-17,-19,-18},
     pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
@@ -161,9 +161,11 @@ void autonomous() {
   // chassis.moveToPoint(0,10,1000);
 
 
+  lift(5000);
+
 }
 //lift parameters
-  double liftTop = 85.5;
+  double liftTop = 7000;
   double liftBottom = 0;
 
 
@@ -181,7 +183,7 @@ void opcontrol() {
   double integral = 0;
 
   // PID constants
-  double kP = 0.70;
+  double kP = 0.90;
   double kI = 0.02;
   double kD = 0.15;
   while (true) {
@@ -194,13 +196,13 @@ void opcontrol() {
     // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
     // wing.set_value(removerPressedNow);
 
-        double position = liftDeg.get_position()/100.0;
+        double position = liftDeg.get_position();
 
   
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 
-            if (position >= liftTop - 10) {
-                lift_motors.move(120); // slow near top
+            if (position >= liftTop - 1000) {
+                lift_motors.move(40); // slow near top
             }
             else {
                 lift_motors.move(127); // normal speed
@@ -209,72 +211,77 @@ void opcontrol() {
 
         // LIFT DOWN
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      
+          if (position <=liftBottom + 5000) {
+                lift_motors.move(-30); // slow near top
+            }
+          else {
+              lift_motors.move(-90); // normal speed
+          }
 
-        // Target is the bottom position
-        double error = liftBottom - position;
-
-
-        // -------------------------
-        // INTEGRAL
-        // -------------------------
-
-        integral += error;
-
-        // Anti-windup
-        if (integral > 100) {
-            integral = 100;
-        }
-
-        if (integral < -100) {
-            integral = -100;
-        }
+        // // Target is the bottom position
+        // double error = liftBottom - position;
 
 
-        // -------------------------
-        // DERIVATIVE
-        // -------------------------
+        // // -------------------------
+        // // INTEGRAL
+        // // -------------------------
 
-        double derivative = error - lastError;
+        // integral += error;
+
+        // // Anti-windup
+        // if (integral > 100) {
+        //     integral = 100;
+        // }
+
+        // if (integral < -100) {
+        //     integral = -100;
+        // }
 
 
-        // -------------------------
-        // PID OUTPUT
-        // -------------------------
+        // // -------------------------
+        // // DERIVATIVE
+        // // -------------------------
 
-        double output =
-            (kP * error) +
-            (kI * integral) +
-            (kD * derivative);
+        // double derivative = error - lastError;
 
 
-        // -------------------------
-        // MOTOR OUTPUT LIMIT
-        // -------------------------
+        // // -------------------------
+        // // PID OUTPUT
+        // // -------------------------
 
-        if (output > 127) {
-            output = 127;
-        }
+        // double output =
+        //     (kP * error) +
+        //     (kI * integral) +
+        //     (kD * derivative);
 
-        if (output < -127) {
-            output = -127;
-        }
 
-        if (fabs(error) < 3) {
+        // // -------------------------
+        // // MOTOR OUTPUT LIMIT
+        // // -------------------------
 
-            lift_motors.move(0);
+        // if (output > 127) {
+        //     output = 127;
+        // }
 
-            // Reset PID memory
-            integral = 0;
-            lastError = 0;
-        }
+        // if (output < -127) {
+        //     output = -127;
+        // }
 
-        else {
+        // if (fabs(error) < 3) {
 
-            lift_motors.move(output);
+        //     lift_motors.move(0);
 
-            lastError = error;
-        }
+        //     // Reset PID memory
+        //     integral = 0;
+        //     lastError = 0;
+        // }
+
+        // else {
+
+        //     lift_motors.move(output);
+
+        //     lastError = error;
+        // }
     
       }
         // NOTHING PRESSED
