@@ -12,6 +12,7 @@
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
 #include <cstddef>
+#include "intake.h"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 //pros::ADIDigitalOut piston ('A'); // replace with actual port number
@@ -23,6 +24,7 @@ bool pressed = false;
 //                             ports 3 (reversed), 4, 5 (reversed)
 // pros::MotorGroup rightMotors({12, 5, 6}, pros::MotorGearset::blue); // right
 // motor group - ports 6, 7, 9 (reversed)
+
 
 pros::MotorGroup
     leftMotors({12,14,13},
@@ -40,27 +42,36 @@ lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
                               2    // horizontal drift is 2 (for now)
 );
 
-pros::Imu imu(7);
+pros::Imu imu(1);
 
-pros::Rotation horizontal_encoder(16); // odom sensor
+pros::Rotation horizontal_encoder(9); // odom sensor
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,
                                                 lemlib::Omniwheel::NEW_2,
-                                                -1.875);
+                                                -0.725);
 
-pros::Rotation vertical_encoder(18); // odom sensor
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder,
-                                              lemlib::Omniwheel::NEW_2, .125);
+// pros::Rotation vertical_encoder(18); // odom sensor
+// lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder,
+//                                               lemlib::Omniwheel::NEW_2, .125);
 
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr,
+// lemlib::TrackingWheel vertical_tracking_wheel(&leftMotors,
+//                                               lemlib::Omniwheel::NEW_325, // drivetrain wheel size
+//                                               6.0,                        // half track width (inches)
+//                                               450);    
+
+
+lemlib::OdomSensors sensors(nullptr, nullptr,
                             &horizontal_tracking_wheel, nullptr, &imu);
 
+                                               // drivetrain RPM
+
+                            
 // lemlib::OdomSensors sensors(nullptr, nullptr,
 //                             &horizontal_tracking_wheel, nullptr, &imu);
 
 lemlib::ControllerSettings
-    lateral(0, // proportional gain (kP) 
+    lateral(6.45, // proportional gain (kP) //6.5
             0,    // integral gain (kI)
-            0,    // derivative gain (kD)
+            0.03,    // derivative gain (kD)
             0,    // anti windup
             .5,   // small error range, in inches
             100,  // small error range timeout, in milliseconds
@@ -70,9 +81,9 @@ lemlib::ControllerSettings
     );
 
 lemlib::ControllerSettings
-    angular(3.075, // proportional gain (kP)
-            0,     // integral gain (kI)
-            14,    // derivative gain (kD)
+    angular(1.274, // proportional gain (kP)
+            0.0,     // integral gain (kI)
+            0.1,    // derivative gain (kD)
             3,     // anti windup
             .5,    // small error range, in degrees
             500,   // small error range timeout, in milliseconds
@@ -88,10 +99,8 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
                         &steer);
 
 // Lift
-pros::MotorGroup lift_motors ({1,-10},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
+pros::MotorGroup lift_motors ({-11,20},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
 
-// Intake
-pros::Motor intake (5,pros::v5::MotorGears::blue,pros::v5::MotorEncoderUnits::degrees); // I suppose the intake spins at highest speed? Putting it at port 1 for now
 
 
 
@@ -103,7 +112,11 @@ void screen() {
     pros::lcd::print(0, "x: %f | y: %f", pose.x, pose.y,
                      pose.theta);             // print the x position
     pros::lcd::print(1, "H: %f", pose.theta); // print the x position
+
+
     pros::lcd::print(2, "Lift: %d", liftDeg.get_position());
+
+
     // printf("x: %f | y: %f | H: %f | rot: %d \n", pose.x, pose.y, pose.theta,
     // vertical_rot.get_position());
     // pros::lcd::print(2, "right distance sensor: %f", right_sensor.get());
@@ -117,7 +130,7 @@ void initialize() {
   chassis.calibrate();
   chassis.setPose(0, 0, 0);
   horizontal_encoder.reset_position();
-  vertical_encoder.reset_position();
+  // vertical_encoder.reset_position();
   //liftDeg.reset_position();
   pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -126,7 +139,7 @@ void initialize() {
   liftDeg.set_reversed(true);
 
   // pros::delay(4000);
-  pros::delay(3000);
+  //pros::delay(3000);
 
 
   // autonSelectorStart();
@@ -149,23 +162,21 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
+  //chassis.calibrate();
+  pros::delay(3000);
+  chassis.setPose(0, 0, 0);
+
   // horLift.set_value(false);
   // verLift.set_value(false);
-  
-  leftMotors.move_velocity(90);
-  rightMotors.move_velocity(90);
-  pros::delay(900); 
-  leftMotors.move_velocity(0);
-  rightMotors.move_velocity(0);
-  // chassis.setPose(0,0,0); 
-  // chassis.moveToPoint(0,10,1000);
 
+  chassis.moveToPoint(0,28, 3000); 
+  chassis.turnToHeading(90,800); 
 
-  lift(5000);
-
+  chassis.moveToPoint(-15,28,3000);
+  //chassis.turnToHeading(270,1000);
 }
 //lift parameters
-  double liftTop = 7000;
+  double liftTop = 4000;
   double liftBottom = 0;
 
 
@@ -178,119 +189,85 @@ void opcontrol() {
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   //scraper.set_value(false);
 
-  
-  double lastError = 0;
-  double integral = 0;
-
-  // PID constants
-  double kP = 0.90;
-  double kI = 0.02;
-  double kD = 0.15;
   while (true) {
     int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
     int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
     chassis.arcade(leftY, rightX);
 
-    // bool removerPressedNow
-    // =controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A);
-    // wing.set_value(removerPressedNow);
+    runIntake();
 
-        double position = liftDeg.get_position();
+    double position = liftDeg.get_position();
+
+    // LIFT UP
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+
+        if (position >= 6500 && position < 6800) {
+            lift_motors.move(40);       // slow near top
+        }
+        else if (position < 6500) {
+            lift_motors.move(127);      // normal speed
+        }
+        else {
+            lift_motors.move(0);        // stop at top
+        }
+    }
+
+    // LIFT DOWN
+    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+
+        if (position <= 2000 && position > 0) {
+            lift_motors.move(-30);      
+        }
+        else if (position > 2000 && position <= 7000) {
+            lift_motors.move(-127);     
+        }
+        else {
+            lift_motors.move(0);        
+        }
+    }
+
+    // NOTHING PRESSED
+    else {
+        lift_motors.move(0);
+    }
+
+    pros::delay(20);
+
+        // double position = liftDeg.get_position();
 
   
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-
-            if (position >= liftTop - 1000) {
-                lift_motors.move(40); // slow near top
-            }
-            else {
-                lift_motors.move(127); // normal speed
-            }
-        }
-
-        // LIFT DOWN
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-          if (position <=liftBottom + 5000) {
-                lift_motors.move(-30); // slow near top
-            }
-          else {
-              lift_motors.move(-90); // normal speed
-          }
-
-        // // Target is the bottom position
-        // double error = liftBottom - position;
-
-
-        // // -------------------------
-        // // INTEGRAL
-        // // -------------------------
-
-        // integral += error;
-
-        // // Anti-windup
-        // if (integral > 100) {
-        //     integral = 100;
-        // }
-
-        // if (integral < -100) {
-        //     integral = -100;
-        // }
-
-
-        // // -------------------------
-        // // DERIVATIVE
-        // // -------------------------
-
-        // double derivative = error - lastError;
-
-
-        // // -------------------------
-        // // PID OUTPUT
-        // // -------------------------
-
-        // double output =
-        //     (kP * error) +
-        //     (kI * integral) +
-        //     (kD * derivative);
-
-
-        // // -------------------------
-        // // MOTOR OUTPUT LIMIT
-        // // -------------------------
-
-        // if (output > 127) {
-        //     output = 127;
-        // }
-
-        // if (output < -127) {
-        //     output = -127;
-        // }
-
-        // if (fabs(error) < 3) {
-
-        //     lift_motors.move(0);
-
-        //     // Reset PID memory
-        //     integral = 0;
-        //     lastError = 0;
-        // }
-
-        // else {
-
-        //     lift_motors.move(output);
-
-        //     lastError = error;
-        // }
+        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
     
-      }
-        // NOTHING PRESSED
-        else {
-            
-            lift_motors.move(0);
-        }
+        //     if (position >= liftTop - 1000&& position <=liftTop) {
+        //         lift_motors.move(40); // slow near top
+        //     }
+        //     else if (position < liftTop-1000) {
+        //         lift_motors.move(127); // normal speed
+        //     }
+        //     else {
+        //         lift_motors.move(0); // stop at top
+        //     }
+        // }
 
-        pros::delay(20);
+        // // LIFT DOWN
+        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        //   if (position <=liftBottom + 5000 && position > liftBottom) {
+        //         lift_motors.move(-30); // slow near bottom
+        //     }
+        //   else if (position > liftBottom + 600 && position <= liftTop){
+        //       lift_motors.move(-127); // normal speed
+        //   }
+        //   else {
+        //     lift_motors.move(0);
+        //   }
+        // }
+        // // NOTHING PRESSED
+        // else {
+        //     lift_motors.move(0);
+        // }
+
+        // pros::delay(20);
 
   //   //CLAW CONTROL
   //   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){

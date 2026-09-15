@@ -7,16 +7,19 @@ double kp = 0.0;
 double kd = 0.0;
 int tolerance = 0;
 
-pros::Rotation liftDeg(8); // replace with actual port number
+pros::Rotation liftDeg(10); // replace with actual port number
 
 
 #include "main.h"
 #include <cmath>
 
 
-double kP = 0.92 ; //0.92
-double kI = 0.0; 
+double kP = 0.92;
+double kI = 0.00; 
 double kD = 0.0;
+double kG = 1200; // Gravity constant in mV (~1.2V to hold the lift up)
+
+double INTEGRAL_CAP = 3000; // Limits integral output to prevent windup
 
 double integral = 0;
 double lastError = 0;
@@ -28,35 +31,42 @@ void lift(double target) {
 
     while (true) {
 
-        double currentPosition = lift_motors.get_position();
+        double currentPosition = liftDeg.get_position();
         double error = target - currentPosition;
 
-        // Integral
+        // 1. Integral calculation with cap
         integral += error;
+        if (integral * kI > INTEGRAL_CAP) {
+            integral = INTEGRAL_CAP / kI;
+        } else if (integral * kI < -INTEGRAL_CAP) {
+            integral = -INTEGRAL_CAP / kI;
+        }
 
-        // Derivative
+        // 2. Derivative calculation
         double derivative = error - lastError;
 
-        // PID
+        // 3. PID + Gravity Feedforward
         double output =
             (kP * error) +
             (kI * integral) +
-            (kD * derivative);
+            (kD * derivative) +
+            kG; // Holds lift against gravity at all times
 
-        //voltage limit
-        if (output > 12000)
-            output = 12000;
+        // Voltage limit clamping (-12000 mV to +12000 mV)
+        if (output > 8000) //12000 max
+            output = 8000;
 
-        if (output < -12000)
-            output = -12000;
+        if (output < -8000)
+            output = -8000;
 
         lift_motors.move_voltage(output);
 
         lastError = error;
 
-        //close enough
+        // Close enough check
         if (fabs(error) < 5) {
-            lift_motors.move_voltage(0);
+            // Apply kG instead of 0 so gravity doesn't drag the lift down
+            lift_motors.move_voltage(kG);
             break;
         }
 

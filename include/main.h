@@ -70,7 +70,8 @@ void opcontrol(void);
 #ifdef __cplusplus
 }
 extern pros::MotorGroup lift_motors;
-extern pros::Motor intake;
+extern pros::Controller controller;
+
 #endif
 
 #ifdef __cplusplus
