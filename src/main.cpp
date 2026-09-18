@@ -42,7 +42,7 @@ lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
                               2    // horizontal drift is 2 (for now)
 );
 
-pros::Imu imu(1);
+pros::Imu imu(4);
 
 pros::Rotation horizontal_encoder(9); // odom sensor
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,
@@ -119,11 +119,8 @@ void screen() {
     double pos = liftDeg.get_position()/100;
     pros::lcd::print(2, "Lift: %d", pos);
 
+    controller.print(0, 0, "Lift: %d", liftDeg.get_position());
 
-    // printf("x: %f | y: %f | H: %f | rot: %d \n", pose.x, pose.y, pose.theta,
-    // vertical_rot.get_position());
-    // pros::lcd::print(2, "right distance sensor: %f", right_sensor.get());
-    // pros::lcd::print(3, "front distance sensor: %f", front_sensor.get());
     pros::delay(50);
   }
 }
@@ -142,7 +139,7 @@ void initialize() {
   liftDeg.set_reversed(true);
 
   // pros::delay(4000);
-  pros::delay(3000);
+  pros::delay(2000);
 
 
   // autonSelectorStart();
@@ -165,18 +162,7 @@ void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  //chassis.calibrate();
-  pros::delay(3000);
-  chassis.setPose(0, 0, 0);
-
-  // horLift.set_value(false);
-  // verLift.set_value(false);
-
-  chassis.moveToPoint(0,28, 3000); 
-  chassis.turnToHeading(90,800); 
-
-  chassis.moveToPoint(-15,28,3000);
-  //chassis.turnToHeading(270,1000);
+  liftMacro(45);
 }
 
 void opcontrol() {
