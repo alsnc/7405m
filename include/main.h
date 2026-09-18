@@ -71,6 +71,7 @@ void opcontrol(void);
 }
 extern pros::MotorGroup lift_motors;
 extern pros::Controller controller;
+extern pros::adi::DigitalOut clawWrist;
 
 #endif
 

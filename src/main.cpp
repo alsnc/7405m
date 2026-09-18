@@ -101,7 +101,10 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
 // Lift
 pros::MotorGroup lift_motors ({-11,20},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
 
+//Pneumatics
 
+pros::adi::DigitalOut clawWrist('B', false); //false is outwards
+pros::adi::DigitalOut claw('A', true);
 
 
 void screen() {
@@ -113,8 +116,8 @@ void screen() {
                      pose.theta);             // print the x position
     pros::lcd::print(1, "H: %f", pose.theta); // print the x position
 
-
-    pros::lcd::print(2, "Lift: %d", liftDeg.get_position());
+    double pos = liftDeg.get_position()/100;
+    pros::lcd::print(2, "Lift: %d", pos);
 
 
     // printf("x: %f | y: %f | H: %f | rot: %d \n", pose.x, pose.y, pose.theta,
@@ -130,16 +133,16 @@ void initialize() {
   chassis.calibrate();
   chassis.setPose(0, 0, 0);
   horizontal_encoder.reset_position();
-  // vertical_encoder.reset_position();
   //liftDeg.reset_position();
   pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   liftDeg.reset_position();
   liftDeg.set_reversed(true);
 
   // pros::delay(4000);
-  //pros::delay(3000);
+  pros::delay(3000);
 
 
   // autonSelectorStart();
@@ -175,117 +178,78 @@ void autonomous() {
   chassis.moveToPoint(-15,28,3000);
   //chassis.turnToHeading(270,1000);
 }
-//lift parameters
-  double liftTop = 4000;
-  double liftBottom = 0;
-
 
 void opcontrol() {
-  // horLift.set_value(true);
-  // verLift.set_value(false);
-  // scraper.set_value(false);
+
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   //scraper.set_value(false);
+    bool lastClaw = true;
 
-  while (true) {
-    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    while (true) {
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 
-    chassis.arcade(leftY, rightX);
+        chassis.arcade(leftY, rightX);
 
-    runIntake();
+        runIntake();
 
-    double position = liftDeg.get_position();
+        //yooo this is in centidegrees I'm stupid
+        double position = liftDeg.get_position()/100;
 
-    // LIFT UP
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-
-        if (position >= 6500 && position < 6800) {
-            lift_motors.move(40);       // slow near top
+        // LIFT UP
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            clawWrist.set_value(false);
+            if (position >= 65 && position < 90) {
+                lift_motors.move(40);       // slow near top (90)
+            }
+            else if (position < 65) {
+                lift_motors.move(127);      // normal speed
+            }
+            else {
+                lift_motors.move(0);        // stop at top
+            }
         }
-        else if (position < 6500) {
-            lift_motors.move(127);      // normal speed
+
+        // LIFT DOWN
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            clawWrist.set_value(false);
+            if (position <= 43 && position > 0) {
+                lift_motors.move(-40);      
+            }
+            else if (position > 43 && position <= 92) {
+                lift_motors.move(-127);     
+            }
+            else {
+                lift_motors.move(0);        
+            }
         }
+
+        // NOTHING PRESSED
         else {
-            lift_motors.move(0);        // stop at top
+            lift_motors.move(0);
         }
-    }
 
-    // LIFT DOWN
-    else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-
-        if (position <= 2000 && position > 0) {
-            lift_motors.move(-30);      
-        }
-        else if (position > 2000 && position <= 7000) {
-            lift_motors.move(-127);     
-        }
-        else {
-            lift_motors.move(0);        
-        }
-    }
-
-    // NOTHING PRESSED
-    else {
-        lift_motors.move(0);
-    }
-
-    pros::delay(20);
-
-        // double position = liftDeg.get_position();
-
-  
-        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-    
-        //     if (position >= liftTop - 1000&& position <=liftTop) {
-        //         lift_motors.move(40); // slow near top
+        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+        // {
+        //     if (lastClaw)
+        //     {
+        //         claw.set_value(false);
+        //         lastClaw = true;
         //     }
-        //     else if (position < liftTop-1000) {
-        //         lift_motors.move(127); // normal speed
-        //     }
-        //     else {
-        //         lift_motors.move(0); // stop at top
+        //     else
+        //     {
+        //         claw.set_value(true);
+        //         lastClaw = false;
         //     }
         // }
 
-        // // LIFT DOWN
-        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        //   if (position <=liftBottom + 5000 && position > liftBottom) {
-        //         lift_motors.move(-30); // slow near bottom
-        //     }
-        //   else if (position > liftBottom + 600 && position <= liftTop){
-        //       lift_motors.move(-127); // normal speed
-        //   }
-        //   else {
-        //     lift_motors.move(0);
-        //   }
-        // }
-        // // NOTHING PRESSED
-        // else {
-        //     lift_motors.move(0);
-        // }
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) claw.set_value(true);
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)) claw.set_value(false);
 
-        // pros::delay(20);
+        pros::delay(20);
+    }
 
-  //   //CLAW CONTROL
-  //   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == false and pressed == false){
-  //     push = true;
-  //     piston.set_value(push);
-  //     pressed = true;
-  //   }
-  //   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A) and push == true and pressed == false){
-  //     push = false;
-  //     piston.set_value(push);
-  //     pressed = true;
-  //   }
-
-  //   if(!controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-  //     pressed = false;
-  //   }
-  //   pros::delay(20);
-  // }
-}
 }
   
