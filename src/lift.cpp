@@ -3,9 +3,9 @@
 #include <cstdlib>
 
 //lift macro pid
-double kp = 20;
+double kp = 27;
 double kd = 0.0;
-int tolerance = 2;
+int tolerance = 1;
 
 pros::Rotation liftDeg(10); // replace with actual port number
 
@@ -38,11 +38,29 @@ void liftMacro(double angle)
 
         prevError = error;
         pros::delay(refreshRate);
+        while (curr< angle+5 && curr >angle -5) {
+            lift_motors.move(25); 
+        }
     }
 
+   
+
     //maybe change to prevent motor burnout?? Idk we'll see
-    lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    lift_motors.brake();
+    
+    
+}
+
+
+void moveLift(int speed)
+{
+    lift_motors.move(speed);
+}
+
+void timeLift(int speed, int ms)
+{
+    lift_motors.move(speed);
+    pros::delay(ms);
+    lift_motors.move(0);
 }
 
 

@@ -161,8 +161,12 @@ void competition_initialize() {}
 void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  liftMacro(45);
+  //liftMacro(40);  //moveLift()
+  threeStack(); 
+  //oneStack();
+  //liftMacro(45);
 }
 
 void opcontrol() {
