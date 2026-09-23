@@ -75,12 +75,13 @@ extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors; 
 extern pros::MotorGroup lift_motors;
 extern pros::Controller controller;
-extern pros::adi::DigitalOut clawWrist;
 
 extern pros::adi::DigitalOut claw;
 
 
 extern lemlib::Chassis chassis;
+
+void spinClaw(int speed, int time);
 
 #endif
 

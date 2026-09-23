@@ -7,11 +7,10 @@ double kp = 27;
 double kd = 0.0;
 int tolerance = 1;
 
-pros::Rotation liftDeg(10); // replace with actual port number
+pros::Rotation liftDeg(21); // replace with actual port number
 
 void liftMacro(double angle)
 {
-    clawWrist.set_value(false);
     double curr = ((double) liftDeg.get_angle())/100.0;
     double error;
     //to prevent weird huge derivative first time
