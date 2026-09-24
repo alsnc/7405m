@@ -3,6 +3,7 @@
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"   
 #include "main.h"
+#include "lift.h"
 
 
 
@@ -10,6 +11,13 @@
 //     pros::delay(100); 
 // }
 
+void clawOpen() {
+    clawy.move(127); 
+}
+
+void clawClose() {
+    clawy.move(-127); 
+}
 void move(double power, double turn, bool swing=false, double time=10000) {
     chassis.cancelAllMotions();
 
@@ -114,105 +122,88 @@ void oneStack() {
 
 void threeStack() {
 
-     chassis.setPose(0,0,-180);
-
-//    lift_motors.move(127); 
-//    pros::delay(650); 
-//    lift_motors.move(-127); 
-//    pros::delay(800); 
-//    lift_motors.move(0); 
+     chassis.setPose(0,0,0);
    
-    chassis.moveToPoint(0,10, 325, {.forwards = false, .minSpeed = 70}, true);
-
-    // //lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-    pros::delay(200); 
-    chassis.turnToPoint(13.3, 9.4, 320, {.forwards = false, .minSpeed = 60}, true); 
-   
-    // //lift lift 
-    // lift_motors.move (80);
-    // pros::delay(600);
-    // lift_motors.move(0); 
-    // pros::delay(600);
+    chassis.moveToPoint(0,6.5, 325, {.minSpeed = 70}, true);
+    timeLift(90,300);
+    pros::delay(100); 
     
-    
-    chassis.moveToPoint(13.3, 9.4, 465, {.forwards = false, .minSpeed = 80}, false);
-
-    //score in the goal 
-    pros::delay(350);
-    // lift_motors.move(-50);
-    //  move(-25,0,0,700); 
-    // //pros::delay(50);
-    // claw.set_value(false);
-    // lift_motors.move(0); 
-
+    chassis.turnToPoint(14.5, 12, 300, {.minSpeed = 60}, true); 
+    pros::delay(80); 
+    //chassis.moveToPoint(13.3, 8.4, 465, { .minSpeed = 80}, false);
 
     //back up to align with next pin
-    chassis.moveToPoint(2.06, 14.09, 500, {.minSpeed = 60}, false);
-    //go to pick up pins
-    chassis.turnToPoint(18, 35.84, 230, {.forwards = false, .minSpeed = 60}, true);
-    chassis.moveToPoint(18, 35.84, 600, {.forwards = false, .minSpeed = 60}, false);
-    move(-50, 0, false, 100);
+    // chassis.moveToPoint(2.06, 14.09, 500, {.minSpeed = 60}, false);
+    // //go to pick up pins
+    // chassis.turnToPoint(18, 35.84, 230, {.minSpeed = 60}, true);
+    // chassis.moveToPoint(18, 35.84, 600, {.minSpeed = 60}, false);
+    // move(-50, 0, false, 100);
     
-    pros::delay(400);
+    // pros::delay(400);
 
-    //turn to goal
-    chassis.turnToHeading(-23, 500, {.minSpeed = 50}, false);
-    chassis.moveToPoint(21.1, 24.26, 500, {.forwards = false, .minSpeed = 60}, false);
+    // //turn to goal
+    // chassis.turnToHeading(-23, 500, {.minSpeed = 50}, false);
+    // chassis.moveToPoint(21.1, 24.26, 500, {.minSpeed = 60}, false);
 
-    pros::delay(1000); //score
+    // timeLift(80,500); 
+    // clawOpen(); 
+    // pros::delay(1000); //score
 
-    //go backwards to get into the right position
-    chassis.moveToPoint(8.46, 34.19, 430, {.minSpeed = 60}, true);
-    chassis.turnToHeading(-65, 400, {}, false);
+
+
+
+    // // //go backwards to get into the right position
+    // // chassis.moveToPoint(8.46, 34.19, 430, {.minSpeed = 60}, true);
+    // // chassis.turnToHeading(-65, 400, {}, false);
    
    
-    //get next pin
-    chassis.moveToPose(43.7, 14.5, -57.6, 1700, {.forwards = false, .lead = 0.4, .minSpeed = 80}, false); 
-    pros::delay(600); 
+    // // //get next pin
+    // // chassis.moveToPose(43.7, 14.5, -57.6, 1700, {.forwards = false, .lead = 0.4, .minSpeed = 80}, false); 
+    // // pros::delay(600); 
 
 
-    chassis.turnToHeading(73.1, 800); 
+    // // chassis.turnToHeading(73.1, 800); 
 
-    chassis.moveToPoint(32, 12.2, 800, {.forwards = false, .minSpeed =70});
+    // // chassis.moveToPoint(32, 12.2, 800, {.forwards = false, .minSpeed =70});
 
-    pros::delay(800); 
-    //get last pin
+    // // pros::delay(800); 
+    // // //get last pin
 
-    chassis.moveToPoint(48.7, 16, 1000, {}, false); 
-    //chassis.moveToPose(27, -4, 31, 1000, {.forwards = false, .lead = 0.4});
-    chassis.turnToHeading(45.28, 900, {}, false);
+    // // chassis.moveToPoint(48.7, 16, 1000, {}, false); 
+    // // //chassis.moveToPose(27, -4, 31, 1000, {.forwards = false, .lead = 0.4});
+    // // chassis.turnToHeading(45.28, 900, {}, false);
     
-    chassis.turnToPoint(41.90, 4.93, 800, {.forwards = false}, true); 
-    chassis.moveToPoint(41.90, 4.93, 1000, {.forwards = false}, false);
-    
-    
-
-    chassis.turnToPoint(25.6, -5.45, 800, {.forwards = false}, true); 
-    chassis.moveToPoint(25.6, -5.45, 1000, {.forwards = false}, false); 
-    // move(-30, -50,true,1000);
-    
-    //chassis.turnToPoint(43.9, 14.4, 200, {.forwards = false, .minSpeed = 60}, true);
-    // chassis.turnToPoint(43.1, 15, 500,{.forwards = false, .minSpeed = 60}, true);
-    // chassis.moveToPoint(43.1, 15.07, 500, {.forwards = false, .minSpeed = 60}, false);
-    
-
-
-    // //go back
-    // chassis.moveToPoint(4.6, 18.5, 800, {}, false);
-
-    // //go to the grab second thing
-    // chassis.turnToPoint(19.6, 35.75, 1000, {.forwards = false}, true);
-
-    // lift_motors.move (60);
-    // pros::delay(500);
-    // lift_motors.move(0); 
-    // //pros::delay(600);
+    // // chassis.turnToPoint(41.90, 4.93, 800, {.forwards = false}, true); 
+    // // chassis.moveToPoint(41.90, 4.93, 1000, {.forwards = false}, false);
     
     
-    // chassis.moveToPoint(19.8, 35.75, 1000, {.forwards = false, .maxSpeed = 55}, false);
-    // pros::delay(300);
-    // move(-30,0,0,350);
-    // claw.set_value(true); 
+
+    // // chassis.turnToPoint(25.6, -5.45, 800, {.forwards = false}, true); 
+    // // chassis.moveToPoint(25.6, -5.45, 1000, {.forwards = false}, false); 
+    // // // move(-30, -50,true,1000);
+    
+    // // //chassis.turnToPoint(43.9, 14.4, 200, {.forwards = false, .minSpeed = 60}, true);
+    // // // chassis.turnToPoint(43.1, 15, 500,{.forwards = false, .minSpeed = 60}, true);
+    // // // chassis.moveToPoint(43.1, 15.07, 500, {.forwards = false, .minSpeed = 60}, false);
+    
+
+
+    // // // //go back
+    // // // chassis.moveToPoint(4.6, 18.5, 800, {}, false);
+
+    // // // //go to the grab second thing
+    // // // chassis.turnToPoint(19.6, 35.75, 1000, {.forwards = false}, true);
+
+    // // // lift_motors.move (60);
+    // // // pros::delay(500);
+    // // // lift_motors.move(0); 
+    // // // //pros::delay(600);
+    
+    
+    // // // chassis.moveToPoint(19.8, 35.75, 1000, {.forwards = false, .maxSpeed = 55}, false);
+    // // // pros::delay(300);
+    // // // move(-30,0,0,350);
+    // // // claw.set_value(true); 
 
     
 

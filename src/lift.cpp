@@ -60,6 +60,12 @@ void timeLift(int speed, int ms)
     lift_motors.move(speed);
     pros::delay(ms);
     lift_motors.move(0);
+
+    double rotation = liftDeg.get_angle(); 
+
+    if (rotation > 10) {
+        lift_motors.move(15); 
+    }
 }
 
 

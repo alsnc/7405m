@@ -74,7 +74,10 @@ void opcontrol(void);
 extern pros::MotorGroup leftMotors; 
 extern pros::MotorGroup rightMotors; 
 extern pros::MotorGroup lift_motors;
+extern pros::Motor clawy;
+
 extern pros::Controller controller;
+
 
 extern pros::adi::DigitalOut claw;
 
