@@ -32,11 +32,11 @@ bool pressed = false;
 
 
 pros::MotorGroup 
-    rightMotors({16,19,18},
+    rightMotors({-16,-19,-18},
                pros::MotorGearset::blue); // left motor group - ports 3
                                           // (reversed), 4, 5 (reversed)
 pros::MotorGroup leftMotors(
-    {-11,-14,-13},
+    {11,14,13},
     pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
@@ -130,6 +130,7 @@ pros::Motor roller(20);
 int speed = -127;
 int timeSpin = 100;
 bool clawOpen = false;
+bool rollStop = false; 
 
 void spinClaw(void*)
 {
@@ -162,6 +163,7 @@ void screen() {
 
     controller.print(0, 0, "Lift: %d", liftDeg.get_position());
 
+    pros::lcd::print(3, "Roller: %d", roller.get_current_draw());
     pros::delay(50);
   }
 }
@@ -210,13 +212,14 @@ void autonomous() {
 }
 
 bool clawPressedLast = false;
+bool rollPressedLast = false; 
 void opcontrol() {
 
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  bool rollerSpin = false;
+  //bool rollerSpin = false;
 
     while (true) {
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -230,7 +233,7 @@ void opcontrol() {
         // LIFT UP
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             if (position >= 65 && position < 90) {
-                lift_motors.move(40);       // slow near top (90)
+                lift_motors.move(60);       // slow near top (90)
             }
             else if (position < 65) {
                 lift_motors.move(127);      // normal speed
@@ -278,18 +281,52 @@ void opcontrol() {
 
             if (clawOpen) {
                 clawy.move(-127);
+                pros::delay(400); 
+                clawy.move(-40); 
             }
             else {
                 clawy.move(127);
+                pros::delay(400); 
+                clawy.move(0); 
             }
 
-            pros::delay(timeSpin);
-            clawy.brake();
-
+            // pros::delay(timeSpin);
+            // clawy.brake();
+            
             clawOpen = !clawOpen;
         }
 
         clawPressedLast = clawPressed;
+
+
+        bool rollPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
+        double current = roller.get_current_draw();
+
+        
+        if (rollPressed && !rollPressedLast&&current<900) {
+
+            if (rollStop) {
+                roller.move(127);
+
+
+            }
+            else {
+                roller.move(0);
+            }
+
+            rollStop = !rollStop;
+        }
+        // } else {
+
+            
+        //     roller.move(0);
+        //     rollStop = true; 
+        //     rollStop = !rollStop;
+            
+        // }
+        
+
+        rollPressedLast = rollPressed;
 
         // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
         // {
@@ -297,14 +334,14 @@ void opcontrol() {
         //     pros::Task spinclaw(spinClaw);
         //     //pros::delay(30);
         // }
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
-        {
-            //roller
-            if (rollerSpin) roller.brake();
-            else if (!rollerSpin) roller.move(127);
-            rollerSpin = !rollerSpin;
-            pros::delay(30);
-        }
+        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+        // {
+        //     //roller
+        //     if (rollerSpin) roller.brake();
+        //     else if (!rollerSpin) roller.move(127);
+        //     rollerSpin = !rollerSpin;
+        //     pros::delay(30);
+        // }
 
         pros::delay(20);
     }
