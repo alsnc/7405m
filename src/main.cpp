@@ -97,7 +97,7 @@ lemlib::ControllerSettings
             0      // maximum acceleration (slew)
     );
 lemlib::ExpoDriveCurve throttle(3, 10, 1.019);
-lemlib::ExpoDriveCurve steer(3, 10, 1.019);
+lemlib::ExpoDriveCurve steer(3, 10, 1.04);
 
 // Chassis with dummy settings
 lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
@@ -303,7 +303,7 @@ void opcontrol() {
         double current = roller.get_current_draw();
 
         
-        if (rollPressed && !rollPressedLast&&current<900) {
+        if (rollPressed && !rollPressedLast) {
 
             if (rollStop) {
                 roller.move(127);
