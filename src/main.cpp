@@ -97,7 +97,7 @@ lemlib::ControllerSettings
             0      // maximum acceleration (slew)
     );
 lemlib::ExpoDriveCurve throttle(3, 10, 1.019);
-lemlib::ExpoDriveCurve steer(3, 10, 1.04);
+lemlib::ExpoDriveCurve steer(1, 10, 1);
 
 // Chassis with dummy settings
 lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
