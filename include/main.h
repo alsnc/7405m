@@ -84,8 +84,6 @@ extern pros::adi::DigitalOut claw;
 
 extern lemlib::Chassis chassis;
 
-void spinClaw(int speed, int time);
-
 #endif
 
 #ifdef __cplusplus

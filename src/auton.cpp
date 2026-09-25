@@ -18,6 +18,7 @@ void clawOpen() {
 void clawClose() {
     clawy.move(-127); 
 }
+
 void move(double power, double turn, bool swing=false, double time=10000) {
     chassis.cancelAllMotions();
 
@@ -122,13 +123,13 @@ void oneStack() {
 
 void threeStack() {
 
-     chassis.setPose(0,0,0);
-   
-    chassis.moveToPoint(0,6.5, 325, {.minSpeed = 70}, true);
+    chassis.setPose(0,0,0);
+
+    chassis.moveToPoint(0,6.5, 325, {.minSpeed = 70, .forwards = false}, true);
     timeLift(90,300);
     pros::delay(100); 
     
-    chassis.turnToPoint(14.5, 12, 300, {.minSpeed = 60}, true); 
+    chassis.turnToPoint(14.5, 12, 300, {.minSpeed = 60, .forwards = false}, true); 
     pros::delay(80); 
     //chassis.moveToPoint(13.3, 8.4, 465, { .minSpeed = 80}, false);
 

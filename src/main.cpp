@@ -20,15 +20,6 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 //pros::ADIDigitalOut piston ('A'); // replace with actual port number
 bool push = false;
 bool pressed = false;
-// motor groups
-// pros::MotorGroup leftMotors({-20, -18, -10},
-//                             pros::MotorGearset::blue); // left motor group -
-//                             ports 3 (reversed), 4, 5 (reversed)
-// pros::MotorGroup rightMotors({12, 5, 6}, pros::MotorGearset::blue); // right
-// motor group - ports 6, 7, 9 (reversed)
-
-
-
 
 
 pros::MotorGroup 
@@ -86,9 +77,9 @@ lemlib::ControllerSettings
     );
 
 lemlib::ControllerSettings
-    angular(0.77, // proportional gain (kP)
+    angular(1, // proportional gain (kP)
             0.0,     // integral gain (kI)
-            0.01,    // derivative gain (kD)
+            0.0,    // derivative gain (kD)
             3,     // anti windup
             .5,    // small error range, in degrees
             500,   // small error range timeout, in milliseconds
@@ -204,11 +195,10 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    //chassis.turnToHeading(180,1000); 
-  //liftMacro(40);  //moveLift()
-  threeStack(); 
+  chassis.turnToHeading(180, 1000); 
+
+  //threeStack(); 
   //oneStack();
-  //liftMacro(45);
 }
 
 bool clawPressedLast = false;
