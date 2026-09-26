@@ -75,6 +75,7 @@ extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors; 
 extern pros::MotorGroup lift_motors;
 extern pros::Motor clawy;
+extern pros::Motor roller; 
 
 extern pros::Controller controller;
 

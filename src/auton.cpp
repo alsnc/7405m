@@ -11,13 +11,19 @@
 //     pros::delay(100); 
 // }
 
-void clawOpen() {
-    clawy.move(127); 
+
+void clawOpeny() {
+    clawy.move(127);
+    pros::delay(600); 
+    clawy.move(40); 
 }
 
 void clawClose() {
-    clawy.move(-127); 
+    clawy.move(-127);
+    pros::delay(600); 
+    clawy.brake();
 }
+
 
 void move(double power, double turn, bool swing=false, double time=10000) {
     chassis.cancelAllMotions();
@@ -121,23 +127,229 @@ void oneStack() {
 
 }
 
+void passiveClose() {
+    pros::Task clawyclosey(clawClose);
+    //pros::delay(100);
+    chassis.setPose(0,0,-180);
+
+    timeLift(127,250);
+    timeLift(-100,300);
+
+    pros::delay(200); 
+    
+    
+    chassis.moveToPoint(0,7, 400, {.forwards = false, .minSpeed = 70}, false);
+    timeLift(90,300);
+    
+    //go to first pin
+    chassis.turnToPoint(10.65, 15.86, 300, {.forwards = false,.minSpeed = 60}, true); 
+    //pros::delay(20); 
+    chassis.moveToPoint(10.65, 15, 500, {.forwards = false,.minSpeed = 45}, false);
+
+    timeLift(-50, 270); 
+    pros::delay(20); 
+    clawOpeny(); 
+
+    //back up to align with the pin we must chomp!!!!
+    chassis.moveToPoint(1.77, 13.59, 850);
+    pros::delay(20);
+    clawClose();
+    clawy.move(50);
+    pros::delay(80); 
+    clawy.brake();     
+    roller.move(127);
+
+    chassis.turnToHeading(-40, 300, {}, false);
+
+    //move to chompy pin
+    chassis.turnToPoint(12.5, 1, 500, {.forwards = false});
+    chassis.moveToPoint(12.5, 1, 800, {.forwards = false, .maxSpeed = 35}, false);
+
+    move(-30, 0,0,500);
+
+    rightMotors.move(-30); 
+    pros::delay(600);
+    clawClose(); 
+    rightMotors.brake();
+    roller.brake();
+    clawy.move(-40);
+
+}
+
+void threeFar() {
+    pros::Task clawyclosey(clawClose);
+    //pros::delay(100);
+    chassis.setPose(0,0,180);
+
+    timeLift(127,250);
+    timeLift(-100,300);
+
+    pros::delay(200); 
+
+
+    chassis.moveToPoint(0,7, 400, {.forwards = false, .minSpeed = 70}, false);
+    timeLift(90,300);
+
+    // go to first pin
+    chassis.turnToPoint(-10.65, 15.86, 300, {.forwards = false,.minSpeed = 60}, true); 
+    //pros::delay(20); 
+    chassis.moveToPoint(-10.65, 15, 500, {.forwards = false,.minSpeed = 45}, false);
+
+    timeLift(-50, 300); 
+    pros::delay(20); 
+    clawOpeny(); 
+
+
+    // back up to align with next pin
+    chassis.moveToPoint(-0.06, 16.5, 300, {.minSpeed = 60}, false);
+    // go to pick up pins
+
+    chassis.turnToHeading(165,200);
+    timeLift(-50,150); 
+
+    
+
+    // get second PIN
+    roller.move(127);
+    chassis.turnToPoint(-13, 37,700, {.forwards = false}, true);
+    chassis.moveToPoint(-13, 37,1000, {.forwards = false, .maxSpeed = 60}, false); 
+
+    move(-25,0,0,400); 
+    clawClose(); 
+    roller.move(0); 
+
+
+    chassis.turnToHeading(18,400); 
+    timeLift(80,500); 
+    chassis.turnToPoint(-17.86, 24, 450, {.forwards = false});
+    chassis.moveToPoint(-17.86, 24,700,{.forwards = false}, false); 
+
+    // // score second PIN
+    move(30,0,0,300); 
+    timeLift(-30,200); 
+    clawOpeny(); 
+
+    // // move to Third PIN
+    // chassis.moveToPoint(-15.4, 35.4, 700);
+    // chassis.turnToHeading(78,350);
+
+
+    // timeLift(-50,380); 
+
+    // // take third PIN
+    // roller.move(127);
+    // chassis.turnToPoint(-39.7, 17.5, 400, {.forwards = false}); 
+    // chassis.moveToPoint(-39.7, 17.5, 900, {.forwards = false}, false);
+
+    // clawClose(); 
+    // roller.move(0); 
+
+    // timeLift(90,750); 
+
+    // pros::delay(100); 
+
+
+    // chassis.turnToHeading(-76,400); 
+
+
+
+    // chassis.turnToPoint(-27.27,19.8, 450, {.forwards = false});
+    // chassis.moveToPoint(-27.27,19.8, 600, {.forwards = false}, false);
+
+    // timeLift(-60,400); 
+    // clawOpeny();
+}
 void threeStack() {
 
-    chassis.setPose(0,0,0);
+    pros::Task clawyclosey(clawClose);
+    //pros::delay(100);
+    chassis.setPose(0,0,-180);
 
-    chassis.moveToPoint(0,6.5, 325, {.minSpeed = 70, .forwards = false}, true);
+    timeLift(127,250);
+    timeLift(-100,300);
+
+    pros::delay(200); 
+    
+    
+    chassis.moveToPoint(0,7, 400, {.forwards = false, .minSpeed = 70}, false);
     timeLift(90,300);
+    
+    //go to first pin
+    chassis.turnToPoint(10.65, 15.86, 300, {.forwards = false,.minSpeed = 60}, true); 
+    //pros::delay(20); 
+    chassis.moveToPoint(10.65, 15, 500, {.forwards = false,.minSpeed = 45}, false);
+
+    timeLift(-40, 300); 
+    pros::delay(20); 
+    clawOpeny(); 
+
+
+    // //back up to align with next pin
+    chassis.moveToPoint(0.06, 16.5, 300, {.minSpeed = 60}, false);
+    // //go to pick up pins
+
+    chassis.turnToHeading(-141,25);
+    timeLift(-50,150); 
+
+    // chassis.turnToPoint(13.8, 36.5,1000, {.forwards = false}, true); 
+
+    //get second PIN
+    roller.move(127); 
+    chassis.turnToPoint(13.5, 37,1000, {.forwards = false}, true);
+    chassis.moveToPoint(13.5, 37,1000, {.forwards = false, .maxSpeed = 60}, false); 
+
+    move(-20,0,0,300); 
+    clawClose(); 
+    roller.move(0); 
+
+    
+    chassis.turnToHeading(-18,400); 
+    timeLift(80,500); 
+    chassis.turnToPoint(17.86, 24, 450, {.forwards = false});
+    chassis.moveToPoint(17.86, 24,700,{.forwards = false}, false); 
+
+    //score second PIN
+    move(-30,0,0,300); 
+    timeLift(-30,200); 
+    clawOpeny(); 
+
+    //move to Third PIN
+    chassis.moveToPoint(15.4, 35.4, 700);
+    chassis.turnToHeading(-78,350);
+
+
+    timeLift(-50,380); 
+
+    //take third PIN
+    roller.move(127);
+    chassis.turnToPoint(39.7, 17.5, 400, {.forwards = false}); 
+    chassis.moveToPoint(39.7, 17.5, 900, {.forwards = false}, false);
+
+    clawClose(); 
+    roller.move(0); 
+
+    timeLift(90,750); 
+
     pros::delay(100); 
     
-    chassis.turnToPoint(14.5, 12, 300, {.minSpeed = 60, .forwards = false}, true); 
-    pros::delay(80); 
-    //chassis.moveToPoint(13.3, 8.4, 465, { .minSpeed = 80}, false);
 
-    //back up to align with next pin
-    // chassis.moveToPoint(2.06, 14.09, 500, {.minSpeed = 60}, false);
-    // //go to pick up pins
-    // chassis.turnToPoint(18, 35.84, 230, {.minSpeed = 60}, true);
-    // chassis.moveToPoint(18, 35.84, 600, {.minSpeed = 60}, false);
+    chassis.turnToHeading(76,400); 
+
+
+
+    chassis.turnToPoint(27.27,19.8, 450, {.forwards = false});
+    chassis.moveToPoint(27.27,19.8, 600, {.forwards = false}, false);
+
+    timeLift(-60,400); 
+    clawOpeny(); 
+
+    //timeLift(-60,400); 
+
+    //chassis.moveToPose(14,38,-145,2000, {.forwards = false,.lead =0.1, .minSpeed = 40}, false);
+    // move(-50,0,0,300);
+    // clawClose();  
+    // chassis.turnToPoint(15, 38.1, 230, {.forwards = false, .minSpeed = 60}, true);
+    // chassis.moveToPoint(15, 38.1, 600, {.forwards = false, .minSpeed = 60}, false);
     // move(-50, 0, false, 100);
     
     // pros::delay(400);

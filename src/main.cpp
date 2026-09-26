@@ -27,7 +27,7 @@ pros::MotorGroup
                pros::MotorGearset::blue); // left motor group - ports 3
                                           // (reversed), 4, 5 (reversed)
 pros::MotorGroup leftMotors(
-    {11,14,13},
+    {15,14,13},
     pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
@@ -96,7 +96,7 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
 
 // Lift
 pros::MotorGroup lift_motors ({-1,10},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
-pros::Motor clawy(12);
+pros::Motor clawy(11);
 pros::Motor roller(20);
 //Pneumatics
 
@@ -178,6 +178,8 @@ void initialize() {
 
   pros::Task screenTask(screen);
 
+  //clawClose(); 
+
 }
 
 /**
@@ -195,9 +197,11 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  chassis.turnToHeading(180, 1000); 
-
-  //threeStack(); 
+  
+  //chassis.turnToHeading(180, 1000); 
+    //passiveClose(); 
+    //threeFar(); 
+  threeStack(); 
   //oneStack();
 }
 
