@@ -122,6 +122,7 @@ int speed = -127;
 int timeSpin = 100;
 bool clawOpen = false;
 bool rollStop = false; 
+bool rollsStop = false;
 
 void spinClaw(void*)
 {
@@ -199,14 +200,46 @@ void autonomous() {
 
   
   //chassis.turnToHeading(180, 1000); 
-    //passiveClose(); 
-    //threeFar(); 
-  threeStack(); 
+    //passiveFar(); 
+    threeFar(); 
+    //threeStack(); 
   //oneStack();
+  //skills(); 
 }
 
 bool clawPressedLast = false;
+void clawTask(void*) {
+
+    while (true) {
+    bool clawPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
+
+        if (clawPressed && !clawPressedLast) {
+
+            if (clawOpen) {
+                clawy.move(-127);
+                pros::delay(400); 
+                clawy.move(-40); 
+            }
+            else {
+                clawy.move(127);
+                pros::delay(400); 
+                clawy.move(0); 
+            }
+
+            // pros::delay(timeSpin);
+            // clawy.brake();
+            
+            clawOpen = !clawOpen;
+        }
+
+        clawPressedLast = clawPressed;
+
+    }
+}
+
+
 bool rollPressedLast = false; 
+bool rollsPressedLast = false; 
 void opcontrol() {
 
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -215,9 +248,10 @@ void opcontrol() {
 
   //bool rollerSpin = false;
 
+   pros::Task clawTaskHandle(clawTask);
     while (true) {
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) *0.8;
 
         chassis.arcade(leftY, rightX);
 
@@ -256,7 +290,11 @@ void opcontrol() {
             else {
                 lift_motors.brake();       // stop at top
             }
-        }
+        } 
+        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+        //     clawy.move(-127); 
+        //     roller.move(127); 
+        // }
         // NOTHING PRESSED
         else {
             if (position >30) {
@@ -267,34 +305,34 @@ void opcontrol() {
             }            
         }
 
+
+        bool rollsPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+       // double current = roller.get_current_draw();
+
         
+        if (rollsPressed && !rollsPressedLast) {
 
-    bool clawPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
+            if (rollsStop) {
+                clawy.move(-127); 
+                roller.move(127);
 
-        if (clawPressed && !clawPressedLast) {
 
-            if (clawOpen) {
-                clawy.move(-127);
-                pros::delay(400); 
-                clawy.move(-40); 
             }
             else {
-                clawy.move(127);
-                pros::delay(400); 
+                roller.move(0);
                 clawy.move(0); 
             }
 
-            // pros::delay(timeSpin);
-            // clawy.brake();
-            
-            clawOpen = !clawOpen;
-        }
+            rollsStop = !rollsStop;
+        }        
 
-        clawPressedLast = clawPressed;
+        rollsPressedLast = rollsPressed;
+        
 
+    
 
         bool rollPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
-        double current = roller.get_current_draw();
+       // double current = roller.get_current_draw();
 
         
         if (rollPressed && !rollPressedLast) {
@@ -309,33 +347,9 @@ void opcontrol() {
             }
 
             rollStop = !rollStop;
-        }
-        // } else {
-
-            
-        //     roller.move(0);
-        //     rollStop = true; 
-        //     rollStop = !rollStop;
-            
-        // }
-        
+        }        
 
         rollPressedLast = rollPressed;
-
-        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
-        // {
-        //     //claw toggle
-        //     pros::Task spinclaw(spinClaw);
-        //     //pros::delay(30);
-        // }
-        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
-        // {
-        //     //roller
-        //     if (rollerSpin) roller.brake();
-        //     else if (!rollerSpin) roller.move(127);
-        //     rollerSpin = !rollerSpin;
-        //     pros::delay(30);
-        // }
 
         pros::delay(20);
     }

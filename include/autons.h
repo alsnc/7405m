@@ -8,3 +8,6 @@ void threeFar();
 void clawOpeny(); 
 void clawClose(); 
 void passiveClose(); 
+
+void skills(); 
+void passiveFar(); 
