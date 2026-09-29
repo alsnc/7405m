@@ -4,6 +4,7 @@
 #include "pros/distance.hpp"   
 #include "main.h"
 #include "lift.h"
+#include <ctime>
 
 
 
@@ -608,6 +609,24 @@ void skills() {
 
 }
 
+
+void harryauton(){
+    chassis.setPose(0,0,180);
+    clawClose();
+    timeLift(127,350);
+    timeLift(-100,350);
+    pros::delay(20);
+    //lift up
+    timeLift(127,50);
+    //moving out
+    chassis.moveToPoint(-0.11,16.83, 1000,{.forwards=false},false);
+    //moving to the goal
+    chassis.turnToPoint(-27.47, 18.58, 1000,{.forwards=false},false);
+    chassis.moveToPoint(-27.47, 18.58, 1000,{.forwards=false},false);
+    pros::delay(200);
+    //scoring first pin
+    clawOpeny();
+}
 
 
 

@@ -201,10 +201,11 @@ void autonomous() {
   
   //chassis.turnToHeading(180, 1000); 
     //passiveFar(); 
-    threeFar(); 
+    //threeFar(); 
     //threeStack(); 
   //oneStack();
   //skills(); 
+  harryauton();
 }
 
 bool clawPressedLast = false;

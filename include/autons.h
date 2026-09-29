@@ -11,3 +11,4 @@ void passiveClose();
 
 void skills(); 
 void passiveFar(); 
+void harryauton();
