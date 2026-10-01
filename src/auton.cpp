@@ -611,21 +611,49 @@ void skills() {
 
 
 void harryauton(){
+    //initialize
     chassis.setPose(0,0,180);
     clawClose();
+    //toggle color
     timeLift(127,350);
-    timeLift(-100,350);
+    pros::delay(200);
+    timeLift(-80,400);
     pros::delay(20);
     //lift up
-    timeLift(127,50);
+    timeLift(127,275);
     //moving out
     chassis.moveToPoint(-0.11,16.83, 1000,{.forwards=false},false);
     //moving to the goal
-    chassis.turnToPoint(-27.47, 18.58, 1000,{.forwards=false},false);
-    chassis.moveToPoint(-27.47, 18.58, 1000,{.forwards=false},false);
+    chassis.turnToPoint(-13, 19.58, 1000,{.forwards=false},false);
+    chassis.moveToPoint(-13, 19.58, 1000,{.forwards=false},false);
     pros::delay(200);
     //scoring first pin
+    timeLift(-100,150);
+    pros::delay(300);
     clawOpeny();
+    pros::delay(500);
+    //backing off to original point
+    chassis.moveToPoint(-0.11,16.83, 1000,{},false);
+    pros::delay(200);
+    //move to point and intake second pin+cup
+    roller.move(127);
+    chassis.turnToPoint(-11.5, 41.7, 2000, {.forwards=false},false);
+    chassis.moveToPoint(-11.5,41.7, 4000,{.forwards=false,.maxSpeed=30},false);
+    pros::delay(200);
+    //grabbing pin+cup
+    clawClose();
+    pros::delay(200);
+    roller.move(0);
+    //going back to standoff
+    timeLift(127,300);
+    chassis.turnToPoint(-18.25, 26.22, 2000, {.forwards=false},false);
+    chassis.moveToPoint(-18.25,26.22, 4000,{.forwards=false,.maxSpeed=30},false);
+    pros::delay(2000);
+    //scoring pin+cup
+    timeLift(-100,100);
+    pros::delay(200);
+    clawOpeny();
+    
 }
 
 
