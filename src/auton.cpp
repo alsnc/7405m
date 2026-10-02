@@ -617,42 +617,40 @@ void harryauton(){
     //toggle color
     timeLift(127,350);
     pros::delay(200);
-    timeLift(-40,800);
+    timeLift(-100,350);
     pros::delay(20);
-    //lift up
-    timeLift(127,275);
     //moving out
     chassis.moveToPoint(0, 10, 500,{.forwards=false},false);
-    //moving to the goal
-    chassis.turnToPoint(-13, 15.58, 700,{.forwards=false},true);
-    pros::delay(200);
-    chassis.moveToPoint(-13, 15.58, 800,{.forwards=false,.minSpeed=70},false);
+    //moving to the goal + lift up
+    chassis.turnToPoint(-13, 14.58, 700,{.forwards=false},true);
+    timeLift(127,325);
+    chassis.moveToPoint(-13, 14.58, 800,{.forwards=false,.minSpeed=70},false);
+    pros::delay(300);
     //scoring first pin
-    timeLift(-100,150);
+    timeLift(-100,200);
     pros::delay(300);
     clawOpeny();
     pros::delay(100);
     //backing off to original point
-    chassis.moveToPoint(-0.11,16.83, 700,{},false);
+    chassis.moveToPoint(-0,16.83, 600,{},false);
     //move to point and intake second pin+cup
-    chassis.turnToPoint(-12, 41, 700, {.forwards=false},false);
-    chassis.moveToPoint(-12,41, 1400,{.forwards=false,.maxSpeed=90},true);
-    timeLift(-100,120);
+    chassis.turnToPoint(-14.5, 39.5, 600, {.forwards=false},false);
+    chassis.moveToPoint(-14.5,39.5, 1400,{.forwards=false,.maxSpeed=90},true);
+    timeLift(-100,220);
     roller.move(127);
-    pros::delay(1200);
+    pros::delay(800);
     //grabbing pin+cup
     clawClose();
-    pros::delay(200);
     roller.move(0);
     pros::delay(100);
     //going back to standoff
-    chassis.turnToPoint(-21.75, 25.22, 700, {.forwards=false},true);
-    timeLift(127,350);
+    chassis.turnToPoint(-21.25, 25.22, 700, {.forwards=false},true);
+    timeLift(127,400);
     pros::delay(400);
-    chassis.moveToPoint(-21.75,25.22, 600,{.forwards=false},false);
-    pros::delay(500);
+    chassis.moveToPoint(-21.25,25.22, 600,{.forwards=false},false);
+    pros::delay(200);
     //scoring pin+cup
-    timeLift(-100,100);
+    timeLift(-100,125);
     pros::delay(100);
     clawOpeny();
     
