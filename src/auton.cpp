@@ -632,10 +632,10 @@ void harryauton(){
     clawOpeny();
     pros::delay(100);
     //backing off to original point
-    chassis.moveToPoint(-0,16.83, 600,{},false);
+    chassis.moveToPoint(-0,16.83, 400,{},false);
     //move to point and intake second pin+cup
-    chassis.turnToPoint(-14.5, 39.5, 600, {.forwards=false},false);
-    chassis.moveToPoint(-14.5,39.5, 1400,{.forwards=false,.maxSpeed=90},true);
+    chassis.turnToPoint(-16.5, 38.5, 600, {.forwards=false},false);
+    chassis.moveToPoint(-16.5,38.5, 1100,{.forwards=false,.maxSpeed=90},true);
     timeLift(-100,220);
     roller.move(127);
     pros::delay(800);
@@ -644,15 +644,29 @@ void harryauton(){
     roller.move(0);
     pros::delay(100);
     //going back to standoff
-    chassis.turnToPoint(-21.25, 25.22, 700, {.forwards=false},true);
-    timeLift(127,400);
+    chassis.turnToPoint(-23.75, 25.22, 700, {.forwards=false},true);
+    timeLift(127,440);
     pros::delay(400);
-    chassis.moveToPoint(-21.25,25.22, 600,{.forwards=false},false);
+    chassis.moveToPoint(-23.75,25.22, 600,{.forwards=false},false);
     pros::delay(200);
     //scoring pin+cup
-    timeLift(-100,125);
-    pros::delay(100);
+    timeLift(-100,175);
+    pros::delay(200);
     clawOpeny();
+    //back off
+    chassis.moveToPoint(-23.75,33,400,{},false);
+    //move to next point while resetting lift
+    chassis.turnToPoint(19, 5, 500,{false},true);
+    pros::delay(200);
+    chassis.moveToPoint(19,5,1300,{.forwards=false},true);
+    timeLift(-100,200);
+    pros::delay(1300);
+    //get next pin+cup
+    clawClose();
+    roller.move(127);
+    chassis.turnToPoint(20, -6, 500,{.forwards=false},false);
+    chassis.moveToPoint(22,-6,1000,{.forwards=false,.maxSpeed=45},false);
+    roller.move(0);
     
 }
 
