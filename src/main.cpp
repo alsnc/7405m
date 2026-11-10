@@ -17,17 +17,17 @@
 #include <cmath>
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-//pros::ADIDigitalOut piston ('A'); // replace with actual port number
+pros::ADIDigitalOut clawy ('G'); // replace with actual port number
 bool push = false;
 bool pressed = false;
 
 
 pros::MotorGroup 
-    rightMotors({-16,-19,-18},
+    leftMotors({-7,-6,8},
                pros::MotorGearset::blue); // left motor group - ports 3
                                           // (reversed), 4, 5 (reversed)
-pros::MotorGroup leftMotors(
-    {15,14,13},
+pros::MotorGroup rightMotors(
+    {18,17,-19},
     pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
@@ -38,9 +38,9 @@ lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
                               2    // horizontal drift is 2 (for now)
 );
 
-pros::Imu imu(9);
+pros::Imu imu(1);
 
-pros::Rotation horizontal_encoder(17); // odom sensor
+pros::Rotation horizontal_encoder(20); // odom sensor
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,
                                                 lemlib::Omniwheel::NEW_2,
                                                 -0.725);
@@ -95,9 +95,11 @@ lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
                         &steer);
 
 // Lift
-pros::MotorGroup lift_motors ({-1,10},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
-pros::Motor clawy(11);
-pros::Motor roller(20);
+pros::MotorGroup lift_motors ({-2,3},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
+pros::MotorGroup cascade({13, -10});
+pros::Motor roller(9);//toggle rn
+
+pros::Distance clawDistance (11); 
 //Pneumatics
 
 // // TUNE for claw
@@ -124,21 +126,21 @@ bool clawOpen = false;
 bool rollStop = false; 
 bool rollsStop = false;
 
-void spinClaw(void*)
-{
-    int spinAt;
+// void spinClaw(void*)
+// {
+//     int spinAt;
 
-    if (clawOpen)
-        spinAt = speed;          // -127
-    else
-        spinAt = std::abs(speed); // +127
+//     if (clawOpen)
+//         spinAt = speed;          // -127
+//     else
+//         spinAt = std::abs(speed); // +127
 
-    clawy.move(spinAt);
-    pros::delay(timeSpin);
-    clawy.brake();
+//     cascade.move(spinAt);
+//     pros::delay(timeSpin);
+//     cascade.brake();
 
-    clawOpen = !clawOpen;
-}
+//     clawOpen = !clawOpen;
+// }
 
 
 void screen() {
@@ -170,7 +172,7 @@ void initialize() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  clawy.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  cascade.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   liftDeg.reset_position();
   liftDeg.set_reversed(true);
 
@@ -198,10 +200,10 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  
+  rightMotors.move(127);
   //chassis.turnToHeading(180, 1000); 
     //passiveFar(); 
-    threeFar(); 
+    //threeFar(); 
     //threeStack(); 
   //oneStack();
   //skills(); 
@@ -216,18 +218,17 @@ void clawTask(void*) {
         if (clawPressed && !clawPressedLast) {
 
             if (clawOpen) {
-                clawy.move(-127);
+                cascade.move(-127);
                 pros::delay(400); 
-                clawy.move(-40); 
+                cascade.move(-40); 
             }
             else {
-                clawy.move(127);
+                cascade.move(127);
                 pros::delay(400); 
-                clawy.move(0); 
+                cascade.move(0); 
             }
 
             // pros::delay(timeSpin);
-            // clawy.brake();
             
             clawOpen = !clawOpen;
         }
@@ -251,58 +252,43 @@ void opcontrol() {
    pros::Task clawTaskHandle(clawTask);
     while (true) {
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) *0.8;
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) ;
 
         chassis.arcade(leftY, rightX);
 
         //yooo this is in centidegrees I'm stupid
         double position = liftDeg.get_position()/100;
 
+
+        //claw
+          // LIFT UP
+        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            clawy.set_value(true);
+        }
+        // LIFT DOWN
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            clawy.set_value(false);
+        } 
+        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+        //     roller.move(127); 
+        // }
+        // NOTHING PRESSED
+
+
         // LIFT UP
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            if (position >= 65 && position < 90) {
-                lift_motors.move(60);       // slow near top (90)
-            }
-            else if (position < 65) {
-                lift_motors.move(127);      // normal speed
-            }
-            else {
-                
-                lift_motors.move(25); 
-                
-                
-            }
+            cascade.move(100);
         }
         // LIFT DOWN
         else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            if (position <= 43 && position > 0 && clawOpen == false) {
-                lift_motors.move(-20);      
-            }
-            else if (position > 43 && position <= 92 && clawOpen == false) {
-                lift_motors.move(-60);     
-            }
-            else if (position <= 43 && position > 0) {
-                lift_motors.move(-40);      
-            }
-            else if (position > 43 && position <= 92) {
-                lift_motors.move(-127);     
-            }
-            else {
-                lift_motors.brake();       // stop at top
-            }
+            cascade.move(-100);
         } 
         // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-        //     clawy.move(-127); 
         //     roller.move(127); 
         // }
         // NOTHING PRESSED
         else {
-            if (position >30) {
-                lift_motors.move(15);
-
-            } else {
-                lift_motors.move(0); 
-            }            
+           cascade.brake();         
         }
 
 
@@ -313,14 +299,14 @@ void opcontrol() {
         if (rollsPressed && !rollsPressedLast) {
 
             if (rollsStop) {
-                clawy.move(-127); 
+                cascade.move(-127); 
                 roller.move(127);
 
 
             }
             else {
                 roller.move(0);
-                clawy.move(0); 
+                cascade.move(0); 
             }
 
             rollsStop = !rollsStop;
@@ -331,28 +317,34 @@ void opcontrol() {
 
     
 
-        bool rollPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
+        bool rollPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
        // double current = roller.get_current_draw();
 
         
-        if (rollPressed && !rollPressedLast) {
+       if (rollPressed) {
+        roller.move(127); 
+       } 
+       else {
+        roller.move(0); 
+       }
+        // if (rollPressed && !rollPressedLast) {
 
-            if (rollStop) {
-                roller.move(127);
+        //     if (rollStop) {
+        //         roller.move(127);
 
 
-            }
-            else {
-                roller.move(0);
-            }
+        //     }
+        //     else {
+        //         roller.move(0);
+        //     }
 
-            rollStop = !rollStop;
-        }        
+        //     rollStop = !rollStop;
+        // }        
 
-        rollPressedLast = rollPressed;
+        // rollPressedLast = rollPressed;
 
         pros::delay(20);
     }
 
 }
-  
+
