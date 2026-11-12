@@ -80,7 +80,7 @@ extern pros::Motor roller;
 extern pros::Controller controller;
 
 
-extern pros::adi::DigitalOut claw;
+extern pros::adi::DigitalOut clawy;
 extern pros::Distance clawDistance; 
 
 
