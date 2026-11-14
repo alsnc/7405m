@@ -257,25 +257,35 @@ void opcontrol() {
 
 
         // LIFT UP
-        if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            cascade.move(100);
-            toggle.move(100); 
-        }
-        // LIFT DOWN
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            cascade.move(-100);
-            toggle.move(-100); 
-        } 
-        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-        //     roller.move(127); 
-        // }
-        // NOTHING PRESSED
-        else {
-           cascade.brake();         
-        }
 
 
-        bool clawPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
+        
+
+          bool cascadeUp = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1);
+bool cascadeDown = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
+bool toggleReverse = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+
+if (cascadeUp) {
+    cascade.move(100);
+}
+else if (cascadeDown) {
+    cascade.move(-100);
+}
+else {
+    cascade.move(0);
+}
+
+if (cascadeUp) {
+    toggle.move(127);
+}
+else if (cascadeDown || toggleReverse) {
+    toggle.move(-127);
+}
+else {
+    toggle.move(0);
+}
+
+       bool clawPressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1);
        
 
         
@@ -298,19 +308,20 @@ void opcontrol() {
 
     
 
-        bool togglePressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
-       // double current = roller.get_current_draw();
+    //   bool togglePressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+    //    // double current = roller.get_current_draw();
 
         
-       if (togglePressed) {
-        toggle.move(127); 
-       } 
-       else {
-        toggle.move(0); 
-       }
+    //    if (togglePressed) {
+    //     toggle.move(127); 
+    //    } 
+    //    else {
+    //     toggle.move(0); 
+    //    }
 
-        pros::delay(20);
-    }
+    //     pros::delay(20);
+    // }
 
+}
 }
 
