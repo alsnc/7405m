@@ -75,12 +75,13 @@ extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors; 
 extern pros::MotorGroup lift_motors;
 extern pros::MotorGroup cascade;
-extern pros::Motor roller; 
+extern pros::Motor toggle; 
 
 extern pros::Controller controller;
 
 
 extern pros::adi::DigitalOut clawy;
+extern pros::adi::DigitalOut wedge;
 extern pros::Distance clawDistance; 
 
 

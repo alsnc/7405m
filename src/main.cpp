@@ -8,6 +8,7 @@
 #include "pros/distance.hpp"
 #include "pros/llemu.hpp"
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
@@ -20,6 +21,8 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::adi::DigitalOut clawy ('G'); // replace with actual port number
 bool push = false;
 bool pressed = false;
+
+pros::adi::DigitalOut wedge('H'); 
 
 
 pros::MotorGroup 
@@ -38,12 +41,12 @@ lemlib::Drivetrain drivetrain(&leftMotors,  // left motor group
                               2    // horizontal drift is 2 (for now)
 );
 
-pros::Imu imu(1);
+pros::Imu imu(2);
 
-pros::Rotation horizontal_encoder(20); // odom sensor
+pros::Rotation horizontal_encoder(-21); // odom sensor
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,
                                                 lemlib::Omniwheel::NEW_2,
-                                                -0.725);
+                                                -3);
 
 // pros::Rotation vertical_encoder(18); // odom sensor
 // lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder,
@@ -65,10 +68,10 @@ lemlib::OdomSensors sensors(nullptr, nullptr,
 //                             &horizontal_tracking_wheel, nullptr, &imu);
 
 lemlib::ControllerSettings
-    lateral(6.4, // proportional gain (kP) //6.5
+    lateral(5, // proportional gain (kP) //6.5
             0,    // integral gain (kI)
-            0.03,    // derivative gain (kD)
-            0,    // anti windup
+            0.09,    // derivative gain (kD)
+            4,    // anti windup
             .5,   // small error range, in inches
             100,  // small error range timeout, in milliseconds
             .7,   // large error range, in inches
@@ -77,9 +80,9 @@ lemlib::ControllerSettings
     );
 
 lemlib::ControllerSettings
-    angular(1, // proportional gain (kP)
-            0.0,     // integral gain (kI)
-            0.0,    // derivative gain (kD)
+    angular(1.2, // proportional gain (kP)
+            0.01,     // integral gain (kI)
+            0.7,    // derivative gain (kD)
             3,     // anti windup
             .5,    // small error range, in degrees
             500,   // small error range timeout, in milliseconds
@@ -106,6 +109,7 @@ pros::Distance clawDistance (11);
 int speed = -127;
 int timeSpin = 100;
 bool clawOpen = false;
+bool wedgeDown = false; 
 
 
 // void spinClaw(void*)
@@ -139,7 +143,10 @@ void screen() {
 
     //controller.print(0, 0, "Lift: %d", liftDeg.get_position());
 
-    pros::lcd::print(3, "Roller: %d", roller.get_current_draw());
+    //pros::lcd::print(3, "Roller: %d", roller.get_current_draw());
+
+    //controller.print(0, 0,"x: %f | y: %f", pose.x, pose.y, pose.theta);  
+    controller.print(0, 0,"angle %d", pose.theta);  
     pros::delay(50);
   }
 }
@@ -155,16 +162,18 @@ void initialize() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   cascade.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  
 //   liftDeg.reset_position();
 //   liftDeg.set_reversed(true);
 
 
   pros::delay(2000);
 
-  //pros::Task screenTask(screen);
+  pros::Task screenTask(screen);
 
   //clawClose(); 
 
+  wedge.set_value(false);
 }
 
 /**
@@ -182,7 +191,8 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  rightMotors.move(127);
+  threeStack(); 
+
   //chassis.turnToHeading(180, 1000); 
     //passiveFar(); 
     //threeFar(); 
@@ -192,6 +202,7 @@ void autonomous() {
 }
 
 bool clawPressedLast = false;
+bool wedgePressedLast = false; 
 // void clawTask(void*) {
 
 //     while (true) {
@@ -237,33 +248,34 @@ void opcontrol() {
 
         chassis.arcade(leftY, rightX);
 
-        //yooo this is in centidegrees I'm stupid
-        //double position = liftDeg.get_position()/100;
 
 
-        //claw
-          // LIFT UP
-        // if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-        //     clawy.set_value(true);
-        // }
-        // // LIFT DOWN
-        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-        //     clawy.set_value(false);
-        // } 
-        // else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-        //     roller.move(127); 
-        // }
-        // NOTHING PRESSED
+        bool cascadeUp = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1);
+        bool cascadeDown = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
+        bool toggleReverse = controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2);
 
 
-        // LIFT UP
-
+        bool wedgePressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT);       
 
         
+        if (wedgePressed && !wedgePressedLast) {
 
-          bool cascadeUp = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1);
-bool cascadeDown = controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2);
-bool toggleReverse = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+            if (wedgeDown) {
+                wedge.set_value(true);
+
+
+            }
+            else {
+               wedge.set_value(false);
+            }
+
+            wedgeDown = !wedgeDown;
+        }        
+
+        wedgePressedLast = wedgePressed;
+
+
+
 
 if (cascadeUp) {
     cascade.move(100);
