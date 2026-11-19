@@ -17,6 +17,24 @@ void clawOpeny() {
     clawy.set_value(true); 
 }
 
+void cascadeUp(int time) {
+    cascade.move(127); 
+    toggle.move(127); 
+
+    pros::delay(time); 
+    cascade.move(0); 
+    toggle.move(0); 
+}
+
+void cascadeDown(int time) {
+    cascade.move(-127); 
+    toggle.move(-127); 
+
+    pros::delay(time); 
+    cascade.move(0); 
+    toggle.move(0); 
+}
+
 void biasedSwing(int rightSpeed, int leftSpeed, int time) {
     rightMotors.move(rightSpeed);
     leftMotors.move(leftSpeed);
@@ -61,9 +79,7 @@ void awp() {
     pros::delay(650); 
     toggle.move(0); 
 
-    cascade.move(127); 
-    pros::delay(200);
-    cascade.move(0);
+    cascadeUp(100); 
 
     chassis.moveToPoint(0,15,350,{.forwards = false, .minSpeed = 70}, false);
     chassis.waitUntilDone(); 
@@ -74,70 +90,96 @@ void awp() {
     chassis.moveToPoint(11, 29, 300, {.forwards = false, .minSpeed = 80}, false);
 
     move(-30,0,0,550);
-
     chassis.waitUntilDone(); 
 
-    cascade.move(-127); 
-    pros::delay(200);
-    cascade.move(0);
+    cascadeDown(300); 
 
-    //move BACK to position for wall
+
+    clawy.set_value(true); 
+
+    pros::delay(700); 
+
+
+    //move BACK to position for wall PIN
     chassis.moveToPoint(-4.86, 18.8, 400, {.forwards = true, .minSpeed = 80}, false);
-
     chassis.turnToHeading(302,600); 
 
+    //go to WALL PIN
+    chassis.moveToPoint(11.3, 12.5, 1000, {.forwards = false, .maxSpeed = 80}, false);
 
-    chassis.moveToPoint(11.7, 12.5, 1000, {.forwards = false, .maxSpeed = 100}, false);
-
-    
-    clawOpeny(); 
+    //position for WALL PIN
     rightMotors.move(-100);
-    // chassis.turnToPoint(19.67, 14.77, 400, {.forwards = false, .maxSpeed = 100}, true);
-    // chassis.moveToPoint(19.67, 14.77, 800, {.forwards = false, .maxSpeed = 100}, false);
-
     pros::delay(500); 
-
     rightMotors.move(0); 
-
     move(-50,0,0,250);
-
-    
     clawy.set_value(false); 
+
+
+    pros::delay(300); 
+    cascadeUp(200); 
+
 
     leftMotors.move(-100); 
     pros::delay(200); 
     leftMotors.move(0); 
 
-    biasedSwing(90, -60, 275);
+    biasedSwing(120, -80, 175);
+
+    leftMotors.move(-100); 
+    pros::delay(275); 
+    leftMotors.move(0); 
 
     pros::delay(275); 
     
-    chassis.moveToPoint(-3.4, 18.4, 800, {.forwards = true, .minSpeed = 70}, false);
 
-    cascade.move(127); 
-    pros::delay(300);
-    cascade.move(0);
+    //move back to align with goal 
+    chassis.moveToPoint(-10, 11, 1000, {.forwards = true, .maxSpeed = 75}, false);
 
+    cascadeUp(400); 
+    //chassis.moveToPose (12.54,15,270, 1000, {.forwards = false, .lead = 0.3, .maxSpeed = 100}, false);
 
-    chassis.turnToPoint(10.0,20.0, 100, {.forwards = false, .minSpeed = 70}, true);
-    chassis.moveToPoint(9.0,20.0, 900, {.forwards = false, .maxSpeed = 90}, false);
+    // move(-50,0,0,200);
 
-    move(-50,0,0,200);
-
-    cascade.move(-127); 
-    pros::delay(250);
-    cascade.move(0);
+    // cascadeDown(300); 
 
 
-    chassis.turnToPoint(-2,12, 100, {.forwards = true, .minSpeed = 70}, true);
-    chassis.moveToPoint(-2,12, 800, {.forwards = true, .minSpeed = 70}, false);
+    // clawy.set_value(true); 
 
-    chassis.turnToHeading(415,800);
+//      //move back
+
+
+    
+    
+    
+    chassis.turnToPoint(0,13, 100, {.forwards = true, .minSpeed = 70}, true);
+    chassis.moveToPoint(0,13, 800, {.forwards = true, .minSpeed = 70}, false);
+
+    chassis.turnToHeading(410,800);
     
 
-    // chassis.turnToPoint(-16,9, 100, {.forwards = false, .minSpeed = 70}, true);
-    // chassis.moveToPoint(-16,9, 800, {.forwards = false, .minSpeed = 70}, false);
+//    //chassis.turnToPoint(-10.96,7.37, 100, {.forwards = false, .minSpeed = 70}, true);
+//     chassis.moveToPoint(-10,7.37,900,{.forwards = false, .maxSpeed = 90}, false);
 
+
+
+    // leftMotors.move(-100);
+    // pros::delay(500); 
+    // leftMotors.move(0); 
+    // move(-50,0,0,250);
+    // clawy.set_value(false); 
+
+
+    // pros::delay(300); 
+    // cascadeUp(200); 
+
+
+    // rightMotors.move(-100); 
+    // pros::delay(200); 
+    // rightMotors.move(0); 
+
+    // biasedSwing(-90, 100, 250);
+
+    // pros::delay(275); 
 
 }
 

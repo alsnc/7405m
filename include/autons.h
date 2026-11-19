@@ -12,3 +12,8 @@ void passiveClose();
 void skills(); 
 void passiveFar(); 
 void awp(); 
+
+void cascadeUp(int time); 
+void cascadeDown(int time); 
+
+void biasedSwing(int rightSpeed, int leftSpeed, int time);
