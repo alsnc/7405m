@@ -7,10 +7,6 @@
 
 
 
-// //  void sevenBall() {
-// //     pros::delay(100); 
-// // }
-
 
 
 void clawClose() {
@@ -21,9 +17,15 @@ void clawOpeny() {
     clawy.set_value(true); 
 }
 
+void biasedSwing(int rightSpeed, int leftSpeed, int time) {
+    rightMotors.move(rightSpeed);
+    leftMotors.move(leftSpeed);
 
+    pros::delay(time);
 
-
+    rightMotors.move(0);
+    leftMotors.move(0);
+}
 
 
 
@@ -48,6 +50,107 @@ void move(double power, double turn, bool swing=false, double time=10000) {
     // right_center_motor.move(left);
     // right_back_motor.move(left);
 }
+
+
+
+
+void awp() {
+    chassis.setPose(0,0,180);
+
+    toggle.move(-127); 
+    pros::delay(650); 
+    toggle.move(0); 
+
+    cascade.move(127); 
+    pros::delay(200);
+    cascade.move(0);
+
+    chassis.moveToPoint(0,15,350,{.forwards = false, .minSpeed = 70}, false);
+    chassis.waitUntilDone(); 
+
+
+    //score FIRST PIN
+    chassis.turnToPoint(12,29, 280, {.forwards = false, .minSpeed = 80}, true);
+    chassis.moveToPoint(11, 29, 300, {.forwards = false, .minSpeed = 80}, false);
+
+    move(-30,0,0,550);
+
+    chassis.waitUntilDone(); 
+
+    cascade.move(-127); 
+    pros::delay(200);
+    cascade.move(0);
+
+    //move BACK to position for wall
+    chassis.moveToPoint(-4.86, 18.8, 400, {.forwards = true, .minSpeed = 80}, false);
+
+    chassis.turnToHeading(302,600); 
+
+
+    chassis.moveToPoint(11.7, 12.5, 1000, {.forwards = false, .maxSpeed = 100}, false);
+
+    
+    clawOpeny(); 
+    rightMotors.move(-100);
+    // chassis.turnToPoint(19.67, 14.77, 400, {.forwards = false, .maxSpeed = 100}, true);
+    // chassis.moveToPoint(19.67, 14.77, 800, {.forwards = false, .maxSpeed = 100}, false);
+
+    pros::delay(500); 
+
+    rightMotors.move(0); 
+
+    move(-50,0,0,250);
+
+    
+    clawy.set_value(false); 
+
+    leftMotors.move(-100); 
+    pros::delay(200); 
+    leftMotors.move(0); 
+
+    biasedSwing(90, -60, 275);
+
+    pros::delay(275); 
+    
+    chassis.moveToPoint(-3.4, 18.4, 800, {.forwards = true, .minSpeed = 70}, false);
+
+    cascade.move(127); 
+    pros::delay(300);
+    cascade.move(0);
+
+
+    chassis.turnToPoint(10.0,20.0, 100, {.forwards = false, .minSpeed = 70}, true);
+    chassis.moveToPoint(9.0,20.0, 900, {.forwards = false, .maxSpeed = 90}, false);
+
+    move(-50,0,0,200);
+
+    cascade.move(-127); 
+    pros::delay(250);
+    cascade.move(0);
+
+
+    chassis.turnToPoint(-2,12, 100, {.forwards = true, .minSpeed = 70}, true);
+    chassis.moveToPoint(-2,12, 800, {.forwards = true, .minSpeed = 70}, false);
+
+    chassis.turnToHeading(415,800);
+    
+
+    // chassis.turnToPoint(-16,9, 100, {.forwards = false, .minSpeed = 70}, true);
+    // chassis.moveToPoint(-16,9, 800, {.forwards = false, .minSpeed = 70}, false);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

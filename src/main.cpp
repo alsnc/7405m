@@ -191,7 +191,8 @@ void autonomous() {
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  threeStack(); 
+  //chassis.moveToPoint(0,20,1000); 
+  awp(); 
 
   //chassis.turnToHeading(180, 1000); 
     //passiveFar(); 
