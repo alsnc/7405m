@@ -71,7 +71,7 @@ lemlib::ControllerSettings
     lateral(5, // proportional gain (kP) //6.5
             0,    // integral gain (kI)
             0.09,    // derivative gain (kD)
-            4,    // anti windup
+            0,    // anti windup
             .5,   // small error range, in inches
             100,  // small error range timeout, in milliseconds
             .7,   // large error range, in inches
@@ -194,7 +194,7 @@ void autonomous() {
   //chassis.moveToPoint(0,20,1000); 
   awp(); 
 
-  //chassis.turnToHeading(180, 1000); 
+  //chassis.turnToHeading(90, 1000); 
     //passiveFar(); 
     //threeFar(); 
     //threeStack(); 
