@@ -106,7 +106,7 @@ void awp() {
     chassis.turnToHeading(302,600); 
 
     //go to WALL PIN
-    chassis.moveToPoint(11.3, 12.5, 1000, {.forwards = false, .maxSpeed = 80}, false);
+    chassis.moveToPoint(11.9, 12.5, 1000, {.forwards = false, .maxSpeed = 80}, false);
 
     //position for WALL PIN
     rightMotors.move(-100);
@@ -138,9 +138,9 @@ void awp() {
 
     cascadeUp(300); 
 
-    chassis.turnToPoint(8.52, 12.5, 700, {.forwards = false, .maxSpeed = 65, .minSpeed = 30}, true);
+    chassis.turnToPoint(8.52, 10.5, 700, {.forwards = false, .maxSpeed = 65, .minSpeed = 30}, true);
 
-    chassis.moveToPoint(8.52, 14.7, 900, {.forwards = false, .maxSpeed = 80}, false);
+    chassis.moveToPoint(8.52, 10.7, 900, {.forwards = false, .maxSpeed = 80}, false);
     pros::delay(200);
 
     move(-45,0,0,250);
@@ -152,14 +152,14 @@ void awp() {
 
   //move back
     
-    chassis.turnToPoint(0,13, 100, {.forwards = true, .minSpeed = 70}, true);
-    chassis.moveToPoint(0,13, 800, {.forwards = true, .minSpeed = 70}, false);
+    chassis.turnToPoint(0,11, 100, {.forwards = true, .minSpeed = 70}, true);
+    chassis.moveToPoint(0,11, 800, {.forwards = true, .minSpeed = 70}, false);
 
     chassis.turnToHeading(410,800);
     
 
 //    //chassis.turnToPoint(-10.96,7.37, 100, {.forwards = false, .minSpeed = 70}, true);
-    chassis.moveToPoint(-16.5,6.6,1000,{.forwards = false, .maxSpeed = 80}, false);
+    chassis.moveToPoint(-15.5,6.6,1000,{.forwards = false, .maxSpeed = 80}, false);
 
 
 
@@ -182,7 +182,17 @@ void awp() {
     rightMotors.move(-100); 
     pros::delay(275); 
     rightMotors.move(0); 
+    
+    cascadeUp(400); 
 
+
+    chassis.moveToPoint(-0.74,5.2,1000,{.forwards = true, .maxSpeed = 80}, true);
+    chassis.turnToPoint(15.68,4.56, 200, {.forwards = false, .minSpeed = 40}, true);
+    chassis.moveToPoint(15.68,4.56,1000,{.forwards = true, .maxSpeed = 80}, true);
+    
+    move(-45,0,0,250);
+    cascadeDown(400);
+    
     //  pros::delay(275); 
 
     //  chassis.turnToHeading(180,1000); 
@@ -739,7 +749,7 @@ void threeStack() {
 // }
 
 
-void harryauton(){
+/*void harryauton(){
     //initialize
     chassis.setPose(0,0,180);
     clawClose();
@@ -766,11 +776,11 @@ void harryauton(){
     chassis.turnToPoint(-16.5, 38.5, 600, {.forwards=false},false);
     chassis.moveToPoint(-16.5,38.5, 1100,{.forwards=false,.maxSpeed=90},true);
     timeLift(-100,220);
-    roller.move(127);
+    //roller.move(127);
     pros::delay(800);
     //grabbing pin+cup
     clawClose();
-    roller.move(0);
+    //roller.move(0);
     pros::delay(100);
     //going back to standoff
     chassis.turnToPoint(-23.75, 25.22, 700, {.forwards=false},true);
@@ -792,10 +802,10 @@ void harryauton(){
     pros::delay(1300);
     //get next pin+cup
     clawClose();
-    roller.move(127);
+    //roller.move(127);
     chassis.turnToPoint(20, -6, 500,{.forwards=false},false);
     chassis.moveToPoint(22,-6,1000,{.forwards=false,.maxSpeed=45},false);
-    roller.move(0);
+    //roller.move(0);
     
 }
 
@@ -811,3 +821,4 @@ void Aaronauton(){
 
 
 
+*/
