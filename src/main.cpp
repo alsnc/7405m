@@ -18,11 +18,11 @@
 #include <cmath>
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
-pros::adi::DigitalOut clawy ('G'); // replace with actual port number
+pros::adi::DigitalOut wedge ('H'); // replace with actual port number
 bool push = false;
 bool pressed = false;
 
-pros::adi::DigitalOut wedge('H'); 
+pros::adi::DigitalOut clawy('G'); 
 
 
 pros::MotorGroup 

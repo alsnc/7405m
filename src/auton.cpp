@@ -93,20 +93,20 @@ void awp() {
     move(-30,0,0,550);
     chassis.waitUntilDone(); 
 
-    cascadeDown(300); 
+    cascadeDown(100); 
 
 
     clawy.set_value(true); 
 
     pros::delay(700); 
 
-
+    //*
     //move BACK to position for wall PIN
     chassis.moveToPoint(-4.86, 18.8, 400, {.forwards = true, .minSpeed = 80}, false);
     chassis.turnToHeading(302,600); 
 
     //go to WALL PIN
-    chassis.moveToPoint(11.9, 12.5, 1000, {.forwards = false, .maxSpeed = 80}, false);
+    chassis.moveToPoint(12.9, 12.5, 1000, {.forwards = false, .maxSpeed = 80}, false);
 
     //position for WALL PIN
     rightMotors.move(-100);
@@ -124,74 +124,71 @@ void awp() {
     pros::delay(200); 
     leftMotors.move(0); 
 
-    biasedSwing(120, -80, 175);
-
-    leftMotors.move(-100); 
-    pros::delay(275); 
+    biasedSwing(-120, 100, 375);
+    leftMotors.move(100); 
+    pros::delay(200); 
     leftMotors.move(0); 
+    chassis.moveToPoint(50, 5, 1500, {.forwards = true, .maxSpeed = 70}, false);
 
-    pros::delay(275); 
-    
+      
 
-    //move back to align with goal 
-    chassis.moveToPoint(-13.4, 12.89, 1000, {.forwards = true, .maxSpeed = 75}, false);
+    // //move back to align with goal 
 
     cascadeUp(300); 
 
-    chassis.turnToPoint(8.52, 10.5, 700, {.forwards = false, .maxSpeed = 65, .minSpeed = 30}, true);
-
-    chassis.moveToPoint(8.52, 10.7, 900, {.forwards = false, .maxSpeed = 80}, false);
+    chassis.turnToHeading(515, 700);
+    chassis.moveToPoint(40.44, 15.67, 900, {.forwards = false, .maxSpeed = 80}, false);
     pros::delay(200);
 
     move(-45,0,0,250);
 
     cascadeDown(400); 
-
+    
 
     clawy.set_value(true); 
 
-  //move back
+//   //move back
     
-    chassis.turnToPoint(0,11, 100, {.forwards = true, .minSpeed = 70}, true);
-    chassis.moveToPoint(0,11, 800, {.forwards = true, .minSpeed = 70}, false);
+//     chassis.turnToPoint(0,11, 100, {.forwards = true, .minSpeed = 70}, true);
+//     chassis.moveToPoint(0,11, 800, {.forwards = true, .minSpeed = 70}, false);
 
-    chassis.turnToHeading(410,800);
+//     chassis.turnToHeading(410,800);
     
 
-//    //chassis.turnToPoint(-10.96,7.37, 100, {.forwards = false, .minSpeed = 70}, true);
-    chassis.moveToPoint(-15.5,6.6,1000,{.forwards = false, .maxSpeed = 80}, false);
+// //    //chassis.turnToPoint(-10.96,7.37, 100, {.forwards = false, .minSpeed = 70}, true);
+//     chassis.moveToPoint(-15.5,6.6,1000,{.forwards = false, .maxSpeed = 80}, false);
 
 
 
-    leftMotors.move(-100);
-    pros::delay(500); 
-    leftMotors.move(0); 
-    move(-50,0,0,250);
-    clawy.set_value(false); 
+//     leftMotors.move(-100);
+//     pros::delay(500); 
+//     leftMotors.move(0); 
+//     move(-50,0,0,250);
+//     clawy.set_value(false); 
 
 
-    pros::delay(300); 
-    cascadeUp(200); 
+//     pros::delay(300); 
+//     cascadeUp(200); 
 
-    rightMotors.move(-100); 
-    pros::delay(200); 
-    rightMotors.move(0); 
+//     rightMotors.move(-100); 
+//     pros::delay(200); 
+//     rightMotors.move(0); 
 
-    biasedSwing(-80, 120, 200);
+//     biasedSwing(-80, 120, 200);
 
-    rightMotors.move(-100); 
-    pros::delay(275); 
-    rightMotors.move(0); 
+//     rightMotors.move(-100); 
+//     pros::delay(275); 
+//     rightMotors.move(0); 
     
-    cascadeUp(400); 
+//     cascadeUp(400); 
 
 
-    chassis.moveToPoint(-0.74,5.2,1000,{.forwards = true, .maxSpeed = 80}, true);
-    chassis.turnToPoint(15.68,4.56, 200, {.forwards = false, .minSpeed = 40}, true);
-    chassis.moveToPoint(15.68,4.56,1000,{.forwards = true, .maxSpeed = 80}, true);
+//     chassis.moveToPoint(-0.74,5.2,1000,{.forwards = true, .maxSpeed = 80}, true);
+//     chassis.turnToPoint(15.68,4.56, 200, {.forwards = false, .minSpeed = 40}, true);
+//     chassis.moveToPoint(15.68,4.56,1000,{.forwards = true, .maxSpeed = 80}, true);
     
-    move(-45,0,0,250);
-    cascadeDown(400);
+//     move(-45,0,0,250);
+//     cascadeDown(400);
     
     //  pros::delay(275); 
 
