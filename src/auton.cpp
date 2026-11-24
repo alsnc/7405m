@@ -138,10 +138,18 @@ void awp() {
     chassis.moveToPoint(36.75, 6,1000, {.forwards = false, .maxSpeed = 80}, false);
 
     
+<<<<<<< HEAD
    
     chassis.turnToHeading(140, 700);
     cascadeUp(250); 
     chassis.moveToPoint(40.44, 12.67, 900, {.forwards = false, .maxSpeed = 80}, false);
+=======
+//tungtung
+//initiate mcl
+    clawy.set_value(true); 
+
+//   //move back
+>>>>>>> 5f054e72487b929df487d27190cee1ef57f7c999
     
    
     move(-45,0,0,200);
