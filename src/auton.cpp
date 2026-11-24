@@ -28,8 +28,8 @@ void cascadeUp(int time) {
 }
 
 void cascadeDown(int time) {
-    cascade.move(-127); 
-    toggle.move(-127); 
+    cascade.move(-70); 
+    toggle.move(-70); 
 
     pros::delay(time); 
     cascade.move(0); 
@@ -106,8 +106,9 @@ void awp() {
     chassis.turnToHeading(302,600); 
 
     //go to WALL PIN
-    chassis.moveToPoint(11.5, 12.5, 1100, {.forwards = false, .maxSpeed = 70}, false);
+    chassis.moveToPoint(10.9, 12.5, 1100, {.forwards = false, .maxSpeed = 70}, false);
 
+    cascadeDown(75); 
 
     // move(-40,0,0,200); 
 
@@ -138,24 +139,16 @@ void awp() {
     chassis.moveToPoint(36.75, 6,1000, {.forwards = false, .maxSpeed = 80}, false);
 
     
-<<<<<<< HEAD
    
     chassis.turnToHeading(140, 700);
     cascadeUp(250); 
     chassis.moveToPoint(40.44, 12.67, 900, {.forwards = false, .maxSpeed = 80}, false);
-=======
-//tungtung
-//initiate mcl
-    clawy.set_value(true); 
 
-//   //move back
->>>>>>> 5f054e72487b929df487d27190cee1ef57f7c999
-    
    
     move(-45,0,0,200);
 
-    cascade.move(-90); 
-    toggle.move(-90); 
+    cascade.move(-80); 
+    toggle.move(-80); 
     pros::delay(250); 
     cascade.move(0); 
     toggle.move(0); 
@@ -164,61 +157,63 @@ void awp() {
     
     //move back
     
-    chassis.turnToPoint(50.88,0.69, 100, {.forwards = true, .minSpeed = 70}, true);
+    chassis.turnToHeading(-237,1000); 
+    // chassis.turnToPoint(50.88,0.69, 100, {.forwards = true, .minSpeed = 70}, true);
     chassis.moveToPoint(50.88,0.69,550, {.forwards = true, .maxSpeed = 50}, false);
 
     cascadeDown(150); 
-    chassis.turnToHeading(214,400); 
+    chassis.turnToHeading(219,400); 
 
     chassis.waitUntilDone(); 
 
-    chassis.turnToPoint(50.7,5.17,400,{.forwards = false, .maxSpeed = 50}, false);
-    chassis.moveToPoint(50.5,5.17,1100,{.forwards = false, .maxSpeed = 40}, false);
+    //chassis.turnToPoint(48,8.75,400,{.forwards = false, .maxSpeed = 50}, false);
+    chassis.moveToPoint(50,9,1000,{.forwards = false, .maxSpeed = 40}, false);
 
     clawClose(); 
+    pros::delay(100); 
     
     chassis.turnToHeading(185,300); 
 
 
     cascadeUp(250); 
    
-    chassis.turnToPoint(59.31,33.4,200, {.forwards = false, .minSpeed = 40}, false);
-    chassis.moveToPoint(59.31,33.4,1000,{.forwards = false, .maxSpeed = 80}, true);
+    chassis.turnToPoint(59.31,33.4,200, {.forwards = false, .minSpeed = 40}, true);
+    chassis.moveToPoint(59.31,33.4,975,{.forwards = false, .maxSpeed = 80}, false);
 
-//     leftMotors.move(-100);
-//     pros::delay(500); 
-//     leftMotors.move(0); 
-//     move(-50,0,0,250);
-//     clawy.set_value(false); 
+ 
+    move(-30,0,0,200);
 
+    cascade.move(-60); 
+    toggle.move(-60); 
 
-//     pros::delay(300); 
-//     cascadeUp(200); 
+    pros::delay(200); 
+    cascade.move(0); 
+    toggle.move(0);
+     
 
-//     rightMotors.move(-100); 
-//     pros::delay(200); 
-//     rightMotors.move(0); 
+    clawOpeny(); 
 
-//     biasedSwing(-80, 120, 200);
+    chassis.moveToPoint(53.7, 19.8, 500, {.forwards = true}, false);
 
-//     rightMotors.move(-100); 
-//     pros::delay(275); 
-//     rightMotors.move(0); 
+    chassis.turnToHeading(135.2,800); 
+
+    cascadeDown(300); 
+    chassis.turnToPoint(42.5, 40.5, 300 ,{.forwards = false}, true);
+    chassis.moveToPoint(42.5, 40.5, 950,{.forwards = false, .maxSpeed = 40}, false);
+    pros::delay(200); 
+    clawClose(); 
+    pros::delay(100); 
+
+    chassis.turnToHeading(69,1000);
+    cascadeUp(400);   
+
+    chassis.turnToPoint(-10.82, 29.14, 300, {.forwards = false}, true); 
+    chassis.moveToPoint(-10.82, 29.14, 1000, {.forwards = false, .maxSpeed = 90}, false); 
     
-//     cascadeUp(400); 
+    move(-30,0,0,300); 
 
-
-//     chassis.moveToPoint(-0.74,5.2,1000,{.forwards = true, .maxSpeed = 80}, true);
-//     chassis.turnToPoint(15.68,4.56, 200, {.forwards = false, .minSpeed = 40}, true);
-//     chassis.moveToPoint(15.68,4.56,1000,{.forwards = true, .maxSpeed = 80}, true);
-    
-//     move(-45,0,0,250);
-//     cascadeDown(400);
-    
-    //  pros::delay(275); 
-
-    //  chassis.turnToHeading(180,1000); 
-
+    cascadeDown(300); 
+    clawOpeny(); 
 }
 
 
