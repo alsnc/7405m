@@ -1,6 +1,5 @@
 #include "main.h"
 #include "autons.h"
-#include "lift.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/abstract_motor.hpp"
@@ -16,9 +15,11 @@
 #include "intake.h"
 #include <iostream>
 #include <cmath>
+#include "autons.h"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::adi::DigitalOut wedge ('H'); // replace with actual port number
+pros::Distance clampie (11);
 bool push = false;
 bool pressed = false;
 
@@ -97,8 +98,6 @@ lemlib::ExpoDriveCurve steer(1, 10, 1);
 lemlib::Chassis chassis(drivetrain, lateral, angular, sensors, &throttle,
                         &steer);
 
-// Lift
-pros::MotorGroup lift_motors ({-2,3},pros::v5::MotorGears::green /*to be specified!*/,pros::v5::MotorEncoderUnits::degrees); // the lift has two motors
 pros::MotorGroup cascade({13, -10});
 pros::Motor toggle(9);//toggle rn
 
@@ -138,10 +137,7 @@ void screen() {
                      pose.theta);             // print the x position
     pros::lcd::print(1, "H: %f", pose.theta); // print the x position
 
-    //double pos = liftDeg.get_position()/100;
-    pros::lcd::print(2, "Lift: %d", pose);
 
-    //controller.print(0, 0, "Lift: %d", liftDeg.get_position());
 
     //pros::lcd::print(3, "Roller: %d", roller.get_current_draw());
 
@@ -160,7 +156,6 @@ void initialize() {
   //pros::lcd::initialize(); // initialize brain screen
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   cascade.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   
 //   liftDeg.reset_position();
@@ -189,7 +184,6 @@ void competition_initialize() {}
 void autonomous() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //chassis.moveToPoint(0,20,1000); 
   awp(); 
@@ -236,11 +230,10 @@ bool wedgePressedLast = false;
 
 
 bool rollsPressedLast = false; 
-void opcontrol() {
 
+void opcontrol() {
   leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  lift_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //bool rollerSpin = false;
 
@@ -321,21 +314,9 @@ else {
         clawPressedLast = clawPressed;
         
 
-    
+    pros::delay(20); 
 
-    //   bool togglePressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
-    //    // double current = roller.get_current_draw();
-
-        
-    //    if (togglePressed) {
-    //     toggle.move(127); 
-    //    } 
-    //    else {
-    //     toggle.move(0); 
-    //    }
-
-    //     pros::delay(20);
-    // }
+   
 
 }
 }

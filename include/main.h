@@ -83,6 +83,7 @@ extern pros::Controller controller;
 extern pros::adi::DigitalOut clawy;
 extern pros::adi::DigitalOut wedge;
 extern pros::Distance clawDistance; 
+extern pros::Distance clampie; 
 
 
 extern lemlib::Chassis chassis;

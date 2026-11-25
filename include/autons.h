@@ -16,6 +16,8 @@ void awp();
 
 void cascadeUp(int time); 
 void cascadeDown(int time); 
+void autoclamp(void*);
+extern bool AC; 
 
 void biasedSwing(int rightSpeed, int leftSpeed, int time);
 
